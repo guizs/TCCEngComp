@@ -1,0 +1,178 @@
+.section, .search-section, .header {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.search-box, .search-grid, .register-section, .box, .alterar, .grid {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.section { 
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 80%;
+    margin: 0 auto;
+    height: auto;
+    margin-left: 12%;
+}
+
+.box {
+    border: 2px solid #000;
+    background-color: #F2F2F2;
+    padding: 10px;
+    width: 35%;
+    box-sizing: border-box;
+    border-radius: 20px;
+    height: 100%;
+}
+
+.box h3 {
+    border: 0.5px solid #000;
+    margin-top: 1px;
+    margin-bottom: 2%;
+    background-color: #0075FF;
+    color: white;
+    padding: 4px;
+    text-align: center;
+    border-radius: 10px;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.box label, .box .form-group label{
+    font-weight: bold;
+    width: 4em; /* Defina uma largura fixa para os labels */
+}
+
+.box .form-group{
+    display: flex;
+    align-items: center;
+    margin-right: 2%; 
+}
+
+.box .form-group input[type="text"] {
+    width: 90%;
+    padding: 6px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    min-width: 0;
+    border: 1px solid #ccc;
+}
+
+.box button {
+    display: block;
+    width: 30%;
+    padding: 10px;
+    background-color: #6F7276;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 5%;
+}
+
+.box button:hover, .alterar button:hover {
+    background-color: #5a6268;
+}
+
+.alterar {
+    width: 80%;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 80%;
+    margin: 0 auto;
+    height: auto;
+    border: 2px solid #000;
+    margin-left: 12%;
+}
+
+.alterar h3 {
+    border: 0.5px solid #000;
+    margin-top: 1px;
+    margin-bottom: 2%;
+    background-color: #0075FF;
+    color: white;
+    padding: 4px;
+    text-align: center;
+    border-radius: 10px;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.alterar label{
+    text-align: right;
+}
+
+.alterar .form-group{
+    display: flex;
+    align-items: center;
+    margin-right: 5%; 
+    margin-bottom: 1%;
+    margin-top: 1%;
+}
+
+.alterar .form-group input[type="text"] {
+    width: 90%;
+    padding: 6px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    min-width: 0;
+    border: 1px solid #ccc;
+    margin-left: 1%;
+}
+
+.alterar label, .alterar .form-group label{
+    font-weight: bold;
+    width: 10em; /* Defina uma largura fixa para os labels */
+}
+
+.alterar button{
+    display: block;
+    width: 30%;
+    padding: 10px;
+    background-color: #6F7276;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 2%;
+}
+
+.gridUsuario {
+    width: 60%; /* Largura definida */
+    height: 99%;
+    border: 2px solid #000;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.message {
+    font-size: 12px;
+    text-align: center;
+    color: grey;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.bold-label {
+    font-weight: bold;
+}

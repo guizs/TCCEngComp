@@ -1,0 +1,116 @@
+.section { 
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 80%;
+    height: 45%;
+    margin: 0 auto;
+    margin-left: 12%;
+}
+
+.section2 { 
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 80%;
+    height: 32%;
+    margin: 0 auto;
+    margin-left: 12%;
+}
+
+.section label, .section2{
+    text-align: right;
+}
+
+.box {
+    border: 2px solid #000;
+    background-color: #F2F2F2;
+    padding: 10px;
+    width: 49%;
+    box-sizing: border-box;
+    border-radius: 20px;
+    height: 100%;
+}
+
+.box h3 {
+    border: 0.5px solid #000;
+    margin-top: 1px;
+    margin-bottom: 2%;
+    background-color: #0075FF;
+    color: white;
+    padding: 4px;
+    text-align: center;
+    border-radius: 10px;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.box label, .box .form-group label{
+    font-weight: bold;
+    width: 25em;
+}
+
+.box label, .box .form-group label{
+    font-weight: bold;
+    width: 5em;
+}
+
+.box .form-group{
+    display: flex;
+    align-items: center;
+    margin-right: 2%; 
+}
+
+.box .form-group input[type="text"] {
+    width: 90%;
+    padding: 6px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    min-width: 0;
+    border: 1px solid #ccc;
+    margin-left: 1%;
+}
+
+.box button {
+    display: block;
+    width: 30%;
+    padding: 10px;
+    background-color: #6F7276;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 3%;
+}
+
+.box button:hover, .alterar button:hover {
+    background-color: #5a6268;
+}
+
+.grid {
+    border: 2px solid #000;
+    width: 49%;
+    text-align: center; /* Centraliza horizontalmente */
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100%; /* Ajuste conforme necessário */
+}
+
+.message {
+    font-size: 12px;
+    text-align: center;
+    color: grey;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.bold-label {
+    font-weight: bold;
+}

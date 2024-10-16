@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoramento de Freezers</title>
+    <link rel="stylesheet" href="stylepadrao.css">
+    <link rel="stylesheet" href="styleInicial.css">
+</head>
+<body>
+    <div class="container">
+        <div class="vertical-footer"></div>
+
+        <!-- Cabeçalho -->
+        <header>
+            <div>
+                <span> <b> Freezers ligados: </b> 05</span>
+                &nbsp;&nbsp;&nbsp;
+                <span> <b> Freezers desligados: </b> 01 </span>
+            </div>
+            <nav class="navbar">
+                <a href="cadastrouser.html">Cadastrar</a>
+                <a href="#" id="downloadReportBtn">Baixar relatório</a>
+                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+            </nav>
+            <div>
+                <span>Olá, txt_user</span>
+                &nbsp;&nbsp;&nbsp;
+                <a href="#">Sair</a>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Caixa de Alerta -->
+            <div class="alert-box">
+                <span>Há um alerta!</span>
+                <div class="score">8.0</div>
+            </div>
+
+            <!-- Status dos Freezers -->
+            <div class="status-freezer">
+                <div class="freezer-card">
+                    <div>
+                        <div class="status-indicator green"></div>
+                        <span>MTLF13</span>
+                    </div>
+                    <div class="temperature">-18°C</div>
+                </div>
+                <div class="freezer-card">
+                    <div>
+                        <div class="status-indicator gray"></div>
+                        <span>MTLF14</span>
+                    </div>
+                    <div class="temperature">N/A</div>
+                </div>
+                <div class="freezer-card">
+                    <div>
+                        <div class="status-indicator yellow"></div>
+                        <span>MTLF15</span>
+                    </div>
+                    <div class="temperature">5°C</div>
+                </div>
+                <div class="freezer-card">
+                    <div>
+                        <div class="status-indicator green"></div>
+                        <span>MTLF16</span>
+                    </div>
+                    <div class="temperature">-2°C</div>
+                </div>
+                <div class="freezer-card">
+                    <div>
+                        <div class="status-indicator green"></div>
+                        <span>MTLF17</span>
+                    </div>
+                    <div class="temperature">-8°C</div>
+                </div>
+                <div class="freezer-card">
+                    <div>
+                        <div class="status-indicator red"></div>
+                        <span>MTLF18</span>
+                    </div>
+                    <div class="temperature">-20°C</div>
+                </div>
+            </div>
+
+            <!-- Seção de Detalhes -->
+            <div class="details-section">
+                <div class="details-header">Status F1C2 - BATATA</div>
+                <div class="details-content">
+                    <div>
+                        <div class="temperature"> <b> Temperatura atual > -18°C </b> </div>
+                        <p> Min -16°C - Max -20°C - <b> Tudo sob controle! </b> </p>
+                    </div>
+                    <div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Temperatura °</th>
+                                    <th>Produto</th>
+                                    <th>Data</th>
+                                    <th>Hora</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>histórico_freezer</td>
+                                    <td>histórico_freezer</td>
+                                    <td>histórico_freezer</td>
+                                    <td>histórico_freezer</td>
+                                </tr>
+                                <tr>
+                                    <td>histórico_freezer</td>
+                                    <td>histórico_freezer</td>
+                                    <td>histórico_freezer</td>
+                                    <td>histórico_freezer</td>
+                                </tr>
+                                <tr>
+                                    <td>histórico_freezer</td>
+                                    <td>histórico_freezer</td>
+                                    <td>histórico_freezer</td>
+                                    <td>histórico_freezer</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="reportModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Baixar relatório</h2>
+            <form>
+                <label for="startDate">Data início:</label>
+                <input type="date" id="startDate" name="startDate" style="width: 100%; box-sizing: border-box;">
+                
+                <label for="endDate">Data final:</label>
+                <input type="date" id="endDate" name="endDate" style="width: 100%; box-sizing: border-box;">
+    
+                <label for="freezerSelect">Freezer:</label>
+                <select id="freezerSelect" name="freezerSelect" style="width: 100%; box-sizing: border-box;">
+                    <option value="" disabled selected>-- Selecione --</option>
+                    <option value="freezer1">txt_name_freezer1</option>
+                    <option value="freezer2">txt_name_freezer2</option>
+                    <option value="freezer3">txt_name_freezer3</option>
+                    <option value="freezer4">txt_name_freezer4</option>
+                </select>
+
+                <div style="display: flex; align-items: center; gap: 5px; margin-top: 10px;">
+                    <input type="checkbox" id="selectAll" name="selectAll">
+                    <label for="selectAll">Selecionar todos</label>
+                </div>
+    
+                <div class="download-options" style="justify-content: center; margin-top: 20px;">
+                    <label style="text-align: center; width: 100%;">Download via:</label>
+                    <div style="display: flex; gap: 20px; justify-content: center;">
+                        <button type="button" class="btn">Csv</button>
+                        <button type="button" class="btn">E-mail</button>
+                    </div>
+                </div>
+
+                <p style="color: #F00; font-weight: bold; text-align: center; margin-top: 20px;">Optando por enviar por e-mail, o relatório será automaticamente encaminhado ao administrador do sistema.</p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
