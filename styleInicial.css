@@ -1,9 +1,15 @@
 /* Estilo para o contêiner principal */
 .main-content {
-    
+    display: flex;
+    flex-direction: column;
+    position: relative;
     margin-left: 60px;
     padding: 10px 20px;
     background-color: #fff;
+}
+
+.status-freezer, .details-section {
+    width: 100%; /* Garante que ocupem a largura completa */
 }
 
 /* Estilos para cabeçalho e barra de navegação */
@@ -46,93 +52,6 @@ header > div:last-child {
     display: flex;
     gap: 10px;
     align-items: center;
-}
-
-/* Formulários */
-.form-section {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.form-box {
-    background-color: #f1f1f1;
-    padding: 15px;
-    border-radius: 8px;
-    width: 48%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.form-box h3 {
-    margin-bottom: 10px;
-}
-
-.form-box form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.form-box input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.form-box button {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.form-box button:hover {
-    background-color: #0056b3;
-}
-
-/* Seção de grade */
-.grid-section {
-    margin-top: 20px;
-}
-
-/* Seção de alteração de produto */
-.alterar-produto {
-    background-color: #f1f1f1;
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.alterar-produto form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.alterar-produto input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.alterar-produto button {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.alterar-produto button:hover {
-    background-color: #0056b3;
 }
 
 /* Estilos para o status dos freezers */
@@ -183,7 +102,7 @@ header > div:last-child {
 }
 
 .details-header {
-    background-color: #007BFF;
+    background-color: #1F82B2;
     color: #FFF;
     padding: 10px;
     border-radius: 8px 8px 0 0;
@@ -213,15 +132,19 @@ header > div:last-child {
 
 /* Caixa de alerta */
 .alert-box {
+    align-self: flex-end; /* Move o alert-box para a direita */
     margin: 0 auto;
+    border-radius: 500px;
+    width: 25%;
+    top: 20px; /* Ajuste conforme necessário */
+    right: 20px; /* Alinha à direita */
     background-color: #FFC107;
     padding: 10px;
-    border-radius: 500px;
+    border-radius: 10px;
     text-align: center;
     font-weight: 700;
     color: #333;
-    width: 25%;
-    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .score {
@@ -277,8 +200,19 @@ header > div:last-child {
 
 .download-options {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.download-options label {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2%;
+}
+
+.download-options .btn-container {
+    display: flex;
+    gap: 20px;
 }
 
 .download-options .btn {
@@ -294,19 +228,112 @@ header > div:last-child {
     background-color: #0056b3;
 }
 
+.close {
+    color: #AAA;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
 
-    /* Estilos para o botão de fechar modal */
-    .close {
-        color: #AAA;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#reportModal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 0; /* Inicialmente invisível */
+    transition: opacity 0.5s ease;
+}
+
+#reportModal.show {
+    opacity: 1; /* Torna visível */
+}
+
+.modal-content {
+    position: relative;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    background-color: #fefefe;
+    animation: modalOpen 0.5s ease;
+}
+
+@keyframes modalOpen {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
     }
-
-    .close:hover,
-    .close:focus {
-        color: #000;
-        text-decoration: none;
-        cursor: pointer;
+    to {
+        transform: translateY(0);
+        opacity: 1;
     }
+}    
 
+.modal-content h2{
+    text-align: center;
+}
+
+#freezerSelect {
+    width: 100%;
+    box-sizing: border-box;
+    height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.freezerSelect{
+    font-size: small;
+}
+
+#freezerSelect:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+#freezerSelect option {
+    padding: 10px;
+    font-size: small;
+    color: #333;
+}
+
+#freezerSelect::-webkit-scrollbar {
+    width: 8px;
+}
+
+#freezerSelect::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+#freezerSelect::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+#freezerSelect::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+#freezerSelect option:checked {
+    background-color: #007BFF; /* A mesma cor azul do foco manual */
+    color: #fff; /* Texto branco para contraste */
+}

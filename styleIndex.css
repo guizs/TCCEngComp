@@ -19,11 +19,36 @@ body {
     height: 100%;
 }
 
+.header h1, .header span {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+}
+
 .header {
-    background-color: #007bff;
+    background-color: #1F82B2;
     padding: 20px;
-    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     color: white;
+}
+
+.header span{
+    vertical-align: middle;
+    float: right;
+    font-size: 1.13em;
+    font-weight: bold;
+}
+
+#img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Coloca a imagem atrás */
+    object-fit: cover; /* Ajusta a imagem para cobrir toda a área */
 }
 
 .content {
@@ -31,33 +56,30 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f0f0f0;
+    
 }
 
 .login-container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     width: 100%;
-    
+    margin-right: 15%;
+    height: 75%;
 }
 
 .login-box {
     width: 420px;
-    height: 400px;
-    background-color: #e9f1fc;
+    background-color: rgba(161, 222, 244, 0.85);
     padding: 20px;
     border-radius: 25px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
+    height: 80%;
 }
 
-.login-box h2 {
-    margin-bottom: 20px;
+.login-box h2{
+    margin-top: 20px;
 }
 
 .login-box label {
@@ -69,9 +91,9 @@ body {
 .login-box input {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     border-radius: 4px;
-    border: 1px solid #ccc;
+    border: 1px solid #747474;
 }
 
 .login-box p {
@@ -82,7 +104,7 @@ body {
 .login-box button {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #1F82B2;
     border: none;
     border-radius: 4px;
     color: white;
@@ -96,7 +118,6 @@ body {
 
 .forgot-password {
     display: block;
-    margin-top: 10px;
     color: #007bff;
     text-decoration: none;
 }
@@ -112,15 +133,10 @@ body {
     color: #666;
 }
 
-/* Melhorias adicionais no CSS */
 form {
-    display: flex;
-    flex-direction: column;
     gap: 10px; /* Espaço entre os campos do formulário */
-    background-color: #f9f9f9; 
-    padding: 20px;
+    padding: 5px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 form label {
@@ -165,3 +181,34 @@ form button:hover {
         margin-left: 0; /* Remove o alinhamento lateral no mobile */
     }
 }
+
+.loader {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden; /* Esconda inicialmente */
+    flex-direction: column; /* Adiciona flex-direction */
+}
+
+.loader:after {
+    content: "";
+    width: 50px;
+    height: 50px;
+    border: 5px solid #3498db;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
