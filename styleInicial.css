@@ -337,3 +337,84 @@ header > div:last-child {
     background-color: #007BFF; /* A mesma cor azul do foco manual */
     color: #fff; /* Texto branco para contraste */
 }
+
+/* Ajuste de responsividade */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 10px;
+    }
+    
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 0;
+        text-align: center;
+    }
+    
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .navbar a {
+        padding: 10px 20px;
+        width: 100%;
+        text-align: center;
+    }
+    
+    header > div:last-child {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        margin-top: 10px;
+    }
+    
+    .status-freezer {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .freezer-card {
+        width: 100%;
+        max-width: 400px;
+        justify-content: space-between;
+    }
+    
+    .details-section {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .alert-box {
+        width: 100%;
+        max-width: 400px;
+        margin-top: 20px;
+        align-self: center;
+        right: auto;
+    }
+    
+    .modal-content {
+        width: 90%;
+        padding: 15px;
+    }
+    
+    .download-options {
+        flex-direction: column;
+    }
+
+    .btn-container {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .download-options .btn {
+        width: 100%;
+        text-align: center;
+    }
+}

@@ -212,3 +212,44 @@ form button:hover {
     to { transform: rotate(360deg); }
 }
 
+/* Ajuste de responsividade */
+@media (max-width: 768px) {
+    body, .container {
+        height: auto; /* Ajusta a altura para telas menores */
+    }
+
+    .header {
+        flex-direction: column; /* Muda a direção do layout para coluna */
+        text-align: center; /* Centraliza o texto */
+    }
+
+    .header span {
+        float: none; /* Remove o float */
+        margin-top: 10px; /* Adiciona margem acima */
+        font-size: 1em; /* Ajusta o tamanho da fonte */
+    }
+
+    .content {
+        justify-content: center; /* Centraliza horizontalmente */
+        padding: 20px; /* Adiciona padding */
+    }
+
+    .login-container {
+        margin-right: 0; /* Remove a margem direita */
+    }
+
+    .login-box {
+        width: 100%; /* Faz a caixa ocupar 100% da largura */
+        height: auto; /* Ajusta a altura automaticamente */
+        padding: 20px; /* Adiciona padding */
+        margin: 20px 0; /* Adiciona margem acima e abaixo */
+    }
+
+    .login-box input, .login-box button {
+        font-size: 1em; /* Ajusta o tamanho da fonte */
+    }
+
+    .footer {
+        text-align: center; /* Centraliza o texto */
+    }
+}
