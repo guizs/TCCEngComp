@@ -214,42 +214,79 @@ form button:hover {
 
 /* Ajuste de responsividade */
 @media (max-width: 768px) {
-    body, .container {
-        height: auto; /* Ajusta a altura para telas menores */
+    .vertical-footer {
+        display: none; /* Esconde o footer vertical em dispositivos menores */
     }
 
-    .header {
-        flex-direction: column; /* Muda a direção do layout para coluna */
-        text-align: center; /* Centraliza o texto */
+    .container {
+        width: 100%;
+        height: auto;
+        padding: 10px;
     }
 
-    .header span {
-        float: none; /* Remove o float */
-        margin-top: 10px; /* Adiciona margem acima */
-        font-size: 1em; /* Ajusta o tamanho da fonte */
+    header {
+        flex-direction: column;
+        align-items: center;
+        margin-left: 0;
+        padding: 10px;
+        text-align: center;
     }
 
-    .content {
-        justify-content: center; /* Centraliza horizontalmente */
-        padding: 20px; /* Adiciona padding */
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
     }
 
-    .login-container {
-        margin-right: 0; /* Remove a margem direita */
+    .navbar a {
+        padding: 10px 20px;
+        width: 100%;
+        text-align: center;
     }
 
-    .login-box {
-        width: 100%; /* Faz a caixa ocupar 100% da largura */
+    header > div:last-child {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        margin-top: 10px;
+    }
+
+    .section, .section2 {
+        flex-direction: column;
+        align-items: center;
+        margin-left: 0;
+        width: 100%;
         height: auto; /* Ajusta a altura automaticamente */
-        padding: 20px; /* Adiciona padding */
-        margin: 20px 0; /* Adiciona margem acima e abaixo */
     }
 
-    .login-box input, .login-box button {
-        font-size: 1em; /* Ajusta o tamanho da fonte */
+    .box, .grid {
+        width: 100%;
+        margin-bottom: 20px;
     }
 
-    .footer {
-        text-align: center; /* Centraliza o texto */
+    .form-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-group label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .form-group input[type="text"] {
+        width: 100%;
+    }
+
+    .box button, .grid button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .message {
+        font-size: 14px;
+        margin-top: 10px;
     }
 }

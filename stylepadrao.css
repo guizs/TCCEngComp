@@ -144,12 +144,9 @@ header > div:last-child {
 /* Ajuste de responsividade */
 @media (max-width: 768px) {
     .vertical-footer {
-        position: relative;
-        width: 100%;
-        height: 50px;
-        top: auto;
+        display: none; /* Esconde o footer vertical em dispositivos menores */
     }
-    
+
     .container {
         width: 100%;
         height: auto;
@@ -158,7 +155,7 @@ header > div:last-child {
 
     header {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         margin-left: 0;
         padding: 10px;
         text-align: center;
@@ -185,31 +182,40 @@ header > div:last-child {
         margin-top: 10px;
     }
 
-    .section,
-    .search-section,
-    .header {
-        width: 100%;
+    .section, .section2 {
         flex-direction: column;
+        align-items: center;
+        margin-left: 0;
+        width: 100%;
+        height: auto; /* Ajusta a altura automaticamente */
     }
 
-    .search-box,
-    .search-grid,
-    .register-section,
-    .box,
-    .grid {
+    .box, .grid {
         width: 100%;
         margin-bottom: 20px;
     }
 
-    .search-grid {
-        width: 100%;
+    .form-group {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .search-box button,
-    .register-section button {
+    .form-group label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .form-group input[type="text"] {
+        width: 100%;
+    }
+
+    .box button, .grid button {
         width: 100%;
         text-align: center;
+    }
+
+    .message {
+        font-size: 14px;
+        margin-top: 10px;
     }
 }

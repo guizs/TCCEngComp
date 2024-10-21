@@ -340,18 +340,24 @@ header > div:last-child {
 
 /* Ajuste de responsividade */
 @media (max-width: 768px) {
-    .main-content {
-        margin-left: 0;
+    .vertical-footer {
+        display: none; /* Esconde o footer vertical em dispositivos menores */
+    }
+
+    .container {
+        width: 100%;
+        height: auto;
         padding: 10px;
     }
-    
+
     header {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         margin-left: 0;
+        padding: 10px;
         text-align: center;
     }
-    
+
     .navbar {
         flex-direction: column;
         gap: 10px;
@@ -359,62 +365,54 @@ header > div:last-child {
         width: 100%;
         justify-content: center;
     }
-    
+
     .navbar a {
         padding: 10px 20px;
         width: 100%;
         text-align: center;
     }
-    
+
     header > div:last-child {
         flex-direction: column;
         align-items: center;
         gap: 5px;
         margin-top: 10px;
     }
-    
-    .status-freezer {
+
+    .section, .section2 {
         flex-direction: column;
         align-items: center;
-        gap: 20px;
-    }
-    
-    .freezer-card {
+        margin-left: 0;
         width: 100%;
-        max-width: 400px;
-        justify-content: space-between;
-    }
-    
-    .details-section {
-        width: 100%;
-        padding: 10px;
+        height: auto; /* Ajusta a altura automaticamente */
     }
 
-    .alert-box {
+    .box, .grid {
         width: 100%;
-        max-width: 400px;
-        margin-top: 20px;
-        align-self: center;
-        right: auto;
+        margin-bottom: 20px;
     }
-    
-    .modal-content {
-        width: 90%;
-        padding: 15px;
-    }
-    
-    .download-options {
+
+    .form-group {
         flex-direction: column;
+        align-items: stretch;
     }
 
-    .btn-container {
-        flex-direction: column;
-        gap: 10px;
+    .form-group label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .form-group input[type="text"] {
         width: 100%;
     }
 
-    .download-options .btn {
+    .box button, .grid button {
         width: 100%;
         text-align: center;
+    }
+
+    .message {
+        font-size: 14px;
+        margin-top: 10px;
     }
 }

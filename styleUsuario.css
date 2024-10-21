@@ -191,7 +191,7 @@
 
     header {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         margin-left: 0;
         padding: 10px;
         text-align: center;
@@ -218,22 +218,17 @@
         margin-top: 10px;
     }
 
-    .section {
+    .section, .section2 {
         flex-direction: column;
         align-items: center;
         margin-left: 0;
         width: 100%;
+        height: auto; /* Ajusta a altura automaticamente */
     }
 
-    .box,
-    .alterar {
+    .box, .grid {
         width: 100%;
         margin-bottom: 20px;
-    }
-
-    .gridUsuario {
-        width: 100%;
-        margin-top: 20px;
     }
 
     .form-group {
@@ -250,8 +245,7 @@
         width: 100%;
     }
 
-    .box button,
-    .alterar button {
+    .box button, .grid button {
         width: 100%;
         text-align: center;
     }
