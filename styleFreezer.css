@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .section { 
     display: flex;
     justify-content: space-between;
@@ -194,3 +195,201 @@
     }
 }
 
+=======
+.section { 
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 80%;
+    height: 45%;
+    margin: 0 auto;
+    margin-left: 12%;
+}
+
+.section2 { 
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 80%;
+    height: 32%;
+    margin: 0 auto;
+    margin-left: 12%;
+}
+
+.section label, .section2{
+    text-align: right;
+}
+
+.box {
+    border: 2px solid #000;
+    background-color: #F2F2F2;
+    padding: 10px;
+    width: 49%;
+    box-sizing: border-box;
+    border-radius: 20px;
+    height: 100%;
+}
+
+.box h3 {
+    border: 0.5px solid #000;
+    margin-top: 1px;
+    margin-bottom: 2%;
+    background-color: #0075FF;
+    color: white;
+    padding: 4px;
+    text-align: center;
+    border-radius: 10px;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.box label, .box .form-group label{
+    font-weight: bold;
+    width: 25em;
+}
+
+.box label, .box .form-group label{
+    font-weight: bold;
+    width: 5em;
+}
+
+.box .form-group{
+    display: flex;
+    align-items: center;
+    margin-right: 2%; 
+}
+
+.box .form-group input[type="text"] {
+    width: 90%;
+    padding: 6px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    min-width: 0;
+    border: 1px solid #ccc;
+    margin-left: 1%;
+}
+
+.box button {
+    display: block;
+    width: 30%;
+    padding: 10px;
+    background-color: #6F7276;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 3%;
+}
+
+.box button:hover, .alterar button:hover {
+    background-color: #5a6268;
+}
+
+.grid {
+    border: 2px solid #000;
+    width: 49%;
+    text-align: center; /* Centraliza horizontalmente */
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100%; /* Ajuste conforme necessário */
+}
+
+.message {
+    font-size: 12px;
+    text-align: center;
+    color: grey;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.bold-label {
+    font-weight: bold;
+}
+
+/* Ajuste de responsividade */
+@media (max-width: 768px) {
+    .vertical-footer {
+        display: none; /* Esconde o footer vertical em dispositivos menores */
+    }
+
+    .container {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+    }
+
+    header {
+        flex-direction: column;
+        align-items: center;
+        margin-left: 0;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .navbar a {
+        padding: 10px 20px;
+        width: 100%;
+        text-align: center;
+    }
+
+    header > div:last-child {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        margin-top: 10px;
+    }
+
+    .section, .section2 {
+        flex-direction: column;
+        align-items: center;
+        margin-left: 0;
+        width: 100%;
+        height: auto; /* Ajusta a altura automaticamente */
+    }
+
+    .box, .grid {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-group label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .form-group input[type="text"] {
+        width: 100%;
+    }
+
+    .box button, .grid button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .message {
+        font-size: 14px;
+        margin-top: 10px;
+    }
+}
+
+>>>>>>> origin/main
