@@ -19,16 +19,16 @@
             <div class="login-container">
                 <div class="login-box">
                     <h2>ENTRAR</h2>
-                    <form id="LoginForm">
+                    <form id="LoginForm" onsubmit="login(event)" autocomplete="off">
                         <label for="usuario">Usuário</label>
-                        <input type="text" id="usuario" name="usuario" required placeholder="Digite seu usuário">
+                        <input type="email" id="email" name="email" required placeholder="seu@email.com">
                         <label for="senha">Senha</label>
                         <input type="password" id="senha" name="senha" required placeholder="Digite sua senha">
                         <br/><br/>
                         <button type="submit">ENTRAR</button>
                         <br/><br/>
                     </form>
-                    <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                    <a href="#" onclick="RecuperarSenha(event)" class="forgot-password">Esqueceu a senha?</a>
                 </div>
             </div>
         </div>
