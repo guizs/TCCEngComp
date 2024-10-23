@@ -37,7 +37,7 @@
     border: 0.5px solid #000;
     margin-top: 1px;
     margin-bottom: 2%;
-    background-color: #0075FF;
+    background-color: #1F82B2;
     color: white;
     padding: 4px;
     text-align: center;
@@ -50,6 +50,7 @@
 .box label, .box .form-group label{
     font-weight: bold;
     width: 4em; /* Defina uma largura fixa para os labels */
+    margin-right: 1%;
 }
 
 .box .form-group{
@@ -58,7 +59,7 @@
     margin-right: 2%; 
 }
 
-.box .form-group input[type="text"] {
+.box .form-group input[type="text"], .box .form-group input[type="email"] {
     width: 90%;
     padding: 6px;
     border-radius: 10px;
@@ -100,7 +101,7 @@
     border: 0.5px solid #000;
     margin-top: 1px;
     margin-bottom: 2%;
-    background-color: #0075FF;
+    background-color: #1F82B2;
     color: white;
     padding: 4px;
     text-align: center;
@@ -112,6 +113,7 @@
 
 .alterar label{
     text-align: right;
+    margin-right: 1%;
 }
 
 .alterar .form-group{
@@ -122,14 +124,13 @@
     margin-top: 1%;
 }
 
-.alterar .form-group input[type="text"] {
+.alterar .form-group input {
     width: 90%;
     padding: 6px;
     border-radius: 10px;
     box-sizing: border-box;
     min-width: 0;
     border: 1px solid #ccc;
-    margin-left: 1%;
 }
 
 .alterar label, .alterar .form-group label{
@@ -147,7 +148,7 @@
     border-radius: 20px;
     cursor: pointer;
     margin: 0 auto;
-    margin-top: 2%;
+    margin-top: 0.5%;
 }
 
 .gridUsuario {
@@ -254,4 +255,20 @@
         font-size: 14px;
         margin-top: 10px;
     }
+}
+
+@keyframes tremor {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    20%, 60% {
+        transform: translateX(-10px);
+    }
+    40%, 80% {
+        transform: translateX(10px);
+    }
+}
+
+.tremor {
+    animation: tremor 0.5s;
 }

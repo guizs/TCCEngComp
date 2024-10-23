@@ -6,16 +6,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var freezerSelect = document.getElementById("freezerSelect");
     var usernameSpan = document.getElementById("usernameSpan");
 
-    // Função para exibir o nome do usuário
-    function showUsername() {
-        const username = localStorage.getItem("username"); // Recupera o nome do usuário do local storage
-        if (usernameSpan) {
-            usernameSpan.textContent += username;
-        }
-    }
-
-    showUsername(); // Chama a função para exibir o nome do usuário
-
     downloadReportBtn.onclick = function() {
         reportModal.style.display = "block";
         setTimeout(function() {

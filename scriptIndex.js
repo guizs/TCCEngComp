@@ -36,8 +36,8 @@ function RecuperarSenha(event) {
         if (error.code === 'auth/user-not-found') {
             alert('Não há nenhum usuário cadastrado com este email.');
             return;
-        } else if (error.code === 'auth/invalid-email') {
-            alert('E-mail inserido em um formato inexistente.');
+        } else if (error.code === 'auth/too-many-requests') {
+            alert('Muitas tentativas. Por favor, tente novamente mais tarde ou troque sua senha.');
             return;
         } else {
             alert(getErrorMessage(error));

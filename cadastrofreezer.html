@@ -23,7 +23,7 @@
                 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
             </nav>
             <div>
-                <span> Olá, txt_user </span>
+                <span id="usernameSpan">Olá, </span>
                 &nbsp;&nbsp;&nbsp;
                 <a href="index.html">Sair</a>
             </div>
@@ -108,5 +108,26 @@
         </div>        
 
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-database.js"></script>
+    
+    <script> 
+    
+    var firebaseConfig = {
+        apiKey: "AIzaSyCRfWDQfLqNEf3zLeOradly1uf3Jwi1Q5o",
+        authDomain: "tccengcomp-16e42.firebaseapp.com",
+        projectId: "tccengcomp-16e42",
+        storageBucket: "tccengcomp-16e42.appspot.com",
+        messagingSenderId: "227542437535",
+        appId: "1:227542437535:web:3a2327186608b36aa49caa"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    </script>
+    
+    <script src="scriptgeral.js"></script>
 </body>
 </html>

@@ -23,7 +23,7 @@
                 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
             </nav>
             <div>
-                <span> Olá, txt_user </span>
+                <span id="usernameSpan">Olá, </span>
                 &nbsp;&nbsp;&nbsp;
                 <a href="index.html">Sair</a>
             </div>
@@ -40,7 +40,7 @@
                 <br>
                 <div class="form-group">
                     <label for="e-mail"> E-mail: </label>
-                    <input type="text" placeholder="Insira o e-mail que deseja procurar.">
+                    <input type="email" placeholder="Insira o e-mail que deseja procurar.">
                 </div>
                 <button>Buscar</button>
             </div>
@@ -58,31 +58,53 @@
             <h3>Cadastro de Usuário</h3>
             <div class="form-group">
                 <label for = "nome">Nome completo:</label>
-                <input type="text" placeholder="Insira o nome completo.">
+                <input type="text" id="nome-cadastro" placeholder="Insira o nome completo.">
             </div>
             <div class="form-group">
                 <label for = "e-mail">E-mail:</label>
-                <input type="text" placeholder="exemplo@dominio.com">
-            </div>
-            <div class="form-group">
-                <label for = "user">Usuário:</label>
-                <input type="text" placeholder="Insira o user para login. ">
+                <input type="email" id="email-cadastro" placeholder="exemplo@dominio.com">
             </div>
             <div class="form-group">
                 <label for = "senha">Senha:</label>
-                <input type="text" placeholder="Insira a senha.">
+                <input type="password" id="senha-cadastro" placeholder="Insira a senha.">
             </div>
             <div class="form-group">
                 <label for = "cfsenha">Confirme a senha:</label>
-                <input type="text" placeholder="Confirme a senha inserida acima.">
+                <input type="password" id="cfsenha-cadastro" placeholder="Confirme a senha inserida acima.">
             </div>
-
-            <button>Cadastrar</button>
 
             <div class="message">
-                <p>Mensagem de erro ou validação do cadastro.</p>
+                <p style="color:red;"></p>
             </div>
 
+            <button onclick="salvarUsuario()">Cadastrar</button>
+
+
         </div>
+
     </div>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-database.js"></script>
+    
+    <script> 
+    
+    var firebaseConfig = {
+        apiKey: "AIzaSyCRfWDQfLqNEf3zLeOradly1uf3Jwi1Q5o",
+        authDomain: "tccengcomp-16e42.firebaseapp.com",
+        projectId: "tccengcomp-16e42",
+        storageBucket: "tccengcomp-16e42.appspot.com",
+        messagingSenderId: "227542437535",
+        appId: "1:227542437535:web:3a2327186608b36aa49caa"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    </script>
+    <script src="scriptUsuario.js"></script>
+    <script src="scriptgeral.js"></script>
+
 </body>
+
+</html>
