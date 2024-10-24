@@ -28,11 +28,6 @@ function salvarUsuario() {
     const senha = document.getElementById('senha-cadastro').value;
     const cfsenha = document.getElementById('cfsenha-cadastro').value;
 
-    console.log('Email:', email);
-    console.log('Nome:', nome);
-    console.log('Senha:', senha);
-    console.log('Confirmação de Senha:', cfsenha);
-
     if (!nome || !email || !senha || !cfsenha) {
         exibirMensagem('Por favor, preencha todos os campos.');
         return;
@@ -52,24 +47,27 @@ function salvarUsuario() {
         if (snapshot.exists()) {
             exibirMensagem('O e-mail já está cadastrado em nosso banco de dados.');
         } else {
-            // Email não existe, prossegue com a criação do usuário
+            // Cria o usuário no Firebase Authentication
             firebase.auth().createUserWithEmailAndPassword(email, senha)
             .then(userCredential => {
                 const user = userCredential.user;
+
+                // Salva os dados do usuário no banco de dados, incluindo a data de criação
                 usuariosRef.child(user.uid).set({
                     nome: nome,
-                    email: email
+                    email: email,
+                    createdAt: firebase.database.ServerValue.TIMESTAMP // Aqui adiciona a data de criação
                 }).then(() => {
                     exibirMensagem('Usuário cadastrado com sucesso!', true);
-                    LimpacamposCadastro(); // Chama a função para limpar os campos após o cadastro
+                    LimpacamposCadastro(); // Limpa os campos após o cadastro
                 }).catch((error) => {
                     exibirMensagem('Erro ao cadastrar usuário no banco de dados: ' + error.message);
                 });
             })
             .catch(error => {
-                if (error.message == "The email address is already in use by another account.") {
+                if (error.message === "The email address is already in use by another account.") {
                     exibirMensagem('O e-mail já está cadastrado em nosso banco de dados.');
-                } else if (error.message == "Password should be at least 6 characters") {
+                } else if (error.message === "Password should be at least 6 characters") {
                     exibirMensagem('A senha necessita ter mais que 5 caracteres.');
                 } else {
                     exibirMensagem('Erro ao criar usuário no Authentication: ' + error.message);

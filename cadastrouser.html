@@ -56,31 +56,32 @@
 
         <div class="alterar">
             <h3>Cadastro de Usuário</h3>
-            <div class="form-group">
-                <label for = "nome">Nome completo:</label>
-                <input type="text" id="nome-cadastro" placeholder="Insira o nome completo.">
-            </div>
-            <div class="form-group">
-                <label for = "e-mail">E-mail:</label>
-                <input type="email" id="email-cadastro" placeholder="exemplo@dominio.com">
-            </div>
-            <div class="form-group">
-                <label for = "senha">Senha:</label>
-                <input type="password" id="senha-cadastro" placeholder="Insira a senha.">
-            </div>
-            <div class="form-group">
-                <label for = "cfsenha">Confirme a senha:</label>
-                <input type="password" id="cfsenha-cadastro" placeholder="Confirme a senha inserida acima.">
-            </div>
-
-            <div class="message">
-                <p style="color:red;"></p>
-            </div>
-
-            <button onclick="salvarUsuario()">Cadastrar</button>
-
-
+            <form autocomplete="off"> <!-- Desativa o preenchimento automático para todo o formulário -->
+                <div class="form-group">
+                    <label for="nome-cadastro">Nome completo:</label>
+                    <input type="text" id="nome-cadastro" autocomplete="off" placeholder="Insira o nome completo.">
+                </div>
+                <div class="form-group">
+                    <label for="email-cadastro">E-mail:</label>
+                    <input type="email" id="email-cadastro" autocomplete="off" placeholder="exemplo@dominio.com">
+                </div>
+                <div class="form-group">
+                    <label for="senha-cadastro">Senha:</label>
+                    <input type="password" id="senha-cadastro" autocomplete="off" placeholder="Insira a senha.">
+                </div>
+                <div class="form-group">
+                    <label for="cfsenha-cadastro">Confirme a senha:</label>
+                    <input type="password" id="cfsenha-cadastro" autocomplete="off" placeholder="Confirme a senha inserida acima.">
+                </div>
+        
+                <div class="message">
+                    <p style="color:red;"></p> <!-- Mensagens de erro ou sucesso -->
+                </div>
+        
+                <button type="button" onclick="salvarUsuario()">Cadastrar</button> <!-- Ação de salvar usuário -->
+            </form>
         </div>
+        
 
     </div>
     

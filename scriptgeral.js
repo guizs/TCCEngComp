@@ -36,3 +36,40 @@ firebase.auth().onAuthStateChanged((user) => {
         exibirNomeUsuario(); // Reseta a exibição do nome
     }
 });
+
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) { // Verifica se a página foi carregada do cache
+        window.location.reload(); // Recarrega a página
+    }
+});
+
+function login(event) {
+    event.preventDefault(); // Impede o envio padrão do formulário
+
+    const email = document.getElementById('email').value.trim();
+    const senha = document.getElementById('senha').value;
+
+    const loader = document.getElementById("loader"); // Pega o elemento do loader
+
+    firebase.auth().signInWithEmailAndPassword(email, senha)
+    .then(response => {
+        loader.style.visibility = "visible";
+
+        setTimeout(() => {
+            // Redireciona para a página inicial
+            window.location.href = "inicial.html";
+            
+            // Substitui o estado atual no histórico (tela de login) para que não possa ser acessada novamente
+            history.replaceState(null, null, "inicial.html");
+            
+            // Previne o uso do botão voltar
+            window.addEventListener('popstate', function(event) {
+                // Quando o usuário tentar voltar, ele é redirecionado para a mesma página
+                history.pushState(null, null, window.location.href);
+            });
+        }, 3000);
+    })
+    .catch(error => {
+        alert(getErrorMessage(error));
+    });
+}
