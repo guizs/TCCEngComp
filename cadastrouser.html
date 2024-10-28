@@ -30,25 +30,53 @@
         </header>
         
         <div class="section">
-            <div class="box">
+            <div class="box-procura">
                 <h3>Pesquisa de Usuário</h3>
                 <br>
                 <div class="form-group">
                     <label for="nome"> Nome: </label>
-                    <input type="text" id="nome" placeholder="Insira o nome que deseja procurar.">
+                    <input type="text" id="nome-pesquisa" placeholder="Insira o nome que deseja procurar.">
                 </div>               
                 <br>
                 <div class="form-group">
                     <label for="e-mail"> E-mail: </label>
-                    <input type="email" placeholder="Insira o e-mail que deseja procurar.">
+                    <input id="email-pesquisa" type="email" placeholder="Insira o e-mail que deseja procurar.">
                 </div>
-                <button>Buscar</button>
+                
+                <div class="button-group">
+                    <button id="buscar-pesquisa">Buscar</button>
+                    <button id="limpar-filtros">Limpar Filtros</button>
+                </div>
+
             </div>
 
             
-            <div class="gridUsuario">
-                <p>Grid de Usuários existentes</p>
+            <div class="grid">
+                <div class="scroll-container">
+                    <table id="freezersTable">
+                        <thead>
+                            <tr>
+                                <th class="col-nome">Nome</th>
+                                <th class="col-e-mail">E-mail</th>
+                                <th class="col-data-criacao">Data de criação</th>
+                                <th class="col-ativo">Situação</th>
+                                <th class="col-gerente">Gerência</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
+            <div id="popupMenu" style="display: none; position: absolute;">
+                <button id="btnDesativar">Desativar</button>
+                <button id="btnAtivar">Ativar</button>
+            </div>         
+
+            <button id="gerenciaButton" style="display: none; position: absolute;">Tornar Gerente</button>
+
 
         </div>  
 

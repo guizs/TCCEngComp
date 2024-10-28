@@ -35,32 +35,38 @@
                 <h3>Procurar Freezer</h3>
                 <br>
                 <div class="form-group">
-                    <label for="ID"> ID: </label>
-                    <input type="text" placeholder="Insira o ID para exibir.">
-                </div>                
+                    <label for="ID-busca"> ID: </label>
+                    <input type="text" id="ID-busca" placeholder="Insira o ID para exibir.">
+                </div>
                 <br>
                 <div class="form-group">
-                    <label for="Produto"> Marca: </label>
-                    <input type="text" placeholder="Insira a marca do freezer.">
+                    <label for="marca-busca"> Marca: </label>
+                    <input list="marcas" id="marca-busca" type="text" placeholder="Insira a marca do freezer.">
+                    <datalist id="marcas">
+                        <!-- Marcas serão adicionadas aqui pelo JavaScript -->
+                    </datalist>
                 </div>
-                <button>Buscar</button>
-            </div>
+                <div class="button-group">
+                    <button id="procurar">Buscar</button>
+                    <button id="limparFiltros">Limpar Filtros</button>
+                </div>
+            </div>                                 
     
             <div class="grid">
                 <div class="scroll-container">
                     <table id="freezersTable">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Marca</th>
-                                <th>Temp Min</th>
-                                <th>Temp Max</th>
-                                <th>Data de Criação</th>
-                                <th>Data de Att</th>
+                                <th class="col-id">ID</th>
+                                <th class="col-marca">Marca</th>
+                                <th class="col-min">Min ºC</th>
+                                <th class="col-max">Max ºC</th>
+                                <th class="col-data-criacao">Criação</th>
+                                <th class="col-data-att">Últ. Att</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Os dados dos freezers serão inseridos aqui -->
+
                         </tbody>
                     </table>
                 </div>
@@ -164,7 +170,9 @@
     firebase.initializeApp(firebaseConfig);
 
     </script>
-    <script src="scriptFreezer.js"></script>
     <script src="scriptgeral.js"></script>
+    <script src="scriptFreezer.js"></script>
+
+    
 </body>
 </html>

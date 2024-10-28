@@ -36,22 +36,26 @@
             <p>Projeto de TCC de Engenharia de computação desenvolvido na Universidade Paulista - Campos Indianópolis - 2024.</p>
         </div>
     </div>
-    <script src="scriptIndex.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-auth-compat.js"></script>
-    <script>
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCBpAsd2HR1QTdcZaReE1NpDyn2U4-7ZIY",
-        authDomain: "tcc---engenhariacomp.firebaseapp.com",
-        projectId: "tcc---engenhariacomp",
-        storageBucket: "tcc---engenhariacomp.appspot.com",
-        messagingSenderId: "468970604778",
-        appId: "1:468970604778:web:99584d28913491aedb6f93"
-    };
+    <!-- Firebase Scripts - Use a versão 8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCBpAsd2HR1QTdcZaReE1NpDyn2U4-7ZIY",
+            authDomain: "tcc---engenhariacomp.firebaseapp.com",
+            projectId: "tcc---engenhariacomp",
+            storageBucket: "tcc---engenhariacomp.appspot.com",
+            messagingSenderId: "468970604778",
+            appId: "1:468970604778:web:99584d28913491aedb6f93"
+        };
 
         firebase.initializeApp(firebaseConfig);
-
-
     </script>
+
+    <!-- Seu script personalizado agora está após o Firebase -->
+    <script src="scriptIndex.js"></script>
 </body>
+</html>

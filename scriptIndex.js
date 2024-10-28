@@ -8,11 +8,26 @@ function login(event) {
 
     firebase.auth().signInWithEmailAndPassword(email, senha)
     .then(response => {
-        loader.style.visibility = "visible";
+        const userId = response.user.uid; // Obtém o UID do usuário
 
-        setTimeout(() => {
-            window.location.href = "inicial.html";
-        }, 3000);
+        // Verifica o status do usuário no banco de dados
+        return firebase.database().ref('usuarios/' + userId).once('value');
+    })
+    .then(snapshot => {
+        const usuario = snapshot.val();
+
+        if (usuario && usuario.ativo) {
+            // Usuário está ativo, prossegue com o login
+            loader.style.visibility = "visible";
+
+            setTimeout(() => {
+                window.location.href = "inicial.html";
+            }, 3000);
+        } else {
+            // Usuário está inativo, exibe mensagem de erro e faz logout
+            alert('Sua conta está desativada. Entre em contato com o suporte.');
+            firebase.auth().signOut(); // Desconecta o usuário imediatamente
+        }
     })
     .catch(error => {
         alert(getErrorMessage(error));

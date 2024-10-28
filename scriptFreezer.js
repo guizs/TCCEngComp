@@ -35,7 +35,6 @@ function cadastrarFreezer() {
     const tempMin = parseFloat(document.getElementById("tempMinInput").value);
     const tempMax = parseFloat(document.getElementById("tempMaxInput").value);
     const messageElem = document.querySelector(".message p");
-
     const ref = firebase.database().ref("freezers");
     const counterRef = firebase.database().ref("counter");
 
@@ -51,7 +50,6 @@ function cadastrarFreezer() {
             const newId = snapshot.val();
             const brandCode = marca.substring(0, 4).toUpperCase();
             const fullId = brandCode + newId;
-
             ref.child(newId).set({
                 id: fullId,
                 marca: marca,
@@ -67,29 +65,14 @@ function cadastrarFreezer() {
                     messageElem.textContent = "Freezer cadastrado com sucesso.";
                     messageElem.parentElement.classList.add("success");
                     setTimeout(() => { messageElem.parentElement.classList.add("tremor"); }, 10);
-                    //LimpacamposCadastro();
+                    LimpacamposCadastro();
+                    atualizarTabela(); // Atualiza a tabela sem recarregar a página
                 }
                 setTimeout(() => { messageElem.parentElement.classList.remove("tremor"); }, 510);
             });
         }
     });
 }
-
-function LimpacamposCadastro() {
-    document.getElementById('marcaInput').value = '';
-    document.getElementById('tempMinInput').value = '';
-    document.getElementById('tempMaxInput').value = '';
-}
-
-document.getElementById("confirmYes").addEventListener("click", function() {
-    document.getElementById("popupConfirm").style.display = "none";
-    cadastrarFreezer(); // Chama a função de cadastrar freezer
-});
-
-document.getElementById("confirmNo").addEventListener("click", function() {
-    document.getElementById("popupConfirm").style.display = "none"; // Apenas esconde o pop-up
-});
-
 
 document.getElementById("alterarFreezer").addEventListener("click", function() {
     const inputId = document.getElementById("ID").value;
@@ -141,15 +124,12 @@ function alterarFreezer() {
     }
 
     const ref = firebase.database().ref("freezers");
-
     ref.once("value", function(snapshot) {
         let found = false;
-
         snapshot.forEach(function(childSnapshot) {
             if (childSnapshot.val().id === inputId) {
                 found = true;
                 const fullId = childSnapshot.val().id; // Mantém o ID completo original
-
                 ref.child(childSnapshot.key).update({
                     id: fullId,
                     marca: marca,
@@ -166,12 +146,12 @@ function alterarFreezer() {
                         messageElem.parentElement.classList.add("success");
                         setTimeout(() => { messageElem.parentElement.classList.add("tremor"); }, 10);
                         LimpacamposAlterar();
+                        atualizarTabela(); // Atualiza a tabela sem recarregar a página
                     }
                     setTimeout(() => { messageElem.parentElement.classList.remove("tremor"); }, 510);
                 });
             }
         });
-
         if (!found) {
             messageElem.textContent = "ID não encontrado: Verifique o ID informado.";
             messageElem.parentElement.classList.add("error");
@@ -181,10 +161,76 @@ function alterarFreezer() {
     });
 }
 
-document.getElementById("confirmYes").addEventListener("click", function() {
-    document.getElementById("popupConfirm").style.display = "none";
-    alterarFreezer(); // Chama a função de alterar freezer
+function atualizarTabela() {
+    const tabelaBody = document.querySelector("#freezersTable tbody");
+    tabelaBody.innerHTML = ""; // Limpar a tabela antes de adicionar os resultados
+
+    const ref = firebase.database().ref("freezers");
+
+    ref.once("value", function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            const freezer = childSnapshot.val();
+            const row = tabelaBody.insertRow();
+            row.insertCell(0).textContent = freezer.id;
+            row.insertCell(1).textContent = freezer.marca;
+            row.insertCell(2).textContent = freezer.tempMin;
+            row.insertCell(3).textContent = freezer.tempMax;
+            row.insertCell(4).textContent = freezer.dataCadastro ? formatarData(freezer.dataCadastro) : "-";
+            row.insertCell(5).textContent = freezer.dataAlteracao ? formatarData(freezer.dataAlteracao) : "-";
+        });
+    });
+}
+
+
+// Carrega os freezers ao carregar a página
+window.onload = carregarFreezers;
+
+window.onload = function() {
+    carregarFreezers();
+};
+
+function LimpacamposCadastro() {
+    document.getElementById('marcaInput').value = '';
+    document.getElementById('tempMinInput').value = '';
+    document.getElementById('tempMaxInput').value = '';
+}
+
+
+document.getElementById("confirmNo").addEventListener("click", function() {
+    document.getElementById("popupConfirm").style.display = "none"; // Apenas esconde o pop-up
 });
+
+function formatarData(dataISO) {
+    const data = new Date(dataISO);
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0'); // Janeiro é 0!
+    const ano = data.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+}
+
+function carregarFreezers() {
+    const ref = firebase.database().ref("freezers");
+    ref.once("value", function(snapshot) {
+        const tableBody = document.querySelector("#freezersTable tbody");
+        tableBody.innerHTML = ""; // Limpa qualquer conteúdo existente na tabela
+
+        snapshot.forEach(function(childSnapshot) {
+            const data = childSnapshot.val();
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${data.id}</td>
+                <td>${data.marca}</td>
+                <td>${data.tempMin} °C</td>
+                <td>${data.tempMax} °C</td>
+                <td>${formatarData(data.dataCadastro)}</td>
+                <td>${data.dataAlteracao ? formatarData(data.dataAlteracao) : 'N/A'}</td>
+            `;
+
+            tableBody.appendChild(row);
+        });
+    });
+}
 
 
 function LimpacamposAlterar() {
@@ -193,7 +239,6 @@ function LimpacamposAlterar() {
     document.getElementById('tempMin-alterar').value = '';
     document.getElementById('tempMax-alterar').value = '';
 }
-
 
 document.getElementById("ID").addEventListener("input", function() {
     const inputId = document.getElementById("ID").value;
@@ -235,41 +280,111 @@ document.getElementById("ID").addEventListener("input", function() {
     });
 });
 
-function formatarData(dataISO) {
-    const data = new Date(dataISO);
-    const dia = String(data.getDate()).padStart(2, '0');
-    const mes = String(data.getMonth() + 1).padStart(2, '0'); // Janeiro é 0!
-    const ano = data.getFullYear();
-    return `${dia}/${mes}/${ano}`;
+document.getElementById("procurar").addEventListener("click", function() {
+    const inputId = document.getElementById("ID-busca").value;
+    const inputMarca = document.getElementById("marca-busca").value.toUpperCase();
+    const tabelaBody = document.querySelector("#freezersTable tbody");
+    tabelaBody.innerHTML = ""; // Limpar a tabela antes de adicionar os resultados
+
+    const ref = firebase.database().ref("freezers");
+
+    ref.once("value", function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            const freezer = childSnapshot.val();
+            if ((inputId && freezer.id === inputId) || (inputMarca && freezer.marca === inputMarca)) {
+                const row = tabelaBody.insertRow();
+                row.insertCell(0).textContent = freezer.id;
+                row.insertCell(1).textContent = freezer.marca;
+                row.insertCell(2).textContent = freezer.tempMin;
+                row.insertCell(3).textContent = freezer.tempMax;
+                row.insertCell(4).textContent = freezer.dataCadastro ? formatarData(freezer.dataCadastro) : "-";
+                row.insertCell(5).textContent = freezer.dataAlteracao ? formatarData(freezer.dataAlteracao) : "-";
+            }
+        });
+    });
+
+    limparCamposProcurar(); // Chama a função para limpar os campos após a busca
+});
+
+document.getElementById("limparFiltros").addEventListener("click", function() {
+    limparCamposProcurar(); // Limpa os campos de busca
+    const tabelaBody = document.querySelector("#freezersTable tbody");
+    tabelaBody.innerHTML = ""; // Limpar a tabela antes de adicionar todos os resultados
+    const ref = firebase.database().ref("freezers");
+
+    ref.once("value", function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            const freezer = childSnapshot.val();
+            const row = tabelaBody.insertRow();
+            row.insertCell(0).textContent = freezer.id;
+            row.insertCell(1).textContent = freezer.marca;
+            row.insertCell(2).textContent = freezer.tempMin;
+            row.insertCell(3).textContent = freezer.tempMax;
+            row.insertCell(4).textContent = freezer.dataCadastro ? formatarData(freezer.dataCadastro) : "-";
+            row.insertCell(5).textContent = freezer.dataAlteracao ? formatarData(freezer.dataAlteracao) : "-";
+        });
+    });
+});
+
+function limparCamposProcurar() {
+    document.getElementById("ID-busca").value = '';
+    document.getElementById("marca-busca").value = '';
 }
 
-function carregarFreezers() {
-    const ref = firebase.database().ref("freezers");
-    ref.once("value", function(snapshot) {
-        const tableBody = document.querySelector("#freezersTable tbody");
-        tableBody.innerHTML = ""; // Limpa qualquer conteúdo existente na tabela
-
+function carregarMarcas() {
+    const marcasRef = firebase.database().ref("freezers");
+    const datalist = document.getElementById("marcas");
+    marcasRef.once("value", function(snapshot) {
+        const marcas = new Set();
         snapshot.forEach(function(childSnapshot) {
-            const data = childSnapshot.val();
-            const row = document.createElement("tr");
+            marcas.add(childSnapshot.val().marca);
+        });
 
-            row.innerHTML = `
-                <td>${data.id}</td>
-                <td>${data.marca}</td>
-                <td>${data.tempMin} °C</td>
-                <td>${data.tempMax} °C</td>
-                <td>${formatarData(data.dataCadastro)}</td>
-                <td>${data.dataAlteracao ? formatarData(data.dataAlteracao) : 'N/A'}</td>
-            `;
-
-            tableBody.appendChild(row);
+        marcas.forEach(function(marca) {
+            const option = document.createElement("option");
+            option.value = marca;
+            datalist.appendChild(option);
         });
     });
 }
 
-// Carrega os freezers ao carregar a página
-window.onload = carregarFreezers;
+carregarMarcas();
 
-window.onload = function() {
-    carregarFreezers();
-};
+function formatarData(dataISO) {
+    const data = new Date(dataISO);
+    return data.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+    });
+}
+
+function formatarData(dataISO) {
+    const data = new Date(dataISO);
+    return data.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+    });
+}
+
+let acaoAtual = "cadastrar"; // Valor padrão
+
+document.getElementById("cadastrarFreezer").addEventListener("click", function() {
+    acaoAtual = "cadastrar";
+    document.getElementById("popupConfirm").style.display = "flex";
+});
+
+document.getElementById("alterarFreezer").addEventListener("click", function() {
+    acaoAtual = "alterar";
+    document.getElementById("popupConfirm").style.display = "flex";
+});
+
+document.getElementById("confirmYes").addEventListener("click", function() {
+    document.getElementById("popupConfirm").style.display = "none";
+    if (acaoAtual === "cadastrar") {
+        cadastrarFreezer(); // Chama a função de cadastro
+    } else if (acaoAtual === "alterar") {
+        alterarFreezer(); // Chama a função de alteração
+    }
+});
