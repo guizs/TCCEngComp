@@ -72,6 +72,40 @@ function cadastrarFreezer() {
             });
         }
     });
+
+    ref.child(newId).set({
+        id: fullId,
+        marca: marca,
+        tempMin: tempMin,
+        tempMax: tempMax,
+        dataCadastro: new Date().toISOString()
+    }, function(error) {
+        if (error) {
+            // Exibir mensagem de erro
+        } else {
+            // Código de sucesso para a tabela "freezers"
+            // Agora adicionar à nova tabela "freezers_status"
+            const statusRef = firebase.database().ref("freezers_status");
+
+            statusRef.child(newId).set({
+                id: fullId, // Mesmo ID
+                marca: marca,
+                tempMin: tempMin,
+                tempMax: tempMax,
+                temperaturaAtual: "", // Valor em branco
+                status: ""             // Valor em branco
+            }, function(error) {
+                if (error) {
+                    messageElem.textContent = "Erro ao cadastrar o status do freezer.";
+                    messageElem.parentElement.classList.add("error");
+                } else {
+                    messageElem.textContent = "Freezer e status cadastrados com sucesso.";
+                    messageElem.parentElement.classList.add("success");
+                    // Limpar campos e atualizar tabela como antes
+                }
+            });
+        }
+    });
 }
 
 document.getElementById("alterarFreezer").addEventListener("click", function() {
