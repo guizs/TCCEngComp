@@ -81,11 +81,14 @@ function cadastrarFreezer() {
                             messageElem.textContent = "Erro ao cadastrar o status do freezer.";
                             messageElem.parentElement.classList.add("error");
                         } else {
-                            messageElem.textContent = "Freezer e status cadastrados com sucesso.";
+                            messageElem.textContent = "Freezer cadastrado com sucesso.";
+                            sincronizarFreezersHistorico();
                             messageElem.parentElement.classList.add("success");
                             setTimeout(() => { messageElem.parentElement.classList.add("tremor"); }, 10);
                             LimpacamposCadastro();
                             atualizarTabela(); // Atualiza a tabela sem recarregar a página
+                            sincronizarFreezersStatus()
+                            sincronizarFreezersHistorico() 
                         }
                     });
                 }
@@ -126,6 +129,9 @@ document.getElementById("alterarFreezer").addEventListener("click", function() {
 
     // Mostra pop-up de confirmação
     document.getElementById("popupConfirm").style.display = "flex";
+    atualizarTabela();
+    sincronizarFreezersStatus()
+    sincronizarFreezersHistorico() 
 });
 
 function alterarFreezer() {
@@ -167,7 +173,6 @@ function alterarFreezer() {
                         messageElem.parentElement.classList.add("success");
                         setTimeout(() => { messageElem.parentElement.classList.add("tremor"); }, 10);
                         LimpacamposAlterar();
-                        atualizarTabela(); // Atualiza a tabela sem recarregar a página
                     }
                     setTimeout(() => { messageElem.parentElement.classList.remove("tremor"); }, 510);
                 });
@@ -409,3 +414,77 @@ document.getElementById("confirmYes").addEventListener("click", function() {
         alterarFreezer(); // Chama a função de alteração
     }
 });
+
+function sincronizarFreezersHistorico() {
+    const statusRef = firebase.database().ref("freezers_status");
+    const historicoRef = firebase.database().ref("freezers_historico");
+
+    // Passo 1: Obter todos os IDs de freezers_status
+    statusRef.once("value", function(statusSnapshot) {
+        const statusIds = [];
+        statusSnapshot.forEach(function(childSnapshot) {
+            const freezerData = childSnapshot.val();
+            statusIds.push(freezerData.id); // Armazena o valor do campo id dentro do nó, ex.: META1, META2
+        });
+
+        // Passo 2: Obter todos os IDs de freezers_historico
+        historicoRef.once("value", function(historicoSnapshot) {
+            const historicoIds = [];
+            historicoSnapshot.forEach(function(childSnapshot) {
+                historicoIds.push(childSnapshot.key); // Armazena o ID como chave no histórico
+            });
+
+            // Passo 3: Identificar IDs faltantes e IDs extras
+            const idsFaltantes = statusIds.filter(id => !historicoIds.includes(id));
+            const idsExtras = historicoIds.filter(id => !statusIds.includes(id));
+
+            // Passo 4: Adicionar IDs faltantes a freezers_historico com campos vazios
+            idsFaltantes.forEach(function(id) {
+                const now = new Date();
+                
+                // Formata a data no formato desejado (por exemplo, "AAAA-MM-DD")
+                const dataCriacao = now.toISOString().split("T")[0]; // apenas data
+                const horaCriacao = "23h59";  // Hora fixa como 23h59
+            
+                historicoRef.child(id).child("temperatura").child("0").set(0);        // Define chave '0' com valor 0 para temperatura
+                historicoRef.child(id).child("data").child("0").set(dataCriacao);     // Define chave '0' com a data de criação real
+                historicoRef.child(id).child("hora").child("0").set(horaCriacao);     // Define chave '0' com valor '23h59' para hora
+            });
+
+            // Passo 5: Remover IDs extras de freezers_historico
+            idsExtras.forEach(function(id) {
+                historicoRef.child(id).remove(); // Remove o ID que não existe mais em freezers_status
+            });
+        });
+    });
+}
+
+
+function sincronizarFreezersStatus() {
+    const freezersRef = firebase.database().ref("freezers");
+    const statusRef = firebase.database().ref("freezers_status");
+
+    // Passo 1: Obter todos os IDs de `freezers`
+    freezersRef.once("value", function(freezersSnapshot) {
+        const freezersIds = [];
+        freezersSnapshot.forEach(function(childSnapshot) {
+            freezersIds.push(childSnapshot.key); // Usa o ID da tabela `freezers` como referência
+        });
+
+        // Passo 2: Obter todos os IDs de `freezers_status`
+        statusRef.once("value", function(statusSnapshot) {
+            const statusIds = [];
+            statusSnapshot.forEach(function(childSnapshot) {
+                statusIds.push(childSnapshot.key); // Usa o ID da tabela `freezers_status` como referência
+            });
+
+            // Passo 3: Identificar IDs extras em `freezers_status`
+            const idsExtras = statusIds.filter(id => !freezersIds.includes(id));
+
+            // Passo 4: Remover IDs extras de `freezers_status`
+            idsExtras.forEach(function(id) {
+                statusRef.child(id).remove(); // Remove o ID que não existe mais em `freezers`
+            });
+        });
+    });
+}

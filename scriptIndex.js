@@ -63,3 +63,33 @@ function getErrorMessage(error) {
             return "Erro ao fazer login. Por favor, tente novamente mais tarde.";
     }
 }
+
+function RecuperarSenha(event) {
+    event.preventDefault(); // Evita a navegação padrão do link
+
+    const email = document.getElementById('email').value.trim(); // Obtém o e-mail digitado pelo usuário
+
+    if (email) {
+        firebase.auth().sendPasswordResetEmail(email)
+        .then(() => {
+            alert("Um e-mail de redefinição de senha foi enviado para o endereço informado. Verifique sua caixa de entrada.");
+        })
+        .catch(error => {
+            console.log(error); // Mostra o erro no console para depuração
+            alert(getForgotPasswordErrorMessage(error));
+        });
+    } else {
+        alert("Por favor, insira o e-mail para enviar a redefinição de senha.");
+    }
+}
+
+function getForgotPasswordErrorMessage(error) {
+    switch (error.code) {
+        case "auth/user-not-found":
+            return "E-mail não cadastrado. Verifique e tente novamente.";
+        case "auth/invalid-email":
+            return "Formato de e-mail inválido. Por favor, insira um e-mail válido.";
+        default:
+            return "Erro ao enviar e-mail de redefinição de senha. Por favor, tente novamente mais tarde.";
+    }
+}

@@ -87,10 +87,12 @@ header > div:last-child {
     display: flex;
     flex-wrap: wrap;
     gap: 1vw; /* Espaço entre os freezer-cards */
+    justify-content: flex-start; /* Alinha os cards à esquerda */
 }
 
 .freezer-card {
-    flex: 1 1 calc(33.33% - 1vw); /* Cada card ocupa 50% da largura com gap subtraído */
+    flex: 1 1 calc(33.33% - 1vw); /* Cada card ocupa 33.33% da largura */
+    max-width: calc(33.33% - 1vw); /* Define uma largura máxima para manter o layout */
     box-sizing: border-box;
     padding: 1.5vh;
     background-color: #e0e0e0;

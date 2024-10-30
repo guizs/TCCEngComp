@@ -17,24 +17,17 @@ function carregarFreezersStatus() {
             const freezerCard = document.createElement("div");
             freezerCard.classList.add("freezer-card");
 
-            // Determina a cor do indicador de status com base nas condições de temperatura
-            let statusColor = "gray"; // Cor padrão para quando a temperatura está vazia
+            let statusColor = "gray";
             if (freezer.temperaturaAtual !== "" && freezer.temperaturaAtual !== undefined) {
                 const tempAtual = parseFloat(freezer.temperaturaAtual);
                 const tempMin = parseFloat(freezer.tempMin);
                 const tempMax = parseFloat(freezer.tempMax);
 
-                // Verifica se os valores de temperatura são válidos
                 if (!isNaN(tempAtual) && !isNaN(tempMin) && !isNaN(tempMax)) {
-                    if (tempAtual >= tempMin && tempAtual <= tempMax) {
-                        statusColor = "green"; // Dentro do intervalo
-                    } else {
-                        statusColor = "red"; // Fora do intervalo
-                    }
+                    statusColor = (tempAtual >= tempMin && tempAtual <= tempMax) ? "green" : "red";
                 }
             }
 
-            // Monta o conteúdo do 'freezer-card' com o símbolo °C
             freezerCard.innerHTML = `
                 <div>
                     <div class="status-indicator ${statusColor}"></div>
@@ -43,13 +36,53 @@ function carregarFreezersStatus() {
                 <div class="temperature">${freezer.temperaturaAtual ? `${freezer.temperaturaAtual}°C` : "N/A"}</div>
             `;
 
-            // Adiciona o 'freezer-card' ao container interno
+            freezerCard.addEventListener("click", function() {
+                carregarDetalhesFreezer(freezer.id);
+            });
+
             statusContainer.appendChild(freezerCard);
         });
     });
 }
 
-// Chame a função quando a página for carregada
+function carregarDetalhesFreezer(freezerId) {
+    const detailsSection = document.querySelector(".details-section");
+
+    const freezerRef = firebase.database().ref(`freezers_status/${freezerId}`);
+    freezerRef.once("value", function(snapshot) {
+        const freezerData = snapshot.val();
+        if (freezerData) {
+            const temperaturaAtual = parseFloat(freezerData.temperaturaAtual);
+            const tempMin = parseFloat(freezerData.tempMin);
+            const tempMax = parseFloat(freezerData.tempMax);
+
+            detailsSection.querySelector(".temperature").innerHTML = `<b> Temperatura atual > ${temperaturaAtual}°C </b>`;
+            detailsSection.querySelector(".details-content p").innerHTML = `
+                Min ${tempMin}°C - Max ${tempMax}°C - 
+                <b>${(temperaturaAtual >= tempMin && temperaturaAtual <= tempMax) ? "Tudo sob controle!" : "Atenção: fora do intervalo!"}</b>
+            `;
+        }
+    });
+
+    const historicoRef = firebase.database().ref(`historico_freezers/${freezerId}`);
+    historicoRef.once("value", function(snapshot) {
+        const tbody = detailsSection.querySelector("table tbody");
+        tbody.innerHTML = ""; // Limpa linhas antigas
+
+        snapshot.forEach(function(childSnapshot) {
+            const historico = childSnapshot.val();
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${historico.temperatura}°C</td>
+                <td>${historico.id}</td>
+                <td>${historico.data}</td>
+                <td>${historico.hora}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    });
+}
+
 window.onload = function() {
     carregarFreezersStatus();
 };
