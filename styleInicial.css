@@ -3,13 +3,13 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    margin-left: 60px;
-    padding: 10px 20px;
+    margin-left: 3vw;
+    padding: 1vh 2vw;
     background-color: #fff;
 }
 
 .status-freezer, .details-section {
-    width: 100%; /* Garante que ocupem a largura completa */
+    width: 100%;
 }
 
 /* Estilos para cabeçalho e barra de navegação */
@@ -17,29 +17,28 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 1vh 2vw;
     background-color: #f1f1f1;
-    border-bottom: 1px solid #DDD;
-    position: sticky;
-    border-radius: 10px;
+    border-bottom: 0.1vh solid #DDD;
+    border-radius: 1vh;
     top: 0;
     z-index: 10;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-left: 60px;
+    box-shadow: 0 0.2vh 0.4vh rgba(0, 0, 0, 0.1);
+    margin-left: 3vw;
 }
 
 .navbar {
     display: flex;
-    gap: 20px;
-    margin-left: auto; /* Alinha o menu à direita */
+    gap: 2vw;
+    margin-left: auto;
 }
 
 .navbar a {
     text-decoration: none;
     color: #007BFF;
     font-weight: 700;
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: 0.5vh 1vw;
+    border-radius: 0.5vh;
     transition: background-color 0.3s ease;
 }
 
@@ -47,10 +46,9 @@ header {
     background-color: #e0e0e0;
 }
 
-/* Ajuste de espaçamento para o texto "Olá, txt_user" e "Sair" */
 header > div:last-child {
     display: flex;
-    gap: 10px;
+    gap: 1vw;
     align-items: center;
 }
 
@@ -58,29 +56,59 @@ header > div:last-child {
 .status-freezer {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin: 20px 0;
+    gap: 1vw;
+    margin: 2vh 0;
+}
+
+/* Estilo modernizado e responsivo para a div externa */
+.status-freezer-outer {
+    height: 30vh; /* Altura como 30% da altura da tela */
+    overflow: hidden; /* Garante que o scroll só ocorra na div interna */
+    border-radius: 1.5vh; /* Bordas arredondadas proporcionais */
+    padding: 2vh; /* Espaçamento interno proporcional à altura da tela */
+    box-sizing: border-box;
+    background-color: #f9f9fb; /* Cor de fundo clara */
+    box-shadow: 0 0.4vh 1vh rgba(0, 0, 0, 0.1); /* Sombra sutil para dar profundidade */
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 2vh 0; /* Espaçamento superior e inferior */
+    transition: all 0.3s ease; /* Transição suave para o efeito de hover */
+}
+
+.status-freezer-outer:hover {
+    box-shadow: 0 0.8vh 1.5vh rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada ao passar o mouse */
+    transform: translateY(-0.5vh); /* Eleva levemente a div */
+}
+
+.status-freezer-inner {
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1vw; /* Espaço entre os freezer-cards */
 }
 
 .freezer-card {
-    flex: 1 1 calc(33.333% - 10px);
-    background-color: #E0E0E0;
-    border-radius: 8px;
-    padding: 10px;
+    flex: 1 1 calc(33.33% - 1vw); /* Cada card ocupa 50% da largura com gap subtraído */
+    box-sizing: border-box;
+    padding: 1.5vh;
+    background-color: #e0e0e0;
+    border-radius: 0.5vh;
     display: flex;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
 }
 
 .freezer-card > div {
     display: flex;
     align-items: center;
-    gap: 10px; /* Espaço entre a bolinha e o texto */
+    gap: 1vw;
 }
 
 .freezer-card .status-indicator {
-    width: 20px;
-    height: 20px;
+    width: 2.5vh;
+    height: 2.5vh;
     border-radius: 50%;
 }
 
@@ -90,67 +118,45 @@ header > div:last-child {
 .status-indicator.gray { background-color: #9E9E9E; }
 
 .freezer-card .temperature {
-    margin-left: auto; /* Empurra a temperatura para o final da linha */
-    font-size: 24px;
+    margin-left: auto;
+    font-size: 2.5vh;
     font-weight: 700;
 }
 
 /* Estilos para a seção de detalhes */
 .details-section {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
 }
 
 .details-header {
     background-color: #1F82B2;
     color: #FFF;
-    padding: 10px;
-    border-radius: 8px 8px 0 0;
+    padding: 1vh;
+    border-radius: 0.8vh 0.8vh 0 0;
     font-weight: 700;
     position: relative;
 }
 
 .details-content {
     background-color: #FFF;
-    border: 1px solid #DDD;
+    border: 0.1vh solid #DDD;
     border-top: none;
-    padding: 15px;
-    border-radius: 0 0 8px 8px;
+    padding: 1.5vh;
+    border-radius: 0 0 0.8vh 0.8vh;
 }
 
+/* Tabela responsiva */
 .table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
+    margin-top: 1.5vh;
 }
 
 .table th, .table td {
-    border: 1px solid #DDD;
-    padding: 8px;
+    border: 0.1vh solid #DDD;
+    padding: 0.8vh;
     text-align: left;
-}
-
-/* Caixa de alerta */
-.alert-box {
-    align-self: flex-end; /* Move o alert-box para a direita */
-    margin: 0 auto;
-    border-radius: 500px;
-    width: 25%;
-    top: 20px; /* Ajuste conforme necessário */
-    right: 20px; /* Alinha à direita */
-    background-color: #FFC107;
-    padding: 10px;
-    border-radius: 10px;
-    text-align: center;
-    font-weight: 700;
-    color: #333;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.score {
-    font-size: 36px;
-    font-weight: 700;
-    color: #333;
 }
 
 /* Estilos do modal */
@@ -165,37 +171,37 @@ header > div:last-child {
     overflow: auto;
     background-color: rgba(0,0,0,0.5);
 }
-
 .modal-content {
     background-color: #FFF;
     margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
+    padding: 2vh;
+    border: 0.1vh solid #888;
     width: 80%;
-    max-width: 600px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 60vw;
+    border-radius: 1vh;
+    box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.3);
 }
 
 .modal-content h2 {
     margin-top: 0;
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 2.5vh;
+    margin-bottom: 2vh;
+    text-align: center;
 }
 
 .modal-content label {
     display: block;
-    margin: 10px 0 5px;
+    margin: 1vh 0 0.5vh;
     font-weight: bold;
 }
 
 .modal-content input[type="date"],
 .modal-content select {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #CCC;
-    border-radius: 4px;
+    padding: 1vh;
+    margin-bottom: 1vh;
+    border: 0.1vh solid #CCC;
+    border-radius: 0.5vh;
 }
 
 .download-options {
@@ -212,15 +218,15 @@ header > div:last-child {
 
 .download-options .btn-container {
     display: flex;
-    gap: 20px;
+    gap: 2vw;
 }
 
 .download-options .btn {
     background-color: #007BFF;
     color: #FFF;
-    padding: 10px 20px;
+    padding: 1vh 2vw;
     border: none;
-    border-radius: 4px;
+    border-radius: 0.5vh;
     cursor: pointer;
 }
 
@@ -231,7 +237,7 @@ header > div:last-child {
 .close {
     color: #AAA;
     float: right;
-    font-size: 28px;
+    font-size: 3vh;
     font-weight: bold;
 }
 
@@ -252,71 +258,63 @@ header > div:last-child {
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
-    opacity: 0; /* Inicialmente invisível */
+    opacity: 0;
     transition: opacity 0.5s ease;
 }
 
 #reportModal.show {
-    opacity: 1; /* Torna visível */
+    opacity: 1;
 }
 
 .modal-content {
     position: relative;
     margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
+    padding: 2vh;
+    border: 0.1vh solid #888;
     width: 80%;
-    max-width: 600px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    max-width: 60vw;
+    box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.5);
     background-color: #fefefe;
     animation: modalOpen 0.5s ease;
 }
 
 @keyframes modalOpen {
     from {
-        transform: translateY(-50px);
+        transform: translateY(-5vh);
         opacity: 0;
     }
     to {
         transform: translateY(0);
         opacity: 1;
     }
-}    
-
-.modal-content h2{
-    text-align: center;
 }
 
 #freezerSelect {
     width: 100%;
     box-sizing: border-box;
-    height: 150px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px;
+    height: 15vh;
+    border: 0.1vh solid #ccc;
+    border-radius: 0.5vh;
+    padding: 1vh;
     background-color: #f9f9f9;
     color: #333;
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.freezerSelect{
-    font-size: small;
-}
-
 #freezerSelect:focus {
     border-color: #007BFF;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    box-shadow: 0 0.5vh 1vh rgba(0, 123, 255, 0.5);
 }
 
 #freezerSelect option {
-    padding: 10px;
+    padding: 1vh;
     font-size: small;
     color: #333;
 }
 
 #freezerSelect::-webkit-scrollbar {
-    width: 8px;
+    width: 0.8vh;
 }
 
 #freezerSelect::-webkit-scrollbar-track {
@@ -325,49 +323,48 @@ header > div:last-child {
 
 #freezerSelect::-webkit-scrollbar-thumb {
     background: #888;
-    border-radius: 4px;
+    border-radius: 0.5vh;
 }
 
 #freezerSelect::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
 
-
 #freezerSelect option:checked {
-    background-color: #007BFF; /* A mesma cor azul do foco manual */
-    color: #fff; /* Texto branco para contraste */
+    background-color: #007BFF;
+    color: #fff;
 }
 
 /* Ajuste de responsividade */
 @media (max-width: 768px) {
     .vertical-footer {
-        display: none; /* Esconde o footer vertical em dispositivos menores */
+        display: none;
     }
 
     .container {
         width: 100%;
         height: auto;
-        padding: 10px;
+        padding: 1vh;
     }
 
     header {
         flex-direction: column;
         align-items: center;
         margin-left: 0;
-        padding: 10px;
+        padding: 1vh;
         text-align: center;
     }
 
     .navbar {
         flex-direction: column;
-        gap: 10px;
+        gap: 1vh;
         margin-left: 0;
         width: 100%;
         justify-content: center;
     }
 
     .navbar a {
-        padding: 10px 20px;
+        padding: 1vh 2vw;
         width: 100%;
         text-align: center;
     }
@@ -375,8 +372,8 @@ header > div:last-child {
     header > div:last-child {
         flex-direction: column;
         align-items: center;
-        gap: 5px;
-        margin-top: 10px;
+        gap: 0.5vh;
+        margin-top: 1vh;
     }
 
     .section, .section2 {
@@ -384,35 +381,46 @@ header > div:last-child {
         align-items: center;
         margin-left: 0;
         width: 100%;
-        height: auto; /* Ajusta a altura automaticamente */
+        height: auto;
     }
 
     .box, .grid {
         width: 100%;
-        margin-bottom: 20px;
+        margin-bottom: 2vh;
     }
+}
 
-    .form-group {
-        flex-direction: column;
-        align-items: stretch;
-    }
+.form-group {
+    flex-direction: column;
+    align-items: stretch;
+}
 
-    .form-group label {
-        width: 100%;
-        margin-bottom: 5px;
-    }
+.form-group label {
+    width: 100%;
+    margin-bottom: 0.5vh;
+}
 
-    .form-group input[type="text"] {
-        width: 100%;
-    }
+.form-group input[type="text"] {
+    width: 100%;
+}
 
-    .box button, .grid button {
-        width: 100%;
-        text-align: center;
-    }
+.box button, .grid button {
+    width: 100%;
+    text-align: center;
+}
 
-    .message {
-        font-size: 14px;
-        margin-top: 10px;
-    }
+.message {
+    font-size: 1.4vh;
+    margin-top: 1vh;
+}
+
+.status-freezer {
+    flex-direction: column;
+    align-items: center;
+}
+
+.freezer-card:hover {
+box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);
+transform: translateY(-0.3vh);
+transition: all 0.3s ease;
 }

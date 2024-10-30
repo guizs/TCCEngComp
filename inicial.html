@@ -37,50 +37,13 @@
                 <div class="score">8.0</div>
             </div>
 
-            <div class="status-freezer">
-                <div class="freezer-card">
-                    <div>
-                        <div class="status-indicator green"></div>
-                        <span>MTLF13</span>
-                    </div>
-                    <div class="temperature">-18°C</div>
-                </div>
-                <div class="freezer-card">
-                    <div>
-                        <div class="status-indicator gray"></div>
-                        <span>MTLF14</span>
-                    </div>
-                    <div class="temperature">N/A</div>
-                </div>
-                <div class="freezer-card">
-                    <div>
-                        <div class="status-indicator yellow"></div>
-                        <span>MTLF15</span>
-                    </div>
-                    <div class="temperature">5°C</div>
-                </div>
-                <div class="freezer-card">
-                    <div>
-                        <div class="status-indicator green"></div>
-                        <span>MTLF16</span>
-                    </div>
-                    <div class="temperature">-2°C</div>
-                </div>
-                <div class="freezer-card">
-                    <div>
-                        <div class="status-indicator green"></div>
-                        <span>MTLF17</span>
-                    </div>
-                    <div class="temperature">-8°C</div>
-                </div>
-                <div class="freezer-card">
-                    <div>
-                        <div class="status-indicator red"></div>
-                        <span>MTLF18</span>
-                    </div>
-                    <div class="temperature">-20°C</div>
+            <!-- RECEBE JAVASCRIPT DOS FREEZERS CADASTRADOS NO BD-->
+            <div class="status-freezer-outer">
+                <div class="status-freezer-inner">
+                    <!-- Os freezer-card serão inseridos aqui dinamicamente -->
                 </div>
             </div>
+            
 
             <div class="details-section">
                 <div class="details-header">Status MTLF13</div>
@@ -186,9 +149,9 @@
     firebase.initializeApp(firebaseConfig);
 
     </script>
-    
+    <script src="authStatus.js"></script>
     <script src="scriptgeral.js"></script>
     <script src="scriptInicial.js"></script>
-    <script src="authStatus.js"></script>
+    <script src="containerInicial.js"></script>
 </body>
 </html>

@@ -38,6 +38,7 @@ function cadastrarFreezer() {
     const ref = firebase.database().ref("freezers");
     const counterRef = firebase.database().ref("counter");
 
+    // Gera um novo ID usando o contador e salva o freezer na tabela "freezers"
     counterRef.transaction(function(currentCounter) {
         return (currentCounter || 0) + 1;
     }, function(error, committed, snapshot) {
@@ -50,6 +51,8 @@ function cadastrarFreezer() {
             const newId = snapshot.val();
             const brandCode = marca.substring(0, 4).toUpperCase();
             const fullId = brandCode + newId;
+
+            // Adiciona na tabela "freezers"
             ref.child(newId).set({
                 id: fullId,
                 marca: marca,
@@ -62,47 +65,31 @@ function cadastrarFreezer() {
                     messageElem.parentElement.classList.add("error");
                     setTimeout(() => { messageElem.parentElement.classList.add("tremor"); }, 10);
                 } else {
-                    messageElem.textContent = "Freezer cadastrado com sucesso.";
-                    messageElem.parentElement.classList.add("success");
-                    setTimeout(() => { messageElem.parentElement.classList.add("tremor"); }, 10);
-                    LimpacamposCadastro();
-                    atualizarTabela(); // Atualiza a tabela sem recarregar a página
+                    // Cadastro na tabela "freezers" foi bem-sucedido
+                    const statusRef = firebase.database().ref("freezers_status");
+
+                    // Adiciona o freezer na tabela "freezers_status"
+                    statusRef.child(newId).set({
+                        id: fullId, // Mesmo ID
+                        marca: marca,
+                        tempMin: tempMin,
+                        tempMax: tempMax,
+                        temperaturaAtual: "", // Valor em branco
+                        status: ""             // Valor em branco
+                    }, function(error) {
+                        if (error) {
+                            messageElem.textContent = "Erro ao cadastrar o status do freezer.";
+                            messageElem.parentElement.classList.add("error");
+                        } else {
+                            messageElem.textContent = "Freezer e status cadastrados com sucesso.";
+                            messageElem.parentElement.classList.add("success");
+                            setTimeout(() => { messageElem.parentElement.classList.add("tremor"); }, 10);
+                            LimpacamposCadastro();
+                            atualizarTabela(); // Atualiza a tabela sem recarregar a página
+                        }
+                    });
                 }
                 setTimeout(() => { messageElem.parentElement.classList.remove("tremor"); }, 510);
-            });
-        }
-    });
-
-    ref.child(newId).set({
-        id: fullId,
-        marca: marca,
-        tempMin: tempMin,
-        tempMax: tempMax,
-        dataCadastro: new Date().toISOString()
-    }, function(error) {
-        if (error) {
-            // Exibir mensagem de erro
-        } else {
-            // Código de sucesso para a tabela "freezers"
-            // Agora adicionar à nova tabela "freezers_status"
-            const statusRef = firebase.database().ref("freezers_status");
-
-            statusRef.child(newId).set({
-                id: fullId, // Mesmo ID
-                marca: marca,
-                tempMin: tempMin,
-                tempMax: tempMax,
-                temperaturaAtual: "", // Valor em branco
-                status: ""             // Valor em branco
-            }, function(error) {
-                if (error) {
-                    messageElem.textContent = "Erro ao cadastrar o status do freezer.";
-                    messageElem.parentElement.classList.add("error");
-                } else {
-                    messageElem.textContent = "Freezer e status cadastrados com sucesso.";
-                    messageElem.parentElement.classList.add("success");
-                    // Limpar campos e atualizar tabela como antes
-                }
             });
         }
     });
