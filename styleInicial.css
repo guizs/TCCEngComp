@@ -1,18 +1,36 @@
-/* Estilo para o contêiner principal */
-.main-content {
+/* Estilo global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden; /* Remove a rolagem na página principal */
+    font-family: Arial, sans-serif;
+}
+
+/* Contêiner principal */
+.container {
     display: flex;
     flex-direction: column;
-    position: relative;
-    margin-left: 3vw;
+    height: 100vh; /* Ocupa toda a altura da tela */
+    overflow: hidden; /* Evita rolagem global */
+}
+
+/* Seção de conteúdo principal */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Garante que o conteúdo extra seja oculto */
     padding: 1vh 2vw;
     background-color: #fff;
+    margin-left: 3vw; /* Garante que o conteúdo principal não fique muito próximo do footer */
 }
 
-.status-freezer, .details-section {
-    width: 100%;
-}
-
-/* Estilos para cabeçalho e barra de navegação */
+/* Cabeçalho e navegação */
 header {
     display: flex;
     justify-content: space-between;
@@ -21,16 +39,13 @@ header {
     background-color: #f1f1f1;
     border-bottom: 0.1vh solid #DDD;
     border-radius: 1vh;
-    top: 0;
-    z-index: 10;
     box-shadow: 0 0.2vh 0.4vh rgba(0, 0, 0, 0.1);
-    margin-left: 3vw;
+    flex-shrink: 0; /* Impede que o cabeçalho encolha */
 }
 
 .navbar {
     display: flex;
     gap: 2vw;
-    margin-left: auto;
 }
 
 .navbar a {
@@ -52,33 +67,19 @@ header > div:last-child {
     align-items: center;
 }
 
-/* Estilos para o status dos freezers */
-.status-freezer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1vw;
-    margin: 2vh 0;
-}
-
-/* Estilo modernizado e responsivo para a div externa */
+/* Seção de status dos freezers */
 .status-freezer-outer {
-    height: 30vh; /* Altura como 30% da altura da tela */
-    overflow: hidden; /* Garante que o scroll só ocorra na div interna */
-    border-radius: 1.5vh; /* Bordas arredondadas proporcionais */
-    padding: 2vh; /* Espaçamento interno proporcional à altura da tela */
-    box-sizing: border-box;
-    background-color: #f9f9fb; /* Cor de fundo clara */
-    box-shadow: 0 0.4vh 1vh rgba(0, 0, 0, 0.1); /* Sombra sutil para dar profundidade */
+    height: 49vh; /* Ajustado para ocupar uma porção da tela */
+    overflow-y: auto; /* Adiciona rolagem interna para conteúdo adicional */
+    border-radius: 1.5vh;
+    padding: 2vh;
+    background-color: #f9f9fb;
+    box-shadow: 0 0.4vh 1vh rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    margin: 2vh 0; /* Espaçamento superior e inferior */
-    transition: all 0.3s ease; /* Transição suave para o efeito de hover */
-}
-
-.status-freezer-outer:hover {
-    box-shadow: 0 0.8vh 1.5vh rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada ao passar o mouse */
-    transform: translateY(-0.5vh); /* Eleva levemente a div */
+    margin: 2vh 0;
+    transition: all 0.3s ease;
 }
 
 .status-freezer-inner {
@@ -86,20 +87,26 @@ header > div:last-child {
     overflow-y: auto;
     display: flex;
     flex-wrap: wrap;
-    gap: 1vw; /* Espaço entre os freezer-cards */
-    justify-content: flex-start; /* Alinha os cards à esquerda */
+    gap: 1vw;
+    justify-content: flex-start;
 }
 
 .freezer-card {
-    flex: 1 1 calc(33.33% - 1vw); /* Cada card ocupa 33.33% da largura */
-    max-width: calc(33.33% - 1vw); /* Define uma largura máxima para manter o layout */
+    padding: 1vh;
+flex: 1 1 calc(33.33% - 1vw);
+    max-width: calc(33.33% - 1vw);
     box-sizing: border-box;
-    padding: 1.5vh;
     background-color: #e0e0e0;
     border-radius: 0.5vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    transition: all 0.3s ease;
+}
+
+.freezer-card:hover {
+    box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);
+    transform: translateY(-0.3vh);
 }
 
 .freezer-card > div {
@@ -120,15 +127,38 @@ header > div:last-child {
 .status-indicator.gray { background-color: #9E9E9E; }
 
 .freezer-card .temperature {
-    margin-left: auto;
+    padding: 1vh;
+text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 2.5vh;
     font-weight: 700;
 }
 
-/* Estilos para a seção de detalhes */
+.temperature b {
+    margin-bottom: 1vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Seção de detalhes */
 .details-section {
-    margin-top: 2vh;
-    margin-bottom: 2vh;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.15);
+    background-color: #ffffff;
+    border-radius: 0.8vh;
+    overflow: hidden;
 }
 
 .details-header {
@@ -137,42 +167,99 @@ header > div:last-child {
     padding: 1vh;
     border-radius: 0.8vh 0.8vh 0 0;
     font-weight: 700;
-    position: relative;
+    text-align: center;
+    flex-shrink: 0;
 }
 
 .details-content {
-    background-color: #FFF;
-    border: 0.1vh solid #DDD;
-    border-top: none;
+    flex-grow: 1;
     padding: 1.5vh;
-    border-radius: 0 0 0.8vh 0.8vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vh;
+    overflow-y: auto; /* Permite rolagem somente na .details-content */
 }
 
-/* Tabela responsiva */
+.details-content p {
+    font-size: 1.8vh;
+    color: #555;
+    text-align: center;
+    font-weight: 500;
+    padding: 1vh 2vh;
+    background-color: #f1f9ff;
+    border: 0.1vh solid #d1e9ff;
+    border-radius: 0.5vh;
+}
+
+/* Tabela com rolagem vertical */
+.table-container {
+    overflow-y: auto; /* Permite rolagem apenas na tabela */
+    max-height: 30vh; /* Define uma altura máxima */
+}
+
 .table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1.5vh;
+    font-size: 1.6vh;
+}
+
+.table thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.table thead th {
+    background-color: #1F82B2;
+    color: #FFF;
+    font-weight: 600;
+    padding: 1.2vh;
 }
 
 .table th, .table td {
-    border: 0.1vh solid #DDD;
-    padding: 0.8vh;
-    text-align: left;
+    padding: 1.2vh;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 0.1vh solid #ddd;
 }
 
-/* Estilos do modal */
+.table tbody {
+    display: block;
+    max-height: 30vh; /* Define altura máxima com rolagem */
+    overflow-y: auto;
+    scroll-snap-type: y mandatory; /* Garante que o scroll sempre fique alinhado */
+}
+
+.table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    scroll-snap-align: start; /* Faz o alinhamento da linha no início */
+}
+
+.table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+}
+
+/* Modal */
 .modal {
     display: none;
     position: fixed;
-    z-index: 100;
+    z-index: 9999;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
     background-color: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
 }
+
 .modal-content {
     background-color: #FFF;
     margin: 10% auto;
@@ -212,17 +299,6 @@ header > div:last-child {
     align-items: center;
 }
 
-.download-options label {
-    text-align: center;
-    width: 100%;
-    margin-bottom: 2%;
-}
-
-.download-options .btn-container {
-    display: flex;
-    gap: 2vw;
-}
-
 .download-options .btn {
     background-color: #007BFF;
     color: #FFF;
@@ -230,10 +306,6 @@ header > div:last-child {
     border: none;
     border-radius: 0.5vh;
     cursor: pointer;
-}
-
-.download-options .btn:hover {
-    background-color: #0056b3;
 }
 
 .close {
@@ -250,179 +322,24 @@ header > div:last-child {
     cursor: pointer;
 }
 
-#reportModal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-#reportModal.show {
-    opacity: 1;
-}
-
-.modal-content {
-    position: relative;
-    margin: auto;
-    padding: 2vh;
-    border: 0.1vh solid #888;
-    width: 80%;
-    max-width: 60vw;
-    box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.5);
-    background-color: #fefefe;
-    animation: modalOpen 0.5s ease;
-}
-
-@keyframes modalOpen {
-    from {
-        transform: translateY(-5vh);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-#freezerSelect {
-    width: 100%;
-    box-sizing: border-box;
-    height: 15vh;
-    border: 0.1vh solid #ccc;
-    border-radius: 0.5vh;
-    padding: 1vh;
-    background-color: #f9f9f9;
-    color: #333;
-    outline: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-#freezerSelect:focus {
-    border-color: #007BFF;
-    box-shadow: 0 0.5vh 1vh rgba(0, 123, 255, 0.5);
-}
-
-#freezerSelect option {
-    padding: 1vh;
-    font-size: small;
-    color: #333;
-}
-
-#freezerSelect::-webkit-scrollbar {
-    width: 0.8vh;
-}
-
-#freezerSelect::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-#freezerSelect::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 0.5vh;
-}
-
-#freezerSelect::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-#freezerSelect option:checked {
-    background-color: #007BFF;
-    color: #fff;
-}
-
-/* Ajuste de responsividade */
+/* Responsividade */
 @media (max-width: 768px) {
-    .vertical-footer {
-        display: none;
-    }
-
-    .container {
-        width: 100%;
-        height: auto;
-        padding: 1vh;
-    }
-
     header {
         flex-direction: column;
-        align-items: center;
-        margin-left: 0;
-        padding: 1vh;
         text-align: center;
     }
 
     .navbar {
         flex-direction: column;
         gap: 1vh;
-        margin-left: 0;
-        width: 100%;
-        justify-content: center;
     }
 
-    .navbar a {
-        padding: 1vh 2vw;
-        width: 100%;
-        text-align: center;
+    .freezer-card {
+        flex: 1 1 100%;
+        max-width: 100%;
     }
 
-    header > div:last-child {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5vh;
-        margin-top: 1vh;
+    .details-content p {
+        font-size: 1.5vh;
     }
-
-    .section, .section2 {
-        flex-direction: column;
-        align-items: center;
-        margin-left: 0;
-        width: 100%;
-        height: auto;
-    }
-
-    .box, .grid {
-        width: 100%;
-        margin-bottom: 2vh;
-    }
-}
-
-.form-group {
-    flex-direction: column;
-    align-items: stretch;
-}
-
-.form-group label {
-    width: 100%;
-    margin-bottom: 0.5vh;
-}
-
-.form-group input[type="text"] {
-    width: 100%;
-}
-
-.box button, .grid button {
-    width: 100%;
-    text-align: center;
-}
-
-.message {
-    font-size: 1.4vh;
-    margin-top: 1vh;
-}
-
-.status-freezer {
-    flex-direction: column;
-    align-items: center;
-}
-
-.freezer-card:hover {
-box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);
-transform: translateY(-0.3vh);
-transition: all 0.3s ease;
 }

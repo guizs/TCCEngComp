@@ -13,11 +13,15 @@
         <div class="vertical-footer"></div>
 
         <header>
+            
             <div>
-                <span> <b> Freezers ligados: </b> 05</span>
+                <span> <b> Freezers ligados: </b> <span id="freezers-ligados">0</span></span>
                 &nbsp;&nbsp;&nbsp;
-                <span> <b> Freezers desligados: </b> 01 </span>
+                <span> <b> Freezers desligados: </b> <span id="freezers-desligados">0</span></span>
             </div>
+            
+            
+            
             <nav class="navbar">
                 <a id="cadastrarLink" href="cadastrofreezer.html" style="display: none;">Cadastrar</a>
                 <a href="#" id="downloadReportBtn">Baixar relatório</a>
@@ -34,10 +38,9 @@
 
             <div class="alert-box">
                 <span>Há um alerta!</span>
-                <div class="score">8.0</div>
+                <div id="pontuacaoElem" class="score">8.0</div>
             </div>
 
-            <!-- RECEBE JAVASCRIPT DOS FREEZERS CADASTRADOS NO BD-->
             <div class="status-freezer-outer">
                 <div class="status-freezer-inner">
                     <!-- Os freezer-card serão inseridos aqui dinamicamente -->
@@ -46,46 +49,30 @@
             
 
             <div class="details-section">
-                <div class="details-header">Status MTLF13</div>
+                <div class="details-header">Selecione o freezer</div>
                 <div class="details-content">
                     <div>
-                        <div class="temperature"> <b> Temperatura atual > -18°C </b> </div>
-                        <p> Min -16°C - Max -20°C - <b> Tudo sob controle! </b> </p>
+                        <div class="temperature"><b></b></div>
+                        <p><b></b></p>
                     </div>
-                    <div>
+                    <div class="table-container"> <!-- Contêiner para rolagem -->
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Temperatura °</th>
-                                    <th>Produto</th>
                                     <th>Data</th>
                                     <th>Hora</th>
+                                    <th>Temperatura °C</th>
+                                    <th>Freezer ID</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>histórico_freezer</td>
-                                    <td>histórico_freezer</td>
-                                    <td>histórico_freezer</td>
-                                    <td>histórico_freezer</td>
-                                </tr>
-                                <tr>
-                                    <td>histórico_freezer</td>
-                                    <td>histórico_freezer</td>
-                                    <td>histórico_freezer</td>
-                                    <td>histórico_freezer</td>
-                                </tr>
-                                <tr>
-                                    <td>histórico_freezer</td>
-                                    <td>histórico_freezer</td>
-                                    <td>histórico_freezer</td>
-                                    <td>histórico_freezer</td>
-                                </tr>
+                                <!-- Linhas de dados serão inseridas dinamicamente -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+                        
         </div>
     </div>
 
@@ -134,6 +121,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore.js"></script>
+
     
     <script> 
     
@@ -151,7 +140,8 @@
     </script>
     <script src="authStatus.js"></script>
     <script src="scriptgeral.js"></script>
-    <script src="scriptInicial.js"></script>
     <script src="containerInicial.js"></script>
+    <script type="module" src="scriptInicial.js"></script>
+
 </body>
 </html>

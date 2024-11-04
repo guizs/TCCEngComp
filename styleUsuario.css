@@ -1,3 +1,5 @@
+/* Responsividade e Modernização */
+
 .section, .search-section, .header {
     display: flex;
     justify-content: space-between;
@@ -5,173 +7,126 @@
     box-sizing: border-box;
 }
 
+.section {
+    align-items: stretch;
+    width: 80%;
+    margin: 0 auto;
+    height: auto;
+    margin-left: 12%;
+    margin-bottom: 1vh;
+    flex-wrap: wrap;
+}
+
 .search-box, .search-grid, .register-section, .box, .alterar {
-    border: 1px solid #ccc;
-    padding: 10px;
-    background-color: #f9f9f9;
+    border: 2px solid #d1d1d1;
+    padding: 2vh;
+    background-color: #ffffff;
     box-sizing: border-box;
-    border-radius: 20px;
-}
-
-.section { 
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
+    border-radius: 12px;
+    margin-bottom: 2vh;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
     width: 80%;
-    margin: 0 auto;
+    max-width: 100%;
+    margin-left: 24vh;
+    margin-right: 0;
+    padding-bottom: 1%;
     height: auto;
-    margin-left: 12%;
 }
 
-.box , .box-procura{
-    border: 2px solid #000;
-    background-color: #F2F2F2;
-    padding: 10px;
-    width: 35%;
+.box, .box-procura, .register-section {
+    border: 2px solid #d1d1d1;
+    padding: 2vh;
+    background-color: #ffffff;
     box-sizing: border-box;
-    border-radius: 20px;
-    height: 230px; /* Define uma altura fixa */
+    border-radius: 12px;
+    margin-bottom: 2vh;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: 100%;
+    max-width: 48%;
+    margin-left: 0;
+    margin-right: auto;
+    padding-bottom: 1%;
+    height: auto;
 }
 
-.box h3, .box-procura h3 {
+.box:hover, .box-procura:hover, .register-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.box h3, .box-procura h3, .alterar h3, .register-section h3 {
     border: 0.5px solid #000;
-    margin-top: 1px;
-    margin-bottom: 2%;
+    margin-top: 1vh;
+    margin-bottom: 1%;
     background-color: #1F82B2;
     color: white;
-    padding: 4px;
+    padding: 1vh;
     text-align: center;
-    border-radius: 10px;
-    width: 75%;
+    border-radius: 8px;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
+    font-size: 1.2em;
 }
 
-.box label, .box .form-group label, .box-procura label, .box-procura .form-group label{
+.box label, .box .form-group label, .box-procura label, .box-procura .form-group label, .alterar label, .alterar .form-group label, .register-section label, .register-section .form-group label {
     font-weight: bold;
-    width: 4em; /* Defina uma largura fixa para os labels */
+    width: 5em;
     margin-right: 1%;
 }
 
-.box .form-group, .box-procura .form-group{
+.box .form-group, .box-procura .form-group, .alterar .form-group, .register-section .form-group {
     display: flex;
     align-items: center;
-    margin-right: 2%; 
-}
-
-.box .form-group input[type="text"], .box .form-group input[type="email"], .box-procura .form-group input[type="text"], .box-procura .form-group input[type="email"] {
-    width: 90%;
-    padding: 6px;
-    border-radius: 10px;
-    box-sizing: border-box;
-    min-width: 0;
-    border: 1px solid #ccc;
-}
-
-.box button {
-    display: block;
-    width: 30%;
-    padding: 10px;
-    background-color: #6F7276;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    margin: 0 auto;
-    margin-top: 5%;
-}
-
-.box button:hover, .alterar button:hover, .box-procura button:hover {
-    background-color: #5a6268;
-}
-
-.alterar {
-    width: 80%;
-    margin-bottom: 20px;
-    justify-content: space-between;
-    align-items: stretch;
-    width: 80%;
-    margin: 0 auto;
-    height: auto;
-    border: 2px solid #000;
-    margin-left: 12%;
-}
-
-.alterar h3 {
-    border: 0.5px solid #000;
-    margin-top: 1px;
-    margin-bottom: 2%;
-    background-color: #1F82B2;
-    color: white;
-    padding: 4px;
-    text-align: center;
-    border-radius: 10px;
-    width: 85%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.alterar label{
-    text-align: right;
-    margin-right: 1%;
-}
-
-.alterar .form-group{
-    display: flex;
-    align-items: center;
-    margin-right: 5%; 
+    margin-right: 2%;
     margin-bottom: 1%;
     margin-top: 1%;
 }
 
-.alterar .form-group input {
+.box .form-group input[type="text"], .box .form-group input[type="email"], .box-procura .form-group input[type="text"], .box-procura .form-group input[type="email"], .alterar .form-group input, .register-section .form-group input {
     width: 90%;
-    padding: 6px;
-    border-radius: 10px;
+    padding: 1vh;
+    border-radius: 8px;
     box-sizing: border-box;
-    min-width: 0;
     border: 1px solid #ccc;
+    margin-left: 1%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
 }
 
-.alterar label, .alterar .form-group label{
-    font-weight: bold;
-    width: 10em; /* Defina uma largura fixa para os labels */
-}
-
-.alterar button{
+.box button, .alterar button, .box-procura button, .register-section button {
     display: block;
-    width: 30%;
-    padding: 10px;
-    background-color: #6F7276;
+    width: 40%;
+    padding: 1.5vh;
+    background-color: #3a3d41;
     color: #FFFFFF;
     border: none;
-    border-radius: 20px;
+    border-radius: 12px;
     cursor: pointer;
     margin: 0 auto;
-    margin-top: 0.5%;
+    margin-top: 3%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.2s;
 }
 
-.gridUsuario {
-    width: 60%; /* Largura definida */
-    height: 99%;
-    border: 2px solid #000;
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.box button:hover, .alterar button:hover, .box-procura button:hover, .register-section button:hover {
+    background-color: #565a5e;
+    transform: translateY(-3px);
 }
 
 .message {
-    font-size: 12px;
+    font-size: 1.5vh;
     text-align: center;
     color: grey;
+    margin-top: 2vh;
 }
 
 .error-message {
     color: red;
-    font-size: 0.9em;
-    margin-top: 10px;
+    font-size: 1.2vh;
+    margin-top: 1vh;
 }
 
 .bold-label {
@@ -190,24 +145,28 @@
     100% { transform: translateX(0); }
 }
 
-.grid {
-    border: 2px solid #000;
+.grid, .gridUsuario {
+    border: 2px solid #d1d1d1;
     background-color: #f9f9f9;
-    width: 750px;
-    height: 230px;
+    width: 100%;
+    max-width: 48%;
+    height: auto;
+    max-height: 31.5vh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     box-sizing: border-box;
-    border-radius: 20px;
+    border-radius: 12px;
+    margin-bottom: 2vh;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .scroll-container {
-    flex: 1; /* Ocupa o espaço restante disponível */
+    flex: 1;
     width: 100%;
-    max-height: 100%; /* Garante que a altura não ultrapasse a altura do grid */
-    overflow-y: auto; /* Exibe a barra de rolagem vertical quando necessário */
-    overflow-x: hidden; /* Evita a barra de rolagem horizontal, se não for necessária */
+    height: 30vh;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 table {
@@ -215,13 +174,14 @@ table {
     border-collapse: collapse;
     table-layout: fixed;
     font-family: Arial, sans-serif;
-    font-size: smaller;
+    font-size: 0.9em;
     background-color: #FFFFFF;
+    transition: background-color 0.3s;
 }
 
 th, td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 1.5vh;
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -233,48 +193,39 @@ th {
     color: white;
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 2;
+    transition: background-color 0.3s;
+}
+
+th:hover {
+    background-color: #0077cc;
 }
 
 tr:hover {
-    background-color: #f5f5f5;
-}
-
-.col-nome {
-    width: 75px;
-}
-
-.col-e-mail {
-    width: 100px;
-}
-
-.col-data-criacao{
-    width: 50px;
-}
-
-.col-ativo{
-    width: 25px;
-}
-
-.col-gerente{
-    width: 25px;
-}
-
-.box-procura button {
-    width: 30%;
-    padding: 10px;
-    background-color: #6F7276;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    margin-top: 3%;
+    background-color: #e0e0e0;
+    transition: background-color 0.3s;
 }
 
 .button-group {
     display: flex;
     justify-content: center;
-    gap: 40px;
-    margin-left: 5.5%;
+    gap: 1vw;
+    flex-wrap: wrap;
     margin-top: 2%;
+}
+
+.col-nome {
+    width: 10%;
+}
+
+.col-e-mail {
+    width: 15%;
+}
+
+.col-data-criacao, .col-data-att {
+    width: 15%;
+}
+
+.col-ativo, .col-gerente {
+    width: 5%;
 }
