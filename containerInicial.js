@@ -1,4 +1,4 @@
-// Função para carregar o status dos freezers e atualizá-los dinamicamente
+// Carrega o status dos freezers e atualiza-os dinamicamente
 function carregarFreezersStatus() {
     const statusContainer = document.querySelector(".status-freezer-inner");
     const freezersLigadosElement = document.getElementById("freezers-ligados");
@@ -9,7 +9,7 @@ function carregarFreezersStatus() {
         return;
     }
 
-    statusContainer.innerHTML = ""; // Limpa qualquer conteúdo existente
+    statusContainer.innerHTML = ""; // Limpa o conteúdo existente
 
     const statusRef = firebase.database().ref("freezers_status");
     statusRef.once("value", function(snapshot) {
@@ -19,7 +19,7 @@ function carregarFreezersStatus() {
         snapshot.forEach(function(childSnapshot) {
             const freezer = childSnapshot.val();
 
-            // Cria o elemento 'freezer-card'
+            // Criação do elemento 'freezer-card'
             const freezerCard = document.createElement("div");
             freezerCard.classList.add("freezer-card");
 
@@ -34,7 +34,7 @@ function carregarFreezersStatus() {
                 }
             }
 
-            // Conta os freezers ligados e desligados com base na cor do status
+            // Atualiza contadores de freezers ligados e desligados
             if (statusColor === "gray") {
                 countDesligados++;
             } else {
@@ -56,13 +56,13 @@ function carregarFreezersStatus() {
             statusContainer.appendChild(freezerCard);
         });
 
-        // Atualiza os elementos no HTML com as quantidades de freezers ligados e desligados
+        // Atualiza os elementos HTML com a quantidade de freezers ligados e desligados
         freezersLigadosElement.textContent = countLigados;
         freezersDesligadosElement.textContent = countDesligados;
     });
 }
 
-// Função para carregar detalhes do freezer específico
+// Carrega detalhes do freezer específico selecionado
 function carregarDetalhesFreezer(freezerId) {
     const detailsSection = document.querySelector(".details-section");
     detailsSection.querySelector(".details-header").innerText = `${freezerId} - Histórico`;
@@ -155,6 +155,7 @@ function carregarDetalhesFreezer(freezerId) {
     });
 }
 
+// Executa a função de carregar o status dos freezers ao carregar a página
 window.onload = function() {
     carregarFreezersStatus();
 };

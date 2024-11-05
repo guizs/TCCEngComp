@@ -16,7 +16,7 @@ document.getElementById("limparFiltros").addEventListener("click", function() {
 
 document.getElementById("ID").addEventListener("input", function() {
     preencherListaIds();
-    const inputId = document.getElementById("ID").value.toUpperCase(); // Converter o valor para maiúsculas
+    const inputId = document.getElementById("ID").value.toUpperCase();
     const messageElem = document.querySelector(".message-alterar p");
 
     limparMensagem(messageElem);
@@ -43,7 +43,7 @@ document.getElementById("ID").addEventListener("input", function() {
     });
 });
 
-// Funções principais
+// Cadastrar novo freezer
 function cadastrarFreezer() {
     const marca = document.getElementById("marcaInput").value.toUpperCase();
     const tempMin = parseFloat(document.getElementById("tempMinInput").value);
@@ -57,6 +57,7 @@ function cadastrarFreezer() {
     exibirPopupConfirmacao("cadastrar");
 }
 
+// Alterar informações de um freezer existente
 function alterarFreezer() {
     const inputId = document.getElementById("ID").value;
     const marca = document.getElementById("marca-alterar").value.toUpperCase();
@@ -71,6 +72,7 @@ function alterarFreezer() {
     exibirPopupConfirmacao("alterar");
 }
 
+// Executa a ação confirmada (cadastrar ou alterar freezer)
 function executarAcaoAtual() {
     if (acaoAtual === "cadastrar") {
         executarCadastro();
@@ -79,6 +81,7 @@ function executarAcaoAtual() {
     }
 }
 
+// Processa o cadastro de um novo freezer no banco de dados
 function executarCadastro() {
     const marca = document.getElementById("marcaInput").value.toUpperCase();
     const tempMin = parseFloat(document.getElementById("tempMinInput").value);
@@ -118,6 +121,7 @@ function executarCadastro() {
     });
 }
 
+// Processa a alteração de um freezer no banco de dados
 function executarAlteracao() {
     const inputId = document.getElementById("ID").value;
     const marca = document.getElementById("marca-alterar").value.toUpperCase();
@@ -155,6 +159,7 @@ function executarAlteracao() {
     });
 }
 
+// Procurar e exibir um freezer específico na tabela
 function procurarFreezer() {
     const inputId = document.getElementById("ID-busca").value;
     const inputMarca = document.getElementById("marca-busca").value.toUpperCase();
@@ -179,24 +184,27 @@ function procurarFreezer() {
     limparCamposProcurar();
 }
 
-// Funções auxiliares
+// Limpar mensagem de erro/sucesso
 function limparMensagem(messageElem) {
     messageElem.textContent = "";
     messageElem.parentElement.classList.remove("success", "error", "tremor");
 }
 
+// Exibir mensagem de erro
 function exibirErro(messageElem, mensagem) {
     messageElem.textContent = mensagem;
     messageElem.parentElement.classList.add("error");
     adicionarEfeitoTremor(messageElem);
 }
 
+// Exibir mensagem de sucesso
 function exibirSucesso(messageElem, mensagem) {
     messageElem.textContent = mensagem;
     messageElem.parentElement.classList.add("success");
     adicionarEfeitoTremor(messageElem);
 }
 
+// Adicionar efeito tremor à mensagem
 function adicionarEfeitoTremor(messageElem) {
     setTimeout(() => {
         messageElem.parentElement.classList.add("tremor");
@@ -206,6 +214,7 @@ function adicionarEfeitoTremor(messageElem) {
     }, 510);
 }
 
+// Validar campos para o cadastro do freezer
 function validarCamposCadastro(marca, tempMin, tempMax, messageElem) {
     if (!marca || isNaN(tempMin) || isNaN(tempMax)) {
         exibirErro(messageElem, "Por favor, preencha todos os campos.");
@@ -218,6 +227,7 @@ function validarCamposCadastro(marca, tempMin, tempMax, messageElem) {
     return true;
 }
 
+// Validar campos para alteração do freezer
 function validarCamposAlteracao(inputId, marca, tempMin, tempMax, messageElem) {
     if (!inputId || !marca || isNaN(tempMin) || isNaN(tempMax)) {
         exibirErro(messageElem, "Por favor, preencha todos os campos.");
@@ -230,12 +240,14 @@ function validarCamposAlteracao(inputId, marca, tempMin, tempMax, messageElem) {
     return true;
 }
 
+// Limpar campos do formulário de cadastro
 function limparCamposCadastro() {
     document.getElementById("marcaInput").value = "";
     document.getElementById("tempMinInput").value = "";
     document.getElementById("tempMaxInput").value = "";
 }
 
+// Limpar campos do formulário de alteração
 function limparCamposAlteracao() {
     document.getElementById("ID").value = "";
     document.getElementById("marca-alterar").value = "";
@@ -243,16 +255,19 @@ function limparCamposAlteracao() {
     document.getElementById("tempMax-alterar").value = "";
 }
 
+// Limpar campos do formulário de busca
 function limparCamposProcurar() {
     document.getElementById("ID-busca").value = "";
     document.getElementById("marca-busca").value = "";
 }
 
+// Exibir pop-up de confirmação antes de executar ações
 function exibirPopupConfirmacao(acao) {
     acaoAtual = acao;
     document.getElementById("popupConfirm").style.display = "flex";
 }
 
+// Atualizar tabela de freezers exibida
 function atualizarTabela() {
     const tabelaBody = document.querySelector("#freezersTable tbody");
     tabelaBody.innerHTML = "";
@@ -272,6 +287,7 @@ function atualizarTabela() {
     });
 }
 
+// Formatar a data para exibição
 function formatarData(dataISO) {
     const data = new Date(dataISO);
     return data.toLocaleDateString("pt-BR", {
@@ -281,6 +297,7 @@ function formatarData(dataISO) {
     });
 }
 
+// Sincronizar tabela de status do freezer
 function sincronizarFreezersStatus(newId, fullId, marca, tempMin, tempMax, isUpdate = false) {
     const statusRef = firebase.database().ref("freezers_status");
     if (isUpdate) {
@@ -322,6 +339,7 @@ function sincronizarFreezersStatus(newId, fullId, marca, tempMin, tempMax, isUpd
     }
 }
 
+// Inicializar histórico do freezer na criação
 function sincronizarFreezersHistorico(newId) {
     const historicoRef = firebase.database().ref("freezers_historico");
     historicoRef.child(newId).once("value", function (snapshot) {
@@ -337,12 +355,13 @@ function sincronizarFreezersHistorico(newId) {
     });
 }
 
+// Preencher lista de IDs ao focar no campo de ID
 document.getElementById("ID").addEventListener("focus", preencherListaIds);
 
-// Função para preencher a lista de IDs no datalist
+// Preencher lista de IDs para busca
 function preencherListaIds() {
     const datalist = document.getElementById("idList");
-    datalist.innerHTML = ""; // Limpa os itens existentes para evitar duplicações // Limpa os itens existentes
+    datalist.innerHTML = "";
 
     const ref = firebase.database().ref("freezers");
     ref.once("value", function (snapshot) {
@@ -354,6 +373,7 @@ function preencherListaIds() {
     });
 }
 
+// Atualizar tabela ao carregar a página
 window.addEventListener("load", function() {
     atualizarTabela();
 });

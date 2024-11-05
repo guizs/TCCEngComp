@@ -1,11 +1,14 @@
+/* Importação da fonte Lato do Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 
+/* Configuração geral e reset para todos os elementos */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Estilo principal do body */
 body {
     font-family: 'Lato', sans-serif;
     height: 100vh;
@@ -13,18 +16,21 @@ body {
     flex-direction: column;
 }
 
+/* Contêiner principal que ocupa toda a tela */
 .container {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
+/* Cabeçalho com título e subtítulo alinhados ao centro */
 .header h1, .header span {
     display: inline-block;
     vertical-align: middle;
     margin: 0;
 }
 
+/* Estilo da barra de cabeçalho */
 .header {
     background-color: #1F82B2;
     padding: 20px;
@@ -34,31 +40,34 @@ body {
     color: white;
 }
 
-.header span{
+/* Estilo do subtítulo no cabeçalho */
+.header span {
     vertical-align: middle;
     float: right;
     font-size: 1.13em;
     font-weight: bold;
 }
 
+/* Imagem de fundo que cobre toda a área */
 #img {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Coloca a imagem atrás */
-    object-fit: cover; /* Ajusta a imagem para cobrir toda a área */
+    z-index: -1;
+    object-fit: cover;
 }
 
+/* Contêiner centralizado para o conteúdo principal */
 .content {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    
 }
 
+/* Contêiner de login */
 .login-container {
     display: flex;
     justify-content: flex-end;
@@ -68,6 +77,7 @@ body {
     height: 75%;
 }
 
+/* Caixa de login com estilos de borda e sombra */
 .login-box {
     width: 420px;
     background-color: rgba(161, 222, 244, 0.85);
@@ -77,16 +87,19 @@ body {
     text-align: center;
 }
 
-.login-box h2{
+/* Estilo do título da caixa de login */
+.login-box h2 {
     margin-top: 20px;
 }
 
+/* Estilo dos rótulos dos campos de login */
 .login-box label {
     display: block;
     margin: 10px 0 5px;
     text-align: left;
 }
 
+/* Estilo dos campos de entrada de dados */
 .login-box input {
     width: 100%;
     padding: 10px;
@@ -95,11 +108,13 @@ body {
     border: 1px solid #747474;
 }
 
+/* Estilo para o texto explicativo dentro da caixa de login */
 .login-box p {
     margin: 10px 0;
     color: #666;
 }
 
+/* Estilo do botão de login */
 .login-box button {
     width: 100%;
     padding: 10px;
@@ -111,20 +126,24 @@ body {
     cursor: pointer;
 }
 
+/* Estilo de hover no botão de login */
 .login-box button:hover {
     background-color: #0056b3;
 }
 
+/* Link de "esqueceu a senha?" */
 .forgot-password {
     display: block;
     color: #007bff;
     text-decoration: none;
 }
 
+/* Efeito de hover no link de "esqueceu a senha?" */
 .forgot-password:hover {
     text-decoration: underline;
 }
 
+/* Rodapé da página */
 .footer {
     background-color: #f0f0f0;
     padding: 10px;
@@ -132,16 +151,19 @@ body {
     color: #666;
 }
 
+/* Estilo geral dos formulários */
 form {
-    gap: 10px; /* Espaço entre os campos do formulário */
+    gap: 10px;
     padding: 5px;
     border-radius: 8px;
 }
 
+/* Estilo dos rótulos nos formulários */
 form label {
     font-weight: bold;
 }
 
+/* Estilo dos campos de entrada nos formulários */
 form input {
     padding: 10px;
     border: 1px solid #ccc;
@@ -149,6 +171,7 @@ form input {
     width: 100%;
 }
 
+/* Estilo dos botões nos formulários */
 form button {
     padding: 10px 20px;
     background-color: #007BFF;
@@ -159,14 +182,15 @@ form button {
     font-weight: bold;
 }
 
+/* Efeito de hover nos botões dos formulários */
 form button:hover {
     background-color: #0056b3;
 }
 
-/* Ajuste de responsividade */
+/* Responsividade para dispositivos com largura máxima de 768px */
 @media (max-width: 768px) {
     .freezer-card {
-        flex: 1 1 calc(100% - 10px); /* Deixa os cards ocuparem toda a largura */
+        flex: 1 1 calc(100% - 10px);
     }
 
     header {
@@ -177,10 +201,11 @@ form button:hover {
     .navbar {
         flex-direction: column;
         gap: 10px;
-        margin-left: 0; /* Remove o alinhamento lateral no mobile */
+        margin-left: 0;
     }
 }
 
+/* Loader de carregamento da página */
 .loader {
     position: fixed;
     z-index: 9999;
@@ -192,10 +217,11 @@ form button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    visibility: hidden; /* Esconda inicialmente */
-    flex-direction: column; /* Adiciona flex-direction */
+    visibility: hidden;
+    flex-direction: column;
 }
 
+/* Estilo da animação do loader */
 .loader:after {
     content: "";
     width: 50px;
@@ -206,15 +232,16 @@ form button:hover {
     animation: spin 1s linear infinite;
 }
 
+/* Animação de rotação para o loader */
 @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
 
-/* Ajuste de responsividade */
+/* Responsividade adicional para dispositivos com largura máxima de 768px */
 @media (max-width: 768px) {
     .vertical-footer {
-        display: none; /* Esconde o footer vertical em dispositivos menores */
+        display: none;
     }
 
     .container {
@@ -257,7 +284,7 @@ form button:hover {
         align-items: center;
         margin-left: 0;
         width: 100%;
-        height: auto; /* Ajusta a altura automaticamente */
+        height: auto;
     }
 
     .box, .grid {

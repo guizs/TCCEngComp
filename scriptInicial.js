@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const usernameSpan = document.getElementById("usernameSpan");
     const cadastrarLink = document.getElementById("cadastrarLink");
 
-    // Função para verificar se o usuário possui acesso gerencial
+    // Verifica se o usuário tem permissão gerencial e ajusta o link de cadastro
     function verificarGerencia() {
         const user = firebase.auth().currentUser;
         if (user) {
@@ -25,13 +25,13 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Função para exibir o nome do usuário
+    // Exibe o nome do usuário armazenado no localStorage
     function exibirNomeUsuario() {
         const nomeUsuario = localStorage.getItem('nomeUsuario') || '';
         usernameSpan.textContent = nomeUsuario;
     }
 
-    // Chama a função para exibir o nome e verificar gerência no login
+    // Inicializa a exibição do nome e a verificação de gerência após o login
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             firebase.database().ref('usuarios/' + user.uid).once('value').then((snapshot) => {
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Outros manipuladores de eventos e lógica do modal
+    // Exibe o modal de relatório ao clicar no botão de download
     downloadReportBtn.onclick = function() {
         reportModal.style.display = "block";
         setTimeout(function() {
@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }, 10);
     };
 
+    // Fecha o modal de relatório ao clicar no botão de fechar
     closeBtn.onclick = function() {
         reportModal.classList.remove("show");
         setTimeout(function() {
@@ -61,6 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }, 500);
     };
 
+    // Fecha o modal se o clique for fora dele
     window.onclick = function(event) {
         if (event.target == reportModal) {
             reportModal.classList.remove("show");
@@ -70,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
 
+    // Seleciona ou desmarca todas as opções no seletor de freezers ao clicar em "Selecionar todos"
     selectAllCheckbox.addEventListener("change", function() {
         const options = freezerSelect && freezerSelect.options;
         for (let i = 0; i < options.length; i++) {

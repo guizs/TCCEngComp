@@ -1,3 +1,4 @@
+// Armazena o nome do usuário no local storage para exibição na interface
 function armazenarUsuarioNoLocalStorage() {
     const user = firebase.auth().currentUser;
     if (user) {
@@ -7,8 +8,8 @@ function armazenarUsuarioNoLocalStorage() {
         usuariosRef.once('value').then((snapshot) => {
             const nome = snapshot.val().nome;
             if (nome) {
-                localStorage.setItem('nomeUsuario', nome); // Armazena o nome no local storage
-                exibirNomeUsuario(); // Exibe o nome do usuário na interface
+                localStorage.setItem('nomeUsuario', nome);
+                exibirNomeUsuario();
             }
         }).catch((error) => {
             console.error('Erro ao recuperar o nome do usuário:', error);
@@ -18,53 +19,54 @@ function armazenarUsuarioNoLocalStorage() {
     }
 }
 
+// Exibe o nome do usuário na interface, ou reseta a mensagem se deslogado
 function exibirNomeUsuario() {
     const nomeUsuario = localStorage.getItem('nomeUsuario');
     if (nomeUsuario) {
         document.getElementById('usernameSpan').textContent = `Olá, ${nomeUsuario}`;
     } else {
-        document.getElementById('usernameSpan').textContent = 'Olá, '; // Reseta o conteúdo quando não há usuário logado
+        document.getElementById('usernameSpan').textContent = 'Olá, ';
     }
 }
 
-// Chama a função para armazenar o nome do usuário durante o login
+// Armazena o nome do usuário no local storage ao logar e remove ao deslogar
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         armazenarUsuarioNoLocalStorage();
     } else {
-        localStorage.removeItem('nomeUsuario'); // Remove o nome do usuário do local storage quando deslogado
-        exibirNomeUsuario(); // Reseta a exibição do nome
+        localStorage.removeItem('nomeUsuario');
+        exibirNomeUsuario();
     }
 });
 
+// Força o recarregamento da página se carregada a partir do cache do navegador
 window.addEventListener('pageshow', function(event) {
-    if (event.persisted) { // Verifica se a página foi carregada do cache
-        window.location.reload(); // Recarrega a página
+    if (event.persisted) {
+        window.location.reload();
     }
 });
 
+// Realiza o login e configura redirecionamento para a página inicial
 function login(event) {
-    event.preventDefault(); // Impede o envio padrão do formulário
+    event.preventDefault();
 
     const email = document.getElementById('email').value.trim();
     const senha = document.getElementById('senha').value;
 
-    const loader = document.getElementById("loader"); // Pega o elemento do loader
+    const loader = document.getElementById("loader");
 
     firebase.auth().signInWithEmailAndPassword(email, senha)
     .then(response => {
         loader.style.visibility = "visible";
 
         setTimeout(() => {
-            // Redireciona para a página inicial
             window.location.href = "inicial.html";
             
-            // Substitui o estado atual no histórico (tela de login) para que não possa ser acessada novamente
+            // Substitui o estado atual para prevenir o acesso à tela de login
             history.replaceState(null, null, "inicial.html");
             
-            // Previne o uso do botão voltar
+            // Previne o uso do botão voltar redirecionando para a mesma página
             window.addEventListener('popstate', function(event) {
-                // Quando o usuário tentar voltar, ele é redirecionado para a mesma página
                 history.pushState(null, null, window.location.href);
             });
         }, 3000);

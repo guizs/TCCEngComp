@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <!-- Configurações principais da página -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Padrão Freezer</title>
     <link rel="stylesheet" href="stylepadrao.css">
     <link rel="stylesheet" href="styleFreezer.css">
-    <style>
-    </style>
 </head>
 <body>
     <div class="container">
         <div class="vertical-footer"></div>
 
+        <!-- Cabeçalho com navegação -->
         <header>
-
             <span style="font-size: larger; font-weight: bold;"> Cadastro de freezers </span>
             <nav class="navbar">
                 <a href="inicial.html">Página Inicial</a>
@@ -29,8 +28,8 @@
             </div>
         </header>
 
+        <!-- Seção de busca de freezers -->
         <div class="section2">
-            
             <div class="box-procura">
                 <h3>Procurar Freezer</h3>
                 <br>
@@ -52,6 +51,7 @@
                 </div>
             </div>                                 
     
+            <!-- Tabela de freezers -->
             <div class="grid">
                 <div class="scroll-container">
                     <table id="freezersTable">
@@ -66,18 +66,18 @@
                             </tr>
                         </thead>
                         <tbody>
-
                         </tbody>
                     </table>
                 </div>
             </div>            
-
         </div>
 
         <br> <br>
 
+        <!-- Seção de alteração e cadastro de freezers -->
         <div class="section">
             
+            <!-- Alteração de informações de um freezer -->
             <div class="box">
                 <h3>Alterar produto</h3>
                 <br>
@@ -89,7 +89,7 @@
                 <br>
                 <div class="form-group">
                     <label for="produto"> Marca: </label>
-                    <input id ="marca-alterar" type="text" placeholder="A marca aparecerá depois de inserir o ID."disabled>
+                    <input id ="marca-alterar" type="text" placeholder="A marca aparecerá depois de inserir o ID." disabled>
                 </div>
                 <br>
                 <div class="form-group temperatura">
@@ -107,9 +107,9 @@
                 </div>
 
                 <button id="alterarFreezer">Alterar</button>
-
             </div>  
 
+            <!-- Cadastro de novo freezer -->
             <div class="box">
                 <h3>Cadastrar freezer</h3>
                 <br>
@@ -138,11 +138,10 @@
                 </div>                
 
                 <button id="cadastrarFreezer">Cadastrar</button>
-
             </div>
-
         </div>        
 
+        <!-- Popup de confirmação de ação -->
         <div id="popupConfirm" class="popup">
             <div class="popup-content">
                 <p id="popupMessage">Você deseja concluir esta ação?</p>
@@ -150,15 +149,14 @@
                 <button id="confirmNo">Não</button>
             </div>
         </div>
-        
     </div>
 
+    <!-- Scripts do Firebase para inicialização -->
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-database.js"></script>
     
     <script> 
-    
     const firebaseConfig = {
         apiKey: "AIzaSyCBpAsd2HR1QTdcZaReE1NpDyn2U4-7ZIY",
         authDomain: "tcc---engenhariacomp.firebaseapp.com",
@@ -169,11 +167,9 @@
     };
 
     firebase.initializeApp(firebaseConfig);
-
     </script>
     <script src="scriptgeral.js"></script>
     <script src="scriptFreezer.js"></script>
     <script src="authStatus.js"></script>
-    
 </body>
 </html>

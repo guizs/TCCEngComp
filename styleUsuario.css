@@ -1,5 +1,90 @@
-/* Responsividade e Modernização */
+/* Importação da fonte Roboto do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
+/* Estilos gerais para html e body */
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    height: 100vh;
+}
+
+/* Barra vertical fixa à esquerda da tela */
+.vertical-footer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 50px;
+    height: 100vh;
+    background-color: #1F82B2;
+    z-index: 1;
+} 
+
+/* Contêiner principal que ocupa toda a tela */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+/* Cabeçalho com estilo fixo e sombras */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #DDD;
+    position: sticky;
+    border-radius: 10px;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: 60px;
+    margin-bottom: 25px;
+}
+
+/* Barra de navegação no cabeçalho */
+.navbar {
+    display: flex;
+    gap: 20px;
+    margin-left: auto;
+}
+
+/* Links da barra de navegação com efeito de hover */
+.navbar a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* Efeito hover para links na navbar */
+.navbar a:hover {
+    background-color: #e0e0e0;
+}
+
+/* Último bloco de elementos no cabeçalho */
+header > div:last-child {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 0;
+}
+
+/* Configurações de layout para as seções principais e secundárias */
 .section, .search-section, .header {
     display: flex;
     justify-content: space-between;
@@ -7,6 +92,7 @@
     box-sizing: border-box;
 }
 
+/* Ajustes de layout para a seção principal */
 .section {
     align-items: stretch;
     width: 80%;
@@ -17,6 +103,7 @@
     flex-wrap: wrap;
 }
 
+/* Caixa de pesquisa, grid de pesquisa, seção de registro e contêiner */
 .search-box, .search-grid, .register-section, .box, .alterar {
     border: 2px solid #d1d1d1;
     padding: 2vh;
@@ -34,6 +121,7 @@
     height: auto;
 }
 
+/* Caixa e configuração da seção de procura */
 .box, .box-procura, .register-section {
     border: 2px solid #d1d1d1;
     padding: 2vh;
@@ -51,11 +139,13 @@
     height: auto;
 }
 
+/* Efeito de hover para as caixas */
 .box:hover, .box-procura:hover, .register-section:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Estilo para títulos das caixas */
 .box h3, .box-procura h3, .alterar h3, .register-section h3 {
     border: 0.5px solid #000;
     margin-top: 1vh;
@@ -71,12 +161,14 @@
     font-size: 1.2em;
 }
 
+/* Estilo para rótulos dentro das caixas */
 .box label, .box .form-group label, .box-procura label, .box-procura .form-group label, .alterar label, .alterar .form-group label, .register-section label, .register-section .form-group label {
     font-weight: bold;
     width: 5em;
     margin-right: 1%;
 }
 
+/* Grupo de formulário para layout flexível */
 .box .form-group, .box-procura .form-group, .alterar .form-group, .register-section .form-group {
     display: flex;
     align-items: center;
@@ -85,6 +177,7 @@
     margin-top: 1%;
 }
 
+/* Estilo para entradas de texto e e-mail */
 .box .form-group input[type="text"], .box .form-group input[type="email"], .box-procura .form-group input[type="text"], .box-procura .form-group input[type="email"], .alterar .form-group input, .register-section .form-group input {
     width: 90%;
     padding: 1vh;
@@ -96,6 +189,7 @@
     transition: border-color 0.3s;
 }
 
+/* Botões de ação nas caixas */
 .box button, .alterar button, .box-procura button, .register-section button {
     display: block;
     width: 40%;
@@ -111,11 +205,13 @@
     transition: background-color 0.3s, transform 0.2s;
 }
 
+/* Efeito hover para os botões */
 .box button:hover, .alterar button:hover, .box-procura button:hover, .register-section button:hover {
     background-color: #565a5e;
     transform: translateY(-3px);
 }
 
+/* Estilo para mensagens de feedback */
 .message {
     font-size: 1.5vh;
     text-align: center;
@@ -123,20 +219,24 @@
     margin-top: 2vh;
 }
 
+/* Estilo para mensagens de erro */
 .error-message {
     color: red;
     font-size: 1.2vh;
     margin-top: 1vh;
 }
 
+/* Classe para aplicar peso de fonte em rótulos */
 .bold-label {
     font-weight: bold;
 }
 
+/* Classe de tremor para feedback de erro */
 .tremor {
     animation: shake 0.3s ease-in-out;
 }
 
+/* Animação de tremor */
 @keyframes shake {
     0% { transform: translateX(0); }
     25% { transform: translateX(-5px); }
@@ -145,6 +245,7 @@
     100% { transform: translateX(0); }
 }
 
+/* Grade de exibição e layout do usuário */
 .grid, .gridUsuario {
     border: 2px solid #d1d1d1;
     background-color: #f9f9f9;
@@ -161,6 +262,7 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Contêiner de rolagem */
 .scroll-container {
     flex: 1;
     width: 100%;
@@ -169,6 +271,7 @@
     overflow-x: hidden;
 }
 
+/* Configurações da tabela principal */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -179,6 +282,7 @@ table {
     transition: background-color 0.3s;
 }
 
+/* Células da tabela */
 th, td {
     border: 1px solid #ddd;
     padding: 1.5vh;
@@ -188,6 +292,7 @@ th, td {
     white-space: nowrap;
 }
 
+/* Estilo do cabeçalho da tabela */
 th {
     background-color: #1F82B2;
     color: white;
@@ -197,15 +302,18 @@ th {
     transition: background-color 0.3s;
 }
 
+/* Efeito hover para o cabeçalho da tabela */
 th:hover {
     background-color: #0077cc;
 }
 
+/* Efeito hover para as linhas da tabela */
 tr:hover {
     background-color: #e0e0e0;
     transition: background-color 0.3s;
 }
 
+/* Grupo de botões para ação */
 .button-group {
     display: flex;
     justify-content: center;
@@ -214,18 +322,22 @@ tr:hover {
     margin-top: 2%;
 }
 
+/* Coluna específica para o nome */
 .col-nome {
     width: 10%;
 }
 
+/* Coluna específica para e-mail */
 .col-e-mail {
     width: 15%;
 }
 
+/* Colunas de data de criação e última atualização */
 .col-data-criacao, .col-data-att {
     width: 15%;
 }
 
+/* Colunas para status ativo e gerência */
 .col-ativo, .col-gerente {
     width: 5%;
 }

@@ -1,11 +1,9 @@
-// Função para verificar a URL e definir logout no banco de dados, exceto para páginas específicas
+// Verifica a URL e define logout no banco de dados, exceto para páginas específicas
 function atualizarLogoutSeNecessario() {
     const paginasExcecao = ["cadastrofreezer.html", "cadastrouser.html", "inicial.html"];
     const paginaAtual = window.location.pathname.split("/").pop();
 
-    // Verifica se a página atual não está na lista de exceções
     if (!paginasExcecao.includes(paginaAtual)) {
-        // Atualiza o status de logout no banco de dados
         firebase.database().ref('userlogado').set({
             nome: "",
             bool: false
@@ -15,7 +13,7 @@ function atualizarLogoutSeNecessario() {
     }
 }
 
-// Função para verificar o status de autenticação ao carregar a página
+// Verifica o status de autenticação ao carregar a página
 function verificarStatusUsuario() {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
@@ -34,14 +32,14 @@ function verificarStatusUsuario() {
             });
         } else {
             sessionStorage.removeItem('usuarioLogado');
-            window.location.href = "index.html"; // Redireciona para login
+            window.location.href = "index.html";
         }
     });
 }
 
 // Executa verificações ao carregar a página inicial
 document.addEventListener("DOMContentLoaded", function() {
-    atualizarLogoutSeNecessario(); // Chama a função para verificar logout ao carregar a página
+    atualizarLogoutSeNecessario();
     const usuarioLogado = sessionStorage.getItem('usuarioLogado');
     if (usuarioLogado === 'true') {
         verificarStatusUsuario();
@@ -58,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-// Função de logout manual, caso necessário
+// Executa logout manualmente, se necessário
 function logout() {
     firebase.database().ref('userlogado').set({
         nome: "",

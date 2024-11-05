@@ -6,27 +6,26 @@
     <title>Monitoramento de Freezers</title>
     <link rel="stylesheet" href="stylepadrao.css">
     <link rel="stylesheet" href="styleInicial.css">
-    
 </head>
 <body>
     <div class="container">
         <div class="vertical-footer"></div>
 
         <header>
-            
+            <!-- Exibição de contagem de freezers ligados e desligados -->
             <div>
                 <span> <b> Freezers ligados: </b> <span id="freezers-ligados">0</span></span>
                 &nbsp;&nbsp;&nbsp;
                 <span> <b> Freezers desligados: </b> <span id="freezers-desligados">0</span></span>
             </div>
             
-            
-            
+            <!-- Barra de navegação com links para cadastro e download de relatório -->
             <nav class="navbar">
                 <a id="cadastrarLink" href="cadastrofreezer.html" style="display: none;">Cadastrar</a>
                 <a href="#" id="downloadReportBtn">Baixar relatório</a>
                 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
             </nav>
+            <!-- Saudação ao usuário com opção de logout -->
             <div>
                 <span id="usernameSpan">Olá, </span>
                 &nbsp;&nbsp;&nbsp;
@@ -35,19 +34,20 @@
         </header>
 
         <div class="main-content">
-
+            <!-- Caixa de alerta com pontuação de monitoramento -->
             <div class="alert-box">
                 <span>Há um alerta!</span>
                 <div id="pontuacaoElem" class="score">8.0</div>
             </div>
 
+            <!-- Contêiner para exibir status dos freezers -->
             <div class="status-freezer-outer">
                 <div class="status-freezer-inner">
-                    <!-- Os freezer-card serão inseridos aqui dinamicamente -->
+                    <!-- Elementos de freezer-card serão adicionados dinamicamente aqui -->
                 </div>
             </div>
-            
 
+            <!-- Seção de detalhes dos freezers -->
             <div class="details-section">
                 <div class="details-header">Selecione o freezer</div>
                 <div class="details-content">
@@ -55,7 +55,8 @@
                         <div class="temperature"><b></b></div>
                         <p><b></b></p>
                     </div>
-                    <div class="table-container"> <!-- Contêiner para rolagem -->
+                    <!-- Tabela para exibição dos dados de temperatura e horário dos freezers -->
+                    <div class="table-container">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -66,16 +67,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Linhas de dados serão inseridas dinamicamente -->
+                                <!-- Linhas com dados de temperatura serão adicionadas dinamicamente -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-                        
         </div>
     </div>
 
+    <!-- Modal para download de relatório -->
     <div id="reportModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -87,7 +88,8 @@
                 <label for="endDate">Data final:</label>
                 <input type="date" id="endDate" name="endDate" style="width: 100%; box-sizing: border-box;">
     
-                <label for="freezerSelect">Freezer: <p style="font-size: small;"> Para selecões múltiplas, clique segurando o botão CTRL do seu teclado. </p> </label>
+                <!-- Seleção múltipla de freezers para o relatório -->
+                <label for="freezerSelect">Freezer: <p style="font-size: small;">Para seleções múltiplas, clique segurando o botão CTRL do seu teclado.</p></label>
                 <select id="freezerSelect" name="freezerSelect" multiple style="height: 150px;">
                     <option value="freezer1">MTLF13</option>
                     <option value="freezer2">MTLF14</option>
@@ -97,12 +99,13 @@
                     <option value="freezer4">MTLF18</option>
                 </select>
 
-
+                <!-- Opção para selecionar todos os freezers -->
                 <div style="display: flex; align-items: center; gap: 5px;">
                     <input type="checkbox" id="selectAll" name="selectAll">
                     <label for="selectAll">Selecionar todos</label>
                 </div>
-    
+
+                <!-- Botões de download do relatório -->
                 <div class="download-options">
                     <label>Download via:</label>
                     <div class="btn-container">
@@ -111,21 +114,19 @@
                     </div>
                 </div>
 
-                             
-
                 <p style="color: #F00; font-weight: bold; text-align: center; margin-top: 20px;">Optando por enviar por e-mail, o relatório será automaticamente encaminhado ao administrador do sistema.</p>
             </form>
         </div>
     </div>
 
+    <!-- Scripts do Firebase e JavaScript para manipulação da página -->
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore.js"></script>
 
-    
     <script> 
-    
+    // Configuração do Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyCBpAsd2HR1QTdcZaReE1NpDyn2U4-7ZIY",
         authDomain: "tcc---engenhariacomp.firebaseapp.com",
@@ -136,12 +137,10 @@
     };
 
     firebase.initializeApp(firebaseConfig);
-
     </script>
     <script src="authStatus.js"></script>
     <script src="scriptgeral.js"></script>
     <script src="containerInicial.js"></script>
     <script type="module" src="scriptInicial.js"></script>
-
 </body>
 </html>

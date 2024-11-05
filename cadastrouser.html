@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <!-- Configurações da página e links para estilos -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Cadastro de usuários </title>
     <link rel="stylesheet" href="stylepadrao.css">
     <link rel="stylesheet" href="styleUsuario.css">
-    <style>
-    </style>
 </head>
 <body>
     <div class="container">
         <div class="vertical-footer"></div>
 
+        <!-- Cabeçalho com título e navegação -->
         <header>
             <span style="font-size: larger; font-weight: bold;"> Cadastro de usuários </span>
             <nav class="navbar">
@@ -28,6 +28,7 @@
             </div>
         </header>
         
+        <!-- Seção de pesquisa de usuário -->
         <div class="section">
             <div class="box-procura">
                 <h3>Pesquisa de Usuário</h3>
@@ -46,10 +47,9 @@
                     <button id="buscar-pesquisa">Buscar</button>
                     <button id="limpar-filtros">Limpar Filtros</button>
                 </div>
-
             </div>
-
             
+            <!-- Tabela com resultados da pesquisa -->
             <div class="grid">
                 <div class="scroll-container">
                     <table id="freezersTable">
@@ -63,27 +63,27 @@
                             </tr>
                         </thead>
                         <tbody>
-
                         </tbody>
                     </table>
                 </div>
             </div>
 
+            <!-- Menu popup para alterar o status do usuário -->
             <div id="popupMenu" style="display: none; position: absolute;">
                 <button id="btnDesativar">Desativar</button>
                 <button id="btnAtivar">Ativar</button>
             </div>         
 
+            <!-- Botão para tornar o usuário gerente -->
             <button id="gerenciaButton" style="display: none; position: absolute;">Tornar Gerente</button>
-
-
         </div>  
 
         <br>     
 
+        <!-- Formulário de cadastro de novo usuário -->
         <div class="alterar">
             <h3>Cadastro de Usuário</h3>
-            <form autocomplete="off"> <!-- Desativa o preenchimento automático para todo o formulário -->
+            <form autocomplete="off">
                 <div class="form-group">
                     <label for="nome-cadastro">Nome completo:</label>
                     <input type="text" id="nome-cadastro" autocomplete="off" placeholder="Insira o nome completo.">
@@ -102,22 +102,20 @@
                 </div>
         
                 <div class="message">
-                    <p style="color:red;"></p> <!-- Mensagens de erro ou sucesso -->
+                    <p style="color:red;"></p>
                 </div>
         
-                <button type="button" onclick="salvarUsuario()">Cadastrar</button> <!-- Ação de salvar usuário -->
+                <button type="button" onclick="salvarUsuario()">Cadastrar</button>
             </form>
         </div>
-        
-
     </div>
     
+    <!-- Scripts do Firebase para configuração e inicialização -->
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-database.js"></script>
     
     <script> 
-    
     const firebaseConfig = {
         apiKey: "AIzaSyCBpAsd2HR1QTdcZaReE1NpDyn2U4-7ZIY",
         authDomain: "tcc---engenhariacomp.firebaseapp.com",
@@ -128,11 +126,9 @@
     };
 
     firebase.initializeApp(firebaseConfig);
-
     </script>
     <script src="scriptUsuario.js"></script>
     <script src="scriptgeral.js"></script>
     <script src="authStatus.js"></script>
 </body>
-
 </html>

@@ -7,7 +7,7 @@
 
 html, body {
     height: 100%;
-    overflow: hidden; /* Remove a rolagem na página principal */
+    overflow: hidden;
     font-family: Arial, sans-serif;
 }
 
@@ -15,8 +15,8 @@ html, body {
 .container {
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Ocupa toda a altura da tela */
-    overflow: hidden; /* Evita rolagem global */
+    height: 100vh;
+    overflow: hidden;
 }
 
 /* Seção de conteúdo principal */
@@ -24,10 +24,10 @@ html, body {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Garante que o conteúdo extra seja oculto */
+    overflow: hidden;
     padding: 1vh 2vw;
     background-color: #fff;
-    margin-left: 3vw; /* Garante que o conteúdo principal não fique muito próximo do footer */
+    margin-left: 3vw;
 }
 
 /* Cabeçalho e navegação */
@@ -40,7 +40,7 @@ header {
     border-bottom: 0.1vh solid #DDD;
     border-radius: 1vh;
     box-shadow: 0 0.2vh 0.4vh rgba(0, 0, 0, 0.1);
-    flex-shrink: 0; /* Impede que o cabeçalho encolha */
+    flex-shrink: 0;
 }
 
 .navbar {
@@ -69,8 +69,8 @@ header > div:last-child {
 
 /* Seção de status dos freezers */
 .status-freezer-outer {
-    height: 49vh; /* Ajustado para ocupar uma porção da tela */
-    overflow-y: auto; /* Adiciona rolagem interna para conteúdo adicional */
+    height: 49vh;
+    overflow-y: auto;
     border-radius: 1.5vh;
     padding: 2vh;
     background-color: #f9f9fb;
@@ -93,7 +93,7 @@ header > div:last-child {
 
 .freezer-card {
     padding: 1vh;
-flex: 1 1 calc(33.33% - 1vw);
+    flex: 1 1 calc(33.33% - 1vw);
     max-width: calc(33.33% - 1vw);
     box-sizing: border-box;
     background-color: #e0e0e0;
@@ -128,7 +128,7 @@ flex: 1 1 calc(33.33% - 1vw);
 
 .freezer-card .temperature {
     padding: 1vh;
-text-align: center;
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -138,11 +138,6 @@ text-align: center;
 
 .temperature b {
     margin-bottom: 1vh;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
     text-align: center;
     display: flex;
     align-items: center;
@@ -177,7 +172,7 @@ text-align: center;
     display: flex;
     flex-direction: column;
     gap: 1.5vh;
-    overflow-y: auto; /* Permite rolagem somente na .details-content */
+    overflow-y: auto;
 }
 
 .details-content p {
@@ -193,8 +188,8 @@ text-align: center;
 
 /* Tabela com rolagem vertical */
 .table-container {
-    overflow-y: auto; /* Permite rolagem apenas na tabela */
-    max-height: 30vh; /* Define uma altura máxima */
+    overflow-y: auto;
+    max-height: 30vh;
 }
 
 .table {
@@ -225,16 +220,16 @@ text-align: center;
 
 .table tbody {
     display: block;
-    max-height: 30vh; /* Define altura máxima com rolagem */
+    max-height: 30vh;
     overflow-y: auto;
-    scroll-snap-type: y mandatory; /* Garante que o scroll sempre fique alinhado */
+    scroll-snap-type: y mandatory;
 }
 
 .table tr {
     display: table;
     width: 100%;
     table-layout: fixed;
-    scroll-snap-align: start; /* Faz o alinhamento da linha no início */
+    scroll-snap-align: start;
 }
 
 .table tr:nth-child(even) {
@@ -322,7 +317,7 @@ text-align: center;
     cursor: pointer;
 }
 
-/* Responsividade */
+/* Responsividade para telas menores */
 @media (max-width: 768px) {
     header {
         flex-direction: column;
