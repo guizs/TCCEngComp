@@ -1,6 +1,5 @@
 /* Responsividade e Modernização */
 
-/* Seção principal */
 .section { 
     display: flex;
     justify-content: space-between;
@@ -11,12 +10,10 @@
     margin-bottom: 1vh;
 }
 
-/* Alinhamento à direita para labels na seção */
 .section label, .section2 {
     text-align: right;
 }
 
-/* Caixa de conteúdo principal com borda e sombras */
 .box {
     border: 2px solid #d1d1d1;
     background-color: #ffffff;
@@ -31,13 +28,11 @@
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
-/* Efeito de hover para caixa de conteúdo */
-.box:hover {
+.box:hover, .grid:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Estilo para títulos nas caixas */
 .box h3, .box-procura h3 {
     margin-top: 1vh;
     margin-bottom: 1%;
@@ -52,20 +47,17 @@
     font-size: 1.2em;
 }
 
-/* Estilo para rótulos de formulário */
 .box label, .box .form-group label, .box-procura label, .box-procura .form-group label {
     font-weight: bold;
     width: 5em;
 }
 
-/* Grupo de formulário alinhado com margem */
 .box .form-group, .box-procura .form-group {
     display: flex;
     align-items: center;
     margin-right: 2%;
 }
 
-/* Estilo dos campos de entrada de texto nos formulários */
 .box .form-group input[type="text"], .box-procura .form-group input[type="text"] {
     width: 90%;
     padding: 1vh;
@@ -77,12 +69,10 @@
     transition: border-color 0.3s;
 }
 
-/* Efeito de foco nos campos de entrada de texto */
 .box .form-group input[type="text"]:focus {
     border-color: #0077cc;
 }
 
-/* Estilo do botão dentro da caixa */
 .box button {
     display: block;
     width: 40%;
@@ -97,13 +87,11 @@
     transition: background-color 0.3s, transform 0.2s;
 }
 
-/* Efeito de hover nos botões */
 .box button:hover, .box-procura button:hover {
     background-color: #565a5e;
     transform: translateY(-3px);
 }
 
-/* Mensagem de erro e sucesso */
 .message, .message-alterar {
     font-size: 1.5vh;
     text-align: center;
@@ -121,7 +109,6 @@
     font-weight: bold;
 }
 
-/* Animação de tremor */
 @keyframes tremor {
     0% { transform: translateX(0); }
     25% { transform: translateX(-5px); }
@@ -134,7 +121,6 @@
     animation: tremor 0.5s;
 }
 
-/* Estilo para mensagens de sucesso e erro */
 .message.success, .message-alterar.success {
     color: green;
 }
@@ -143,7 +129,6 @@
     color: red;
 }
 
-/* Estilo para o pop-up de confirmação */
 .popup {
     display: none;
     position: fixed;
@@ -165,7 +150,6 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Botão dentro do pop-up */
 .popup button {
     margin: 1vh;
     padding: 1vh 2vw;
@@ -181,7 +165,6 @@
     background-color: #005fa3;
 }
 
-/* Seção de layout */
 .section2 {
     display: flex;
     justify-content: space-between;
@@ -193,14 +176,12 @@
     margin-bottom: -3vh;
 }
 
-/* Contêiner com rolagem */
 .scroll-container {
     flex: 1;
     overflow-y: auto;
     width: 100%;
 }
 
-/* Caixa de pesquisa com borda e sombra */
 .box-procura {
     border: 2px solid #d1d1d1;
     background-color: #ffffff;
@@ -217,13 +198,11 @@
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
-/* Efeito de hover na caixa de pesquisa */
 .box-procura:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Grupo de botões centralizados */
 .button-group {
     display: flex;
     justify-content: center;
@@ -231,7 +210,6 @@
     flex-wrap: wrap;
 }
 
-/* Estilo do botão na caixa de pesquisa */
 .box-procura button {
     width: 25%;
     padding: 1vh;
@@ -245,7 +223,31 @@
     transition: background-color 0.3s, transform 0.2s;
 }
 
-/* Tabela de dados com borda e layout fixo */
+.grid {
+    border: 2px solid #d1d1d1;
+    background-color: #f9f9f9;
+    width: 100%;
+    max-width: 48%;
+    height: auto;
+    max-height: 31.5vh;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    box-sizing: border-box;
+    border-radius: 12px;
+    margin-bottom: 2vh;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background-color: #000;
+}
+
+.scroll-container {
+    flex: 1;
+    width: 100%;
+    height: 30vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -256,7 +258,6 @@ table {
     transition: background-color 0.3s;
 }
 
-/* Estilo das células da tabela */
 th, td {
     border: 1px solid #ddd;
     padding: 1.5vh;
@@ -266,7 +267,6 @@ th, td {
     white-space: nowrap;
 }
 
-/* Cabeçalho da tabela com fundo colorido */
 th {
     background-color: #1F82B2;
     color: white;
@@ -275,19 +275,15 @@ th {
     z-index: 2;
     transition: background-color 0.3s;
 }
-
-/* Efeito de hover no cabeçalho da tabela */
 th:hover {
     background-color: #0077cc;
 }
 
-/* Efeito de hover nas linhas da tabela */
 tr:hover {
     background-color: #e0e0e0;
     transition: background-color 0.3s;
 }
 
-/* Colunas da tabela com larguras definidas */
 .col-id {
     width: 10%;
 }

@@ -1,51 +1,38 @@
-/* Estilo global */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    height: 100%;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-}
-
-/* Contêiner principal */
-.container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-}
-
-/* Seção de conteúdo principal */
+/* Estilo para o contêiner principal */
 .main-content {
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    position: relative;
+    margin-left: 3vw;
     padding: 1vh 2vw;
     background-color: #fff;
-    margin-left: 3vw;
+    margin-top: -2%;
 }
 
-/* Cabeçalho e navegação */
+.status-freezer, .details-section {
+    width: 100%;
+}
+
+/* Estilos para cabeçalho e barra de navegação */
 header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center; /* Centraliza todos os itens no centro horizontalmente */
+    align-items: center; /* Centraliza todos os itens no centro verticalmente */
     padding: 1vh 2vw;
     background-color: #f1f1f1;
     border-bottom: 0.1vh solid #DDD;
     border-radius: 1vh;
+    top: 0;
+    z-index: 10;
     box-shadow: 0 0.2vh 0.4vh rgba(0, 0, 0, 0.1);
-    flex-shrink: 0;
+    margin-left: 3vw;
+    gap: 2vw; /* Espaçamento entre os elementos dentro do header */
 }
 
 .navbar {
     display: flex;
     gap: 2vw;
+    margin-left: auto;
 }
 
 .navbar a {
@@ -67,19 +54,35 @@ header > div:last-child {
     align-items: center;
 }
 
-/* Seção de status dos freezers */
+/* Estilos para o status dos freezers */
+.status-freezer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1vw;
+    margin: 2vh 0;
+}
+
+/* Estilo modernizado e responsivo para a div externa */
 .status-freezer-outer {
-    height: 49vh;
-    overflow-y: auto;
-    border-radius: 1.5vh;
-    padding: 2vh;
-    background-color: #f9f9fb;
-    box-shadow: 0 0.4vh 1vh rgba(0, 0, 0, 0.1);
+    height: 30vh; /* Altura como 30% da altura da tela */
+    overflow: hidden; /* Garante que o scroll só ocorra na div interna */
+    border-radius: 1.5vh; /* Bordas arredondadas proporcionais */
+    padding: 2vh; /* Espaçamento interno proporcional à altura da tela */
+    box-sizing: border-box;
+    background-color: #f9f9fb; /* Cor de fundo clara */
+    box-shadow: 0 0.4vh 1vh rgba(0, 0, 0, 0.1); /* Sombra sutil para dar profundidade */
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    margin: 2vh 0;
-    transition: all 0.3s ease;
+    margin: 2vh 0; /* Espaçamento superior e inferior */
+    transition: all 0.3s ease; /* Transição suave para o efeito de hover */
+    flex: 1;
+    max-width: 85%;
+}
+
+.status-freezer-outer:hover {
+    box-shadow: 0 0.8vh 1.5vh rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada ao passar o mouse */
+    transform: translateY(-0.5vh); /* Eleva levemente a div */
 }
 
 .status-freezer-inner {
@@ -87,26 +90,36 @@ header > div:last-child {
     overflow-y: auto;
     display: flex;
     flex-wrap: wrap;
-    gap: 1vw;
-    justify-content: flex-start;
+    gap: 1vw; /* Espaço entre os freezer-cards */
+    justify-content: flex-start; /* Alinha os cards à esquerda */
 }
 
 .freezer-card {
-    padding: 1vh;
-    flex: 1 1 calc(33.33% - 1vw);
-    max-width: calc(33.33% - 1vw);
+    flex: 1 1 calc(33.33% - 1vw); /* Cada card ocupa 33.33% da largura */
+    max-width: calc(33.33% - 1vw); /* Define uma largura máxima para manter o layout */
     box-sizing: border-box;
+    padding: 1.5vh;
     background-color: #e0e0e0;
     border-radius: 0.5vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition: all 0.3s ease;
+    transition: box-shadow 0.3s ease;
+    border: 2px solid transparent;
 }
 
-.freezer-card:hover {
-    box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);
-    transform: translateY(-0.3vh);
+.freezer-card.active {
+    border-color: rgba(0, 128, 255, 0.8);
+    animation: borderPulse 2s infinite;
+}
+
+@keyframes borderPulse {
+    0%, 100% {
+        border-color: rgba(0, 128, 255, 0.8);
+    }
+    50% {
+        border-color: rgba(0, 128, 255, 0.4);
+    }
 }
 
 .freezer-card > div {
@@ -137,15 +150,14 @@ header > div:last-child {
 }
 
 .temperature b {
-    margin-bottom: 1vh;
+    margin-top: 1.5vh;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
 }
-
-/* Seção de detalhes */
+/* Estilos para a seção de detalhes */
 .details-section {
     flex-grow: 1;
     display: flex;
@@ -166,15 +178,6 @@ header > div:last-child {
     flex-shrink: 0;
 }
 
-.details-content {
-    flex-grow: 1;
-    padding: 1.5vh;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5vh;
-    overflow-y: auto;
-}
-
 .details-content p {
     font-size: 1.8vh;
     color: #555;
@@ -184,12 +187,6 @@ header > div:last-child {
     background-color: #f1f9ff;
     border: 0.1vh solid #d1e9ff;
     border-radius: 0.5vh;
-}
-
-/* Tabela com rolagem vertical */
-.table-container {
-    overflow-y: auto;
-    max-height: 30vh;
 }
 
 .table {
@@ -202,6 +199,11 @@ header > div:last-child {
     position: sticky;
     top: 0;
     z-index: 1;
+}
+
+.table-container {
+    overflow-y: auto;
+    max-height: 30vh;
 }
 
 .table thead th {
@@ -241,66 +243,83 @@ header > div:last-child {
     transition: background-color 0.3s ease;
 }
 
-/* Modal */
+/* Estilos do modal */
 .modal {
     display: none;
     position: fixed;
-    z-index: 9999;
+    z-index: 100;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
+    overflow: auto;
     background-color: rgba(0,0,0,0.5);
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
-    background-color: #FFF;
-    margin: 10% auto;
-    padding: 2vh;
-    border: 0.1vh solid #888;
-    width: 80%;
-    max-width: 60vw;
-    border-radius: 1vh;
-    box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.3);
 }
 
 .modal-content h2 {
-    margin-top: 0;
-    font-size: 2.5vh;
-    margin-bottom: 2vh;
+    font-size: 2.4vh;
+    font-weight: 700;
+    color: #333;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .modal-content label {
-    display: block;
-    margin: 1vh 0 0.5vh;
-    font-weight: bold;
+    font-weight: 500;
+    color: #555;
+    margin-top: 1vh;
 }
 
 .modal-content input[type="date"],
 .modal-content select {
     width: 100%;
-    padding: 1vh;
-    margin-bottom: 1vh;
-    border: 0.1vh solid #CCC;
-    border-radius: 0.5vh;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 1.5vh;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+.modal-content input[type="date"]:focus,
+.modal-content select:focus {
+    border-color: #007bff;
 }
 
 .download-options {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 1.5vh;
+}
+
+.download-options label {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2%;
+}
+
+.download-options .btn-container {
+    display: flex;
+    gap: 1.5vw;
+    margin-top: 10px;
 }
 
 .download-options .btn {
-    background-color: #007BFF;
-    color: #FFF;
-    padding: 1vh 2vw;
+    padding: 0.7em 2em;
     border: none;
-    border-radius: 0.5vh;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.download-options .btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 .close {
@@ -317,24 +336,354 @@ header > div:last-child {
     cursor: pointer;
 }
 
-/* Responsividade para telas menores */
+#reportModal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+#reportModal.show {
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    margin: 1% auto;
+    padding: 2vh 4vw;
+    border-radius: 12px;
+    max-width: 600px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    animation: modalOpen 0.4s ease;
+}
+
+.modal-content p {
+    font-weight: bold;
+    margin-top: 1.5vh;
+    font-size: 0.9em;
+}
+
+.modal-content .close {
+    color: #999;
+    font-size: 2.5vh;
+    font-weight: bold;
+    float: right;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.modal-content .close:hover {
+    color: #333;
+}
+
+.modal-content #selectAll {
+    margin-right: 5px;
+}
+
+@keyframes modalOpen {
+    from {
+        transform: translateY(-10%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+#freezerSelect {
+    width: 100%;
+    box-sizing: border-box;
+    height: 15vh;
+    border: 0.1vh solid #ccc;
+    border-radius: 0.5vh;
+    padding: 1vh;
+    background-color: #f9f9f9;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#freezerSelect:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0.5vh 1vh rgba(0, 123, 255, 0.5);
+}
+
+#freezerSelect option {
+    padding: 1vh;
+    font-size: small;
+    color: #333;
+}
+
+#freezerSelect::-webkit-scrollbar {
+    width: 0.8vh;
+}
+
+#freezerSelect::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+#freezerSelect::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 0.5vh;
+}
+
+#freezerSelect::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+#freezerSelect option:checked {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+/* Ajuste de responsividade */
 @media (max-width: 768px) {
+    .vertical-footer {
+        display: none;
+    }
+
+    .container {
+        width: 100%;
+        height: auto;
+        padding: 1vh;
+    }
+
     header {
         flex-direction: column;
+        align-items: center;
+        margin-left: 0;
+        padding: 1vh;
         text-align: center;
     }
 
     .navbar {
         flex-direction: column;
         gap: 1vh;
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
     }
 
-    .freezer-card {
-        flex: 1 1 100%;
-        max-width: 100%;
+    .navbar a {
+        padding: 1vh 2vw;
+        width: 100%;
+        text-align: center;
     }
 
-    .details-content p {
-        font-size: 1.5vh;
+    header > div:last-child {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5vh;
+        margin-top: 1vh;
     }
+
+    .section, .section2 {
+        flex-direction: column;
+        align-items: center;
+        margin-left: 0;
+        width: 100%;
+        height: auto;
+    }
+
+    .box, .grid {
+        width: 100%;
+        margin-bottom: 2vh;
+    }
+}
+
+.form-group {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.form-group label {
+    width: 100%;
+    margin-bottom: 0.5vh;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+}
+
+.box button, .grid button {
+    width: 100%;
+    text-align: center;
+}
+
+.message {
+    font-size: 1.4vh;
+    margin-top: 1vh;
+}
+
+.status-freezer {
+    flex-direction: column;
+    align-items: center;
+}
+
+.freezer-card:hover {
+box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);
+transform: translateY(-0.3vh);
+transition: all 0.3s ease;
+}
+
+.top-section {
+    display: flex;
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+    align-items: center; /* Alinha verticalmente os elementos ao centro */
+    width: 100%;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+
+.content-wrapper {
+    display: flex;
+    width: 100%;
+    gap: 2vw; /* Espaçamento entre os elementos */
+    justify-content: center;
+    align-items: center;
+}
+
+.alert-box {
+    width: 22vh;
+    height: 22vh;
+    background: linear-gradient(145deg, #f0f0f0, #c0c0c0);
+    border-radius: 50%;
+    box-shadow: 0 0.8vh 2vh rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2vh 0;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: auto;
+}
+
+.alert-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 1.2vh 2.5vh rgba(0, 0, 0, 0.3);
+}
+
+.inner-circle {
+    width: 81%;
+    height: 81%;
+    background: radial-gradient(circle, #ffebee, #f8d7da);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 0.6vh 1.2vh rgba(0, 0, 0, 0.3);
+}
+
+.alert-box span {
+    font-size: 1.8vh;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 1vh;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.1vh;
+}
+
+.score {
+    font-size: 6vh;
+    font-weight: bold;
+    text-shadow: 0 0.2vh 0.4vh rgba(0, 0, 0, 0.3);
+}
+
+#notificationPopup {
+    width: 250px; /* Aumenta a largura do popup */
+    max-height: 300px; /* Define uma altura máxima */
+    overflow-y: auto; /* Adiciona o scroll interno */
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff; /* Fundo branco para contraste */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+#notificationPopup p {
+    margin: 0;
+    padding: 8px 10px;
+    font-size: 0.9em;
+    border-bottom: 1px solid #f1f1f1; /* Linha para separar as mensagens */
+    line-height: 1.5;
+}
+
+/* Estilo para o ícone de notificação */
+#notificationIcon svg {
+    font-size: 18px;
+    color: #333;
+}
+
+/* Cor ao passar o mouse sobre o ícone */
+#notificationIcon svg:hover {
+    color: #007bff;
+}
+
+#notificationIcon {
+    position: relative;
+    animation: shake 0.5s ease-in-out infinite; /* Efeito de tremor */
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px; /* Mantém a bolinha um pouco acima do ícone */
+    right: -75%; /* Afasta a bolinha mais para o lado */
+    background-color: red;
+    color: white;
+    font-size: 0.8em;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+    display: none; /* Inicialmente oculto */
+    margin-right: 50%;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-2px); }
+    40%, 80% { transform: translateX(2px); }
+}
+
+/* Exibir o contador quando houver notificações */
+.has-notifications #notificationCount {
+    display: inline;
+}
+
+/* Remove a borda inferior da última mensagem */
+#notificationPopup p:last-child {
+    border-bottom: none;
+}
+
+/* Estilo para a barra de rolagem personalizada */
+#notificationPopup::-webkit-scrollbar {
+    width: 6px;
+}
+
+#notificationPopup::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+#notificationPopup::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+#notificationPopup::-webkit-scrollbar-thumb:hover {
+    background: #bbb;
 }

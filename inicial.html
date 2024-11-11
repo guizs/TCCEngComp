@@ -6,12 +6,28 @@
     <title>Monitoramento de Freezers</title>
     <link rel="stylesheet" href="stylepadrao.css">
     <link rel="stylesheet" href="styleInicial.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-M9XEUEF7xscbRyErgvmDgTjCQaJ1d02lg8R2h0kEGL4GsfllYcFQpCjv+6qhct0r" crossorigin="anonymous">
+
 </head>
 <body>
     <div class="container">
         <div class="vertical-footer"></div>
 
         <header>
+
+            <div style="display: inline-block; position: relative;">
+                <span id="notificationIcon" style="cursor: pointer;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">
+                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span id="notificationCount" class="notification-badge">2</span> <!-- Número de notificações -->
+                </span>
+                <div id="notificationPopup" style="display: none; position: absolute; left: 0; top: 100%; background-color: #f1f1f1; padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                    <p>Não há mensagens pendentes.</p>
+                </div>
+            </div>
+
             <!-- Exibição de contagem de freezers ligados e desligados -->
             <div>
                 <span> <b> Freezers ligados: </b> <span id="freezers-ligados">0</span></span>
@@ -29,24 +45,36 @@
             <div>
                 <span id="usernameSpan">Olá, </span>
                 &nbsp;&nbsp;&nbsp;
+                <nav class="navbar">
                 <a href="index.html" onclick="logout()">Sair</a>
+                </nav>  
             </div>
         </header>
 
         <div class="main-content">
-            <!-- Caixa de alerta com pontuação de monitoramento -->
-            <div class="alert-box">
-                <span>Há um alerta!</span>
-                <div id="pontuacaoElem" class="score">8.0</div>
-            </div>
+            <!-- Novo contêiner para agrupar alert-box e status-freezer-outer -->
+            <div class="top-section">
+                <div class="content-wrapper">
+                    <div class="status-freezer-outer">
+                        <div class="status-freezer-inner">
+                            <!-- Elementos de freezer-card serão adicionados dinamicamente aqui -->
+                        </div>
+                    </div>
+                    <div>
 
-            <!-- Contêiner para exibir status dos freezers -->
-            <div class="status-freezer-outer">
-                <div class="status-freezer-inner">
-                    <!-- Elementos de freezer-card serão adicionados dinamicamente aqui -->
+                        <div class="alert-box">
+                            <div class="inner-circle">
+                                <div id="pontuacaoElem" class="score"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    
                 </div>
             </div>
-
+            
+        
             <!-- Seção de detalhes dos freezers -->
             <div class="details-section">
                 <div class="details-header">Selecione o freezer</div>
@@ -73,7 +101,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
     </div>
 
     <!-- Modal para download de relatório -->
@@ -89,7 +117,7 @@
                 <input type="date" id="endDate" name="endDate" style="width: 100%; box-sizing: border-box;">
     
                 <!-- Seleção múltipla de freezers para o relatório -->
-                <label for="freezerSelect">Freezer: <p style="font-size: small;">Para seleções múltiplas, clique segurando o botão CTRL do seu teclado.</p></label>
+                
                 <select id="freezerSelect" name="freezerSelect" multiple style="height: 150px;">
                     <option value="freezer1">MTLF13</option>
                     <option value="freezer2">MTLF14</option>
@@ -103,7 +131,10 @@
                 <div style="display: flex; align-items: center; gap: 5px;">
                     <input type="checkbox" id="selectAll" name="selectAll">
                     <label for="selectAll">Selecionar todos</label>
+                    
                 </div>
+
+                <label for="freezerSelect"><p style="font-size: small;">Para seleções múltiplas, clique segurando o botão CTRL do seu teclado.</p></label>
 
                 <!-- Botões de download do relatório -->
                 <div class="download-options">
@@ -130,11 +161,13 @@
     const firebaseConfig = {
         apiKey: "AIzaSyCBpAsd2HR1QTdcZaReE1NpDyn2U4-7ZIY",
         authDomain: "tcc---engenhariacomp.firebaseapp.com",
+        databaseURL: "https://tcc---engenhariacomp-default-rtdb.firebaseio.com",
         projectId: "tcc---engenhariacomp",
         storageBucket: "tcc---engenhariacomp.appspot.com",
         messagingSenderId: "468970604778",
         appId: "1:468970604778:web:99584d28913491aedb6f93"
     };
+
 
     firebase.initializeApp(firebaseConfig);
     </script>
@@ -142,5 +175,6 @@
     <script src="scriptgeral.js"></script>
     <script src="containerInicial.js"></script>
     <script type="module" src="scriptInicial.js"></script>
+    <script src="pontuacao.js"></script>
 </body>
 </html>

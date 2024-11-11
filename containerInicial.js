@@ -1,4 +1,10 @@
-// Carrega o status dos freezers e atualiza-os dinamicamente
+let clickInterval;
+let isPaused = false;
+let pauseTimeout;
+let currentCardIndex = 0; // Controla o índice do card atual
+let notificationCount = 0; // Contador de notificações
+let notificationMessages = []; // Armazena as mensagens de notificação
+
 function carregarFreezersStatus() {
     const statusContainer = document.querySelector(".status-freezer-inner");
     const freezersLigadosElement = document.getElementById("freezers-ligados");
@@ -10,6 +16,7 @@ function carregarFreezersStatus() {
     }
 
     statusContainer.innerHTML = ""; // Limpa o conteúdo existente
+    notificationMessages = []; // Limpa as mensagens de notificação a cada carregamento
 
     const statusRef = firebase.database().ref("freezers_status");
     statusRef.once("value", function(snapshot) {
@@ -34,9 +41,17 @@ function carregarFreezersStatus() {
                 }
             }
 
-            // Atualiza contadores de freezers ligados e desligados
+            // Atualiza contadores de freezers ligados e desligados e gera notificações
             if (statusColor === "gray") {
                 countDesligados++;
+                notificationMessages.push(`Freezer ${freezer.id} está desligado.`);
+            } else if (statusColor === "red") {
+                const tempAtual = parseFloat(freezer.temperaturaAtual);
+                const tempMin = parseFloat(freezer.tempMin);
+                const tempMax = parseFloat(freezer.tempMax);
+                const diff = tempAtual < tempMin ? (tempMin - tempAtual) : (tempAtual - tempMax);
+                notificationMessages.push(`Freezer ${freezer.id} está fora do intervalo! Temp: ${tempAtual}°C, desvio: ${Math.round(diff)}°C.`);
+                countLigados++;
             } else {
                 countLigados++;
             }
@@ -49,8 +64,19 @@ function carregarFreezersStatus() {
                 <div class="temperature">${freezer.temperaturaAtual !== undefined && freezer.temperaturaAtual !== null && freezer.temperaturaAtual !== "" ? `${freezer.temperaturaAtual}°C` : "N/A"}</div>
             `;
 
+            // Adiciona o evento de clique ao card para carregar detalhes, destacar o card e pausar o carrossel
             freezerCard.addEventListener("click", function() {
+                // Remove a classe ativa de todos os cards antes de adicionar ao card clicado
+                document.querySelectorAll(".freezer-card").forEach(c => c.classList.remove("active"));
+                
+                // Adiciona a classe ativa ao card atual
+                freezerCard.classList.add("active");
+                
+                // Carrega os detalhes do freezer específico
                 carregarDetalhesFreezer(freezer.id);
+                
+                // Pausa o clique automático por 10 minutos
+                pausarEContinuarClickAutomatico();
             });
 
             statusContainer.appendChild(freezerCard);
@@ -59,6 +85,13 @@ function carregarFreezersStatus() {
         // Atualiza os elementos HTML com a quantidade de freezers ligados e desligados
         freezersLigadosElement.textContent = countLigados;
         freezersDesligadosElement.textContent = countDesligados;
+
+        // Atualiza as notificações
+        notificationCount = notificationMessages.length;
+        showNotifications(notificationCount);
+        updateNotificationPopup();
+
+        iniciarClickAutomatico();
     });
 }
 
@@ -155,7 +188,114 @@ function carregarDetalhesFreezer(freezerId) {
     });
 }
 
-// Executa a função de carregar o status dos freezers ao carregar a página
+function iniciarClickAutomatico() {
+    // Certifica-se de que existem cards antes de iniciar o clique automático
+    const freezerCards = document.querySelectorAll(".freezer-card");
+    if (freezerCards.length === 0) {
+        console.warn("Nenhum card encontrado. Tentando novamente em 1 segundo...");
+        setTimeout(iniciarClickAutomatico, 1000); // Tenta novamente após 1 segundo
+        return;
+    }
+
+    simularCliqueNoCard();
+
+    clickInterval = setInterval(() => {
+        console.log("Executando intervalo de 3 segundos"); // Mantém o intervalo reduzido para testes
+        if (!isPaused) {
+            simularCliqueNoCard();
+        }
+    }, 30000);
+}
+
+
+// Função para simular o clique em um card específico
+function simularCliqueNoCard() {
+    const freezerCards = document.querySelectorAll(".freezer-card");
+
+    if (freezerCards.length > 0) {
+        freezerCards.forEach(c => c.classList.remove("active"));
+        
+        const card = freezerCards[currentCardIndex];
+        card.classList.add("active");
+        console.log("Exibindo card index:", currentCardIndex); // Verifica o índice atual
+        
+        carregarDetalhesFreezer(card.querySelector("span").textContent); // Chama diretamente a função para carregar detalhes
+        
+        currentCardIndex = (currentCardIndex + 1) % freezerCards.length;
+    }
+}
+
+
+
+// Função para pausar o clique automático por 10 minutos e depois retomar
+function pausarEContinuarClickAutomatico() {
+    clearInterval(clickInterval); // Pausa o clique automático
+    isPaused = true;
+
+    // Limpa o timeout anterior, caso exista
+    if (pauseTimeout) clearTimeout(pauseTimeout);
+
+    // Define a pausa de 10 minutos
+    pauseTimeout = setTimeout(() => {
+        isPaused = false;
+        iniciarClickAutomatico(); // Retoma o clique automático após 10 minutos
+    }, 600000); // 10 minutos em milissegundos
+}
+
+// Adiciona o evento de clique para pausar o clique automático
+document.addEventListener("click", (event) => {
+    if (event.target.closest(".freezer-card")) {
+        pausarEContinuarClickAutomatico();
+    }
+});
+
+// Inicia o clique automático ao carregar a página
 window.onload = function() {
-    carregarFreezersStatus();
+    carregarFreezersStatus(); // Chama apenas carregarFreezersStatus
 };
+
+document.getElementById('notificationIcon').addEventListener('click', function() {
+    const popup = document.getElementById('notificationPopup');
+    popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
+});
+
+// Ocultar o popup se clicar fora dele
+document.addEventListener('click', function(event) {
+    const notificationIcon = document.getElementById('notificationIcon');
+    const popup = document.getElementById('notificationPopup');
+    if (!notificationIcon.contains(event.target) && !popup.contains(event.target)) {
+        popup.style.display = 'none';
+    }
+});
+
+function updateNotificationPopup() {
+    const popup = document.getElementById('notificationPopup');
+    popup.innerHTML = ''; // Limpa as notificações antigas
+
+    if (notificationMessages.length > 0) {
+        notificationMessages.forEach((message) => {
+            const p = document.createElement("p");
+            p.textContent = message;
+            popup.appendChild(p);
+        });
+    } else {
+        const p = document.createElement("p");
+        p.textContent = "Não há mensagens pendentes.";
+        popup.appendChild(p);
+    }
+}
+
+// Exibir o contador de notificações e o tremor do ícone
+function showNotifications(count) {
+    const notificationIcon = document.getElementById('notificationIcon');
+    const notificationCountElement = document.getElementById('notificationCount');
+    
+    if (count > 0) {
+        notificationIcon.classList.add('has-notifications'); // Ativa o tremor
+        notificationCountElement.textContent = count; // Define o número de notificações
+        notificationCountElement.style.display = 'inline'; // Exibe a bolinha
+    } else {
+        notificationIcon.classList.remove('has-notifications'); // Remove o tremor
+        notificationCountElement.style.display = 'none'; // Oculta a bolinha
+    }
+}

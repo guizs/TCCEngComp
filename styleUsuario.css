@@ -97,7 +97,7 @@ header > div:last-child {
     align-items: stretch;
     width: 80%;
     margin: 0 auto;
-    height: auto;
+    height: 36vh;
     margin-left: 12%;
     margin-bottom: 1vh;
     flex-wrap: wrap;
@@ -118,7 +118,7 @@ header > div:last-child {
     margin-left: 24vh;
     margin-right: 0;
     padding-bottom: 1%;
-    height: auto;
+    height: 30px;
 }
 
 /* Caixa e configuração da seção de procura */
@@ -132,7 +132,7 @@ header > div:last-child {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
     width: 100%;
-    max-width: 48%;
+    max-width: 46%;
     margin-left: 0;
     margin-right: auto;
     padding-bottom: 1%;
@@ -140,7 +140,7 @@ header > div:last-child {
 }
 
 /* Efeito de hover para as caixas */
-.box:hover, .box-procura:hover, .register-section:hover {
+.box:hover, .box-procura:hover, .register-section:hover, .alterar:hover, .grid:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
@@ -190,7 +190,7 @@ header > div:last-child {
 }
 
 /* Botões de ação nas caixas */
-.box button, .alterar button, .box-procura button, .register-section button {
+.box button, .box-procura button, .register-section button {
     display: block;
     width: 40%;
     padding: 1.5vh;
@@ -200,7 +200,21 @@ header > div:last-child {
     border-radius: 12px;
     cursor: pointer;
     margin: 0 auto;
-    margin-top: 3%;
+    margin-top: 2%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.alterar button {
+    display: block;
+    width: 40%;
+    padding: 1.5vh;
+    background-color: #3a3d41;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 0 auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s, transform 0.2s;
 }
@@ -250,16 +264,15 @@ header > div:last-child {
     border: 2px solid #d1d1d1;
     background-color: #f9f9f9;
     width: 100%;
-    max-width: 48%;
-    height: auto;
-    max-height: 31.5vh;
+    max-width: 52%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: auto;
     box-sizing: border-box;
     border-radius: 12px;
     margin-bottom: 2vh;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    max-height: 100%;
 }
 
 /* Contêiner de rolagem */
@@ -324,12 +337,12 @@ tr:hover {
 
 /* Coluna específica para o nome */
 .col-nome {
-    width: 10%;
+    width: 15%;
 }
 
 /* Coluna específica para e-mail */
 .col-e-mail {
-    width: 15%;
+    width: 20%;
 }
 
 /* Colunas de data de criação e última atualização */
@@ -339,5 +352,23 @@ tr:hover {
 
 /* Colunas para status ativo e gerência */
 .col-ativo, .col-gerente {
-    width: 5%;
+    width: 13%;
+}
+
+.alterar {
+    border: 2px solid #d1d1d1;
+    padding: 2vh;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    border-radius: 12px;
+    margin-bottom: 2vh;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: 80%;
+    max-width: 100%;
+    margin-left: 24.5vh;
+    margin-right: 0;
+    height: 80.5rem;
+    overflow-y: hidden; 
+    margin-top: -1rem;
 }
