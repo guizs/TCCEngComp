@@ -6,7 +6,7 @@
     <title>Monitoramento de Freezers</title>
     <link rel="stylesheet" href="stylepadrao.css">
     <link rel="stylesheet" href="styleInicial.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-M9XEUEF7xscbRyErgvmDgTjCQaJ1d02lg8R2h0kEGL4GsfllYcFQpCjv+6qhct0r" crossorigin="anonymous">
+    
 
 </head>
 <body>
@@ -52,9 +52,32 @@
         </header>
 
         <div class="main-content">
+
+            <div class="filter-sort-container">
+                <label for="filterSelect">Filtrar por status:</label>
+                <select id="filterSelect">
+                    <option value="all">Todos</option>
+                    <option value="gray">Desligado</option>
+                    <option value="red">Temperatura fora do intervalo</option>
+                    <option value="green">Normal</option>
+                </select>
+            
+                <label for="sortSelect">Ordenar por:</label>
+                <select id="sortSelect">
+                    <option value="status">Status</option>
+                    <option value="a-z">Alfabético (A-Z)</option>
+                    <option value="z-a">Alfabético (Z-A)</option>
+                    <option value="most-recent">Mais Recente</option>
+                    <option value="oldest">Mais Antigo</option>
+                    <option value="temperature-asc">Temperatura (Crescente)</option>
+                    <option value="temperature-desc">Temperatura (Decrescente)</option>
+
+                </select>
+            </div>
             <!-- Novo contêiner para agrupar alert-box e status-freezer-outer -->
             <div class="top-section">
                 <div class="content-wrapper">
+
                     <div class="status-freezer-outer">
                         <div class="status-freezer-inner">
                             <!-- Elementos de freezer-card serão adicionados dinamicamente aqui -->
@@ -119,12 +142,7 @@
                 <!-- Seleção múltipla de freezers para o relatório -->
                 
                 <select id="freezerSelect" name="freezerSelect" multiple style="height: 150px;">
-                    <option value="freezer1">MTLF13</option>
-                    <option value="freezer2">MTLF14</option>
-                    <option value="freezer3">MTLF15</option>
-                    <option value="freezer4">MTLF16</option>
-                    <option value="freezer4">MTLF17</option>
-                    <option value="freezer4">MTLF18</option>
+
                 </select>
 
                 <!-- Opção para selecionar todos os freezers -->
@@ -140,8 +158,9 @@
                 <div class="download-options">
                     <label>Download via:</label>
                     <div class="btn-container">
-                        <button type="button" class="btn">Csv</button>
-                        <button type="button" class="btn">E-mail</button>
+                        <button type="button" class="btn" id="downloadCsvBtn">Csv</button>
+                        <button type="button" class="btn" id="downloadExcelBtn">Excel</button>
+
                     </div>
                 </div>
 
@@ -155,6 +174,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
 
     <script> 
     // Configuração do Firebase
@@ -175,6 +196,8 @@
     <script src="scriptgeral.js"></script>
     <script src="containerInicial.js"></script>
     <script type="module" src="scriptInicial.js"></script>
+    <script src="refreshData.js"></script>
     <script src="pontuacao.js"></script>
+    <script src="relatorio.js"></script>
 </body>
 </html>

@@ -651,7 +651,7 @@ transition: all 0.3s ease;
     border-radius: 50%;
     font-weight: bold;
     display: none; /* Inicialmente oculto */
-    margin-right: 50%;
+    margin-right: 0%;
 }
 
 @keyframes shake {
@@ -686,4 +686,45 @@ transition: all 0.3s ease;
 
 #notificationPopup::-webkit-scrollbar-thumb:hover {
     background: #bbb;
+}
+
+.filter-sort-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 2vh;
+    margin-bottom: -2vh;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    max-width: 85%;
+    margin-left: 1vh;
+}
+
+.filter-sort-container select{
+
+    border-radius: 20px;
+
+}
+.filter-sort-container select:hover {
+    border-color: #888;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15); /* Sombra ao passar o mouse */
+}
+
+.filter-sort-container select:focus {
+    border-color: #5b9bd5;
+    box-shadow: 0px 0px 0px 3px rgba(91, 155, 213, 0.3); /* Sombra de foco */
+}
+
+.filter-sort-container select::after {
+    content: '▼';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
 }

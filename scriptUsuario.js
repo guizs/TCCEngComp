@@ -77,7 +77,6 @@ function LimpacamposCadastro() {
     document.getElementById('cfsenha-cadastro').value = '';
 }
 
-// Carregar usuários do banco de dados
 function carregarUsuarios() {
     const usuariosRef = firebase.database().ref('usuarios');
     const tbody = document.querySelector('#freezersTable tbody');
@@ -103,6 +102,14 @@ function carregarUsuarios() {
             ativoCell.textContent = usuario.ativo ? 'Ativo' : 'Desativado'; 
             gerenciaCell.textContent = usuario.gerencia ? 'Sim' : 'Não';
 
+            // Clique apenas na coluna Situação para mostrar o menu de ativar/desativar
+            ativoCell.onclick = (event) => {
+                event.stopPropagation();
+                esconderGerencia();
+                mostrarMenuPopup(event, childSnapshot.key, usuario.ativo);
+            };
+
+            // Clique apenas na coluna Gerência para mostrar o botão de gerência
             gerenciaCell.onclick = (event) => {
                 event.stopPropagation();
                 esconderSituacao();
@@ -112,11 +119,12 @@ function carregarUsuarios() {
             row.addEventListener('click', (event) => {
                 event.stopPropagation();
                 esconderGerencia();
-                mostrarMenuPopup(event, childSnapshot.key, usuario.ativo);
+                esconderSituacao();
             });
         });
     });
 }
+
 
 // Exibir botão para gerência
 function mostrarBotaoGerencia(event, usuario, userId) {

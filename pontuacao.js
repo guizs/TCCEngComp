@@ -1,12 +1,10 @@
 // Função que conta a quantidade de IDs na tabela 'freezers_status'
 async function contarFreezers() {
-    console.log("Contando freezers na tabela 'freezers_status'...");
     const database = firebase.database().ref('freezers_status');
     let count = 0;
     
     await database.once('value', (snapshot) => {
         count = snapshot.numChildren();
-        console.log("Quantidade de freezers encontrada:", count);
     });
     
     return count;
@@ -14,28 +12,22 @@ async function contarFreezers() {
 
 // Função que inicializa a variável base e faz a divisão pela quantidade de freezers
 async function calcularPontuacaoInicial() {
-    console.log("Calculando pontuação inicial...");
     const quantidadeFreezers = await contarFreezers();
     const pontuacaoInicial = 10;
     
     if (quantidadeFreezers === 0) {
-        console.log("Nenhum freezer encontrado. Pontuação inicial será 0.");
         return { valorPorFreezer: 0, quantidadeFreezers };
     }
 
     const valorPorFreezer = pontuacaoInicial / quantidadeFreezers;
-    console.log("Pontuação inicial por freezer:", valorPorFreezer);
-
     return { valorPorFreezer, quantidadeFreezers };
 }
 
 // Função que calcula a pontuação final com base nos status dos freezers
 async function calcularPontuacaoFinal() {
-    console.log("Calculando pontuação final com base nos status...");
     const { valorPorFreezer, quantidadeFreezers } = await calcularPontuacaoInicial();
     
     if (quantidadeFreezers === 0) {
-        console.log("Nenhum freezer encontrado. Retornando pontuação final como 0.");
         return 0;
     }
 
@@ -45,20 +37,12 @@ async function calcularPontuacaoFinal() {
     await database.once('value', (snapshot) => {
         snapshot.forEach((childSnapshot) => {
             const status = childSnapshot.val().status;
-            console.log("Status do freezer lido do banco de dados:", status);
 
             // Ajusta a pontuação final com base no status do freezer
-            if (status === 'gray') {
+            if (status === 'gray' || status === 'red') {
                 pontuacaoFinal -= valorPorFreezer * 0.4;
-                console.log(`Status 'gray' encontrado. Descontando 40%. Nova pontuação: ${pontuacaoFinal}`);
-            } else if (status === 'red') {
-                pontuacaoFinal -= valorPorFreezer * 0.4;
-                console.log(`Status 'red' encontrado. Descontando 40%. Nova pontuação: ${pontuacaoFinal}`);
             } else if (status === 'yellow') {
                 pontuacaoFinal -= valorPorFreezer * 0.2;
-                console.log(`Status 'yellow' encontrado. Descontando 20%. Nova pontuação: ${pontuacaoFinal}`);
-            } else {
-                console.log("Status desconhecido encontrado:", status);
             }
         });
     });
@@ -68,7 +52,6 @@ async function calcularPontuacaoFinal() {
 
     // Atualiza o conteúdo do elemento HTML com a pontuação final
     document.getElementById('pontuacaoElem').textContent = pontuacaoFinal;
-    console.log("Pontuação final calculada e exibida:", pontuacaoFinal);
 
     return pontuacaoFinal;
 }
