@@ -1,7 +1,7 @@
 async function gerarFreezersComHistoricoAjustado() {
     const db = firebase.database(); // Referência ao Realtime Database
     const marcas = [
-        "META", "CONS", "BRAST", "ELEC", "ESMAL", "PHIL", "MIDEA"
+        "METALFRIO", "CONSUL", "BRASTEMP", "ELECTROLUX", "ESMALTEC", "PHILCO", "MIDEA"
     ];
 
     try {
@@ -14,7 +14,8 @@ async function gerarFreezersComHistoricoAjustado() {
             counter++; // Incrementa o contador para gerar o próximo ID
 
             // Selecionar marca e criar o ID do freezer
-            const marcaPrefixo = marcas[Math.floor(Math.random() * marcas.length)];
+            const marcaCompleta = marcas[Math.floor(Math.random() * marcas.length)];
+            const marcaPrefixo = marcaCompleta.substring(0, 4); // Apenas os 4 primeiros caracteres
             const freezerId = `${marcaPrefixo}${counter}`; // Exemplo: META1, CONS2, etc.
 
             // Escolher tipo de freezer (congelados ou resfriados)
@@ -36,7 +37,7 @@ async function gerarFreezersComHistoricoAjustado() {
             // Estruturas para o banco de dados
             const freezerData = {
                 id: freezerId,
-                marca: marcaPrefixo,
+                marca: marcaCompleta,
                 tempMin: tempMin,
                 tempMax: tempMax,
                 dataCadastro: dataCadastro,
@@ -45,7 +46,7 @@ async function gerarFreezersComHistoricoAjustado() {
 
             const statusData = {
                 id: freezerId,
-                marca: marcaPrefixo,
+                marca: marcaCompleta,
                 tempMin: tempMin,
                 tempMax: tempMax,
                 temperaturaAtual: "",
@@ -84,6 +85,7 @@ async function gerarFreezersComHistoricoAjustado() {
     }
 }
 
+
 async function alimentarFreezersHistoricoComDatas() {
     const db = firebase.database(); // Referência ao Realtime Database
 
@@ -97,11 +99,19 @@ async function alimentarFreezersHistoricoComDatas() {
             return;
         }
 
-        for (const freezerId in freezers) {
-            const freezer = freezers[freezerId];
+        // Contador para IDs principais (1, 2, 3...)
+        let counter = 1;
+
+        for (const freezerKey in freezers) {
+            const freezer = freezers[freezerKey];
             const tempMin = freezer.tempMin;
             const tempMax = freezer.tempMax;
 
+            // Gera o ID no padrão solicitado
+            const marca = freezer.marca.substring(0, 4).toUpperCase(); // Primeiros 4 caracteres da marca
+            const fullId = `${marca}${counter}`; // ID completo com a marca e o número
+
+            // Estrutura para o histórico
             const historicoData = {
                 temperatura: {},
                 data: {},
@@ -115,7 +125,7 @@ async function alimentarFreezersHistoricoComDatas() {
             for (let i = 0; i < 15; i++) {
                 const data = new Date();
                 data.setDate(data.getDate() - i); // Subtrai dias para criar datas distintas
-                const dataFormatada = data.toISOString().split("T")[0]; // Pega a data no formato YYYY-MM-DD
+                const dataFormatada = data.toISOString().split("T")[0]; // Formato YYYY-MM-DD
 
                 const hora = `${Math.floor(Math.random() * 24).toString().padStart(2, "0")}:${Math.floor(Math.random() * 60).toString().padStart(2, "0")}:00`; // Hora aleatória
 
@@ -133,7 +143,7 @@ async function alimentarFreezersHistoricoComDatas() {
                 }
 
                 // Armazenar os valores no histórico
-                const key = `key${i + 1}`;
+                const key = `${i + 1}`;
                 historicoData.temperatura[key] = temperatura;
                 historicoData.data[key] = dataFormatada;
                 historicoData.hora[key] = hora;
@@ -147,22 +157,30 @@ async function alimentarFreezersHistoricoComDatas() {
             }
 
             // Atualizar histórico no Firebase
-            await db.ref(`freezers_historico/${freezerId}`).set(historicoData);
-            console.log(`Histórico de ${freezerId} atualizado.`);
+            await db.ref(`freezers_historico/${counter}`).set(historicoData);
+            console.log(`Histórico do freezer ${fullId} atualizado.`);
 
             // Atualizar status do freezer
             const statusData = {
+                id: fullId,
+                marca: freezer.marca,
+                tempMin: tempMin,
+                tempMax: tempMax,
                 temperaturaAtual: ultimaTemperatura.toFixed(1),
                 status: statusColor
             };
 
-            await db.ref(`freezers_status/${freezerId}`).update(statusData);
-            console.log(`Status de ${freezerId} atualizado para temperatura ${ultimaTemperatura} e cor ${statusColor}.`);
+            await db.ref(`freezers_status/${counter}`).set(statusData);
+            console.log(`Status do freezer ${fullId} atualizado.`);
+
+            // Incrementa o contador para o próximo freezer
+            counter++;
         }
     } catch (error) {
         console.error("Erro ao alimentar históricos e status:", error);
     }
 }
+
 
 async function limparFreezersHistorico() {
     const db = firebase.database(); // Referência ao Realtime Database
@@ -178,12 +196,10 @@ async function limparFreezersHistorico() {
         }
 
         for (const freezerId in historicos) {
-            // Remover a chave "key1" do histórico
-            await db.ref(`freezers_historico/${freezerId}/data/key1`).remove();
-            await db.ref(`freezers_historico/${freezerId}/hora/key1`).remove();
-            await db.ref(`freezers_historico/${freezerId}/temperatura/key1`).remove();
+            // Remover todo o histórico do freezer
+            await db.ref(`freezers_historico/${freezerId}`).remove();
 
-            console.log(`Chave 'key1' removida do histórico de ${freezerId}.`);
+            console.log(`Histórico de ${freezerId} removido com sucesso.`);
         }
 
         console.log("Todos os históricos foram limpos com sucesso.");
@@ -191,7 +207,6 @@ async function limparFreezersHistorico() {
         console.error("Erro ao limpar históricos:", error);
     }
 }
-
 
 function atualizarHistoricoEStatus() {
     const db = firebase.database();
@@ -212,13 +227,19 @@ function atualizarHistoricoEStatus() {
             // Processar cada freezer
             Object.keys(freezersStatus).forEach(async (freezerID) => {
                 const freezer = freezersStatus[freezerID];
-                const { tempMin, tempMax } = freezer;
+                const { tempMin, tempMax, status } = freezer;
+
+                // Se o status for "gray", não atualizar
+                if (status === "gray") {
+                    console.log(`Freezer ${freezerID} está desligado. Não será atualizado.`);
+                    return; // Pula este freezer
+                }
 
                 // Gerar temperatura com base nas regras
                 const temperaturaAtual = gerarTemperatura(tempMin, tempMax);
 
                 // Verificar se está dentro ou fora do intervalo
-                const status = temperaturaAtual >= tempMin && temperaturaAtual <= tempMax ? 'green' : 'red';
+                const novoStatus = temperaturaAtual >= tempMin && temperaturaAtual <= tempMax ? 'green' : 'red';
 
                 // Gerar data e hora atuais
                 const agora = new Date();
@@ -235,11 +256,11 @@ function atualizarHistoricoEStatus() {
                 const updates = {};
                 updates[`freezers_historico/${freezerID}/data/${proximoIndice}`] = data;
                 updates[`freezers_historico/${freezerID}/hora/${proximoIndice}`] = hora;
-                updates[`freezers_historico/${freezerID}/temp/${proximoIndice}`] = temperaturaAtual;
+                updates[`freezers_historico/${freezerID}/temperatura/${proximoIndice}`] = temperaturaAtual;
 
                 // Atualizar temperaturaAtual e status no freezers_status
                 updates[`freezers_status/${freezerID}/temperaturaAtual`] = temperaturaAtual;
-                updates[`freezers_status/${freezerID}/status`] = status;
+                updates[`freezers_status/${freezerID}/status`] = novoStatus;
 
                 // Atualizar no banco de dados
                 db.ref().update(updates)
@@ -271,7 +292,8 @@ function gerarTemperatura(tempMin, tempMax) {
     }
 }
 
-setInterval(3, 10 * 1000);
+// Executar a função de atualização periodicamente
+setInterval(atualizarHistoricoEStatus, 3 * 60 * 1000); // A cada 3 minutos
 atualizarHistoricoEStatus();
 
 //limparFreezersHistorico();

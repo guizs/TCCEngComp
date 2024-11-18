@@ -15,44 +15,34 @@ function carregarFreezersStatus() {
         return;
     }
 
-    statusContainer.innerHTML = ""; // Limpa o conteúdo existente
-    notificationMessages = []; // Limpa as mensagens de notificação a cada carregamento
+    // Limpa o conteúdo do container e inicializa variáveis novamente
+    statusContainer.innerHTML = ""; 
+    notificationMessages = []; 
 
     const statusRef = firebase.database().ref("freezers_status");
     const freezersRef = firebase.database().ref("freezers");
 
-    // Primeiro, busca os dados de dataCadastro da tabela 'freezers'
     freezersRef.once("value", function(freezersSnapshot) {
-        const dataCadastroMap = {}; // Mapeia IDs de freezers para dataCadastro
+        const dataCadastroMap = {};
 
-        // Armazena dataCadastro por ID
         freezersSnapshot.forEach(function(childSnapshot) {
             const freezer = childSnapshot.val();
             dataCadastroMap[freezer.id] = freezer.dataCadastro || "Data não disponível";
         });
 
-        // Em seguida, busca os dados de status da tabela 'freezers_status'
         statusRef.once("value", function(snapshot) {
             let countLigados = 0;
             let countDesligados = 0;
 
-            // Criação de um array para armazenar os freezers temporariamente
+            // Aqui não há necessidade de recriar freezersArray fora deste escopo
             const freezersArray = [];
 
             snapshot.forEach(function(childSnapshot) {
                 const freezer = childSnapshot.val();
-
-                // Associa dataCadastro obtida da tabela 'freezers' usando o ID do freezer
                 freezer.dataCadastro = dataCadastroMap[freezer.id] || "Data não disponível";
-
-                // Adiciona logs para verificar o valor de dataCadastro de cada freezer
-                console.log(`Freezer ID: ${freezer.id}, dataCadastro: ${freezer.dataCadastro}`);
-
-                // Adiciona cada freezer ao array para ordenação posterior
                 freezersArray.push(freezer);
             });
 
-            // Ordena o array de freezers por status
             freezersArray.sort((a, b) => {
                 const colorOrder = { "gray": 1, "red": 2, "yellow": 3, "green": 4 };
                 const statusA = determineStatusColor(a);
@@ -60,7 +50,6 @@ function carregarFreezersStatus() {
                 return colorOrder[statusA] - colorOrder[statusB];
             });
 
-            // Depois de ordenar, cria os elementos de card
             freezersArray.forEach(freezer => {
                 const freezerCard = document.createElement("div");
                 freezerCard.classList.add("freezer-card");
@@ -68,7 +57,6 @@ function carregarFreezersStatus() {
 
                 let statusColor = determineStatusColor(freezer);
 
-                // Atualiza contadores de freezers ligados e desligados e gera notificações
                 if (statusColor === "gray") {
                     countDesligados++;
                     notificationMessages.push(`Freezer ${freezer.id} está desligado.`);
@@ -108,7 +96,6 @@ function carregarFreezersStatus() {
     });
 }
 
-
 // Função auxiliar para determinar a cor do status
 function determineStatusColor(freezer) {
     if (freezer.temperaturaAtual !== "" && freezer.temperaturaAtual !== undefined && freezer.temperaturaAtual !== null) {
@@ -123,6 +110,7 @@ function determineStatusColor(freezer) {
     return "gray"; // Freezer desligado por padrão
 }
 
+// Função carregarDetalhesFreezer permanece a mesma
 function carregarDetalhesFreezer(freezerId) {
     const detailsSection = document.querySelector(".details-section");
 
@@ -183,7 +171,7 @@ function carregarDetalhesFreezer(freezerId) {
                 // Obter subnós `data`, `hora` e `temp`
                 const data = snapshot.child("data").val() || {};
                 const hora = snapshot.child("hora").val() || {};
-                const temp = snapshot.child("temp").val() || {};
+                const temp = snapshot.child("temperatura").val() || {};
 
                 // Iterar sobre os índices numéricos
                 Object.keys(data).forEach((key) => {
@@ -232,6 +220,20 @@ function carregarDetalhesFreezer(freezerId) {
     });
 }
 
+setInterval(() => {
+    carregarFreezersStatus(); // Atualiza a lista de status dos freezers
+
+    // Atualiza detalhes do freezer atualmente ativo, se houver
+    const activeCard = document.querySelector(".freezer-card.active");
+    if (activeCard) {
+        const activeFreezerId = activeCard.querySelector("span").textContent;
+        carregarDetalhesFreezer(activeFreezerId);
+    }
+
+    // Atualiza as notificações
+    updateNotificationPopup();
+    showNotifications(notificationMessages.length);
+}, 3.1 * 60 * 1000);
 
 function iniciarClickAutomatico() {
     // Certifica-se de que existem cards antes de iniciar o clique automático
