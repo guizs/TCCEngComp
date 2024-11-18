@@ -294,7 +294,6 @@ function gerarTemperatura(tempMin, tempMax) {
 
 // Executar a função de atualização periodicamente
 setInterval(atualizarHistoricoEStatus, 3 * 60 * 1000); // A cada 3 minutos
-atualizarHistoricoEStatus();
 
 //limparFreezersHistorico();
 //alimentarFreezersHistoricoComDatas();

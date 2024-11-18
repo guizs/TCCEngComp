@@ -57,20 +57,77 @@ function cadastrarFreezer() {
     exibirPopupConfirmacao("cadastrar");
 }
 
-// Alterar informações de um freezer existente
 function alterarFreezer() {
-    const inputId = document.getElementById("ID").value;
-    const marca = document.getElementById("marca-alterar").value.toUpperCase();
+    const inputId = document.getElementById("ID").value.trim().toUpperCase(); // Converte o ID para maiúsculas
+    const marca = document.getElementById("marca-alterar").value.toUpperCase(); // Converte a marca para maiúsculas
     const tempMin = parseFloat(document.getElementById("tempMin-alterar").value);
     const tempMax = parseFloat(document.getElementById("tempMax-alterar").value);
     const messageElem = document.querySelector(".message-alterar p");
 
-    limparMensagem(messageElem);
+    limparMensagem(messageElem); // Limpar mensagens anteriores
 
     if (!validarCamposAlteracao(inputId, marca, tempMin, tempMax, messageElem)) return;
 
-    exibirPopupConfirmacao("alterar");
+    const ref = firebase.database().ref("freezers");
+    const statusRef = firebase.database().ref("freezers_status"); // Referência à tabela freezers_status
+
+    ref.once("value", function (snapshot) {
+        let found = false;
+
+        snapshot.forEach(function (childSnapshot) {
+            const freezer = childSnapshot.val();
+            const freezerId = freezer.id.toUpperCase(); // Certifica-se de usar o ID em maiúsculas
+
+            if (freezerId === inputId) { // Comparação case-insensitive
+                found = true;
+
+                const fullId = freezer.id; // Mantém o ID original
+                ref.child(childSnapshot.key).update({
+                    id: fullId,
+                    marca: marca,
+                    tempMin: tempMin,
+                    tempMax: tempMax,
+                    dataAlteracao: new Date().toISOString(),
+                }, function (error) {
+                    if (error) {
+                        exibirErro(messageElem, "Erro ao alterar o freezer: Contate o suporte.");
+                    } else {
+                        // Sincronizar com freezers_status
+                        statusRef.child(childSnapshot.key).update({
+                            tempMin: tempMin,
+                            tempMax: tempMax,
+                        }, function (statusError) {
+                            if (statusError) {
+                                exibirErro(messageElem, "Erro ao atualizar os valores em freezers_status.");
+                            } else {
+                                sincronizarFreezersStatus(
+                                    childSnapshot.key,
+                                    fullId,
+                                    marca,
+                                    tempMin,
+                                    tempMax,
+                                    true
+                                );
+                                exibirSucesso(messageElem, "Freezer alterado com sucesso.");
+                                limparCamposAlteracao();
+
+                                // Atualiza a tabela após a alteração
+                                atualizarTabela();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        if (!found) {
+            // Exibir erro se o ID não foi encontrado
+            exibirErro(messageElem, "ID não encontrado: Verifique o ID informado.");
+        }
+    });
 }
+
+
 
 // Executa a ação confirmada (cadastrar ou alterar freezer)
 function executarAcaoAtual() {
@@ -100,7 +157,7 @@ function executarCadastro() {
             const brandCode = marca.substring(0, 4).toUpperCase();
             const fullId = brandCode + newId;
 
-            ref.child(newId).set({
+            ref.child(fullId).set({
                 id: fullId,
                 marca: marca,
                 tempMin: tempMin,
@@ -110,8 +167,7 @@ function executarCadastro() {
                 if (error) {
                     exibirErro(messageElem, "Erro ao cadastrar o freezer: Contate o suporte.");
                 } else {
-                    sincronizarFreezersStatus(newId, fullId, marca, tempMin, tempMax);
-                    sincronizarFreezersHistorico(newId);
+                    sincronizarFreezersStatus(fullId, fullId, marca, tempMin, tempMax);
                     exibirSucesso(messageElem, "Freezer cadastrado com sucesso.");
                     limparCamposCadastro();
                     atualizarTabela();
@@ -159,18 +215,32 @@ function executarAlteracao() {
     });
 }
 
-// Procurar e exibir um freezer específico na tabela
 function procurarFreezer() {
-    const inputId = document.getElementById("ID-busca").value;
-    const inputMarca = document.getElementById("marca-busca").value.toUpperCase();
+    const inputId = document.getElementById("ID-busca").value.trim().toUpperCase(); // Converter para maiúsculas
+    const inputMarca = document.getElementById("marca-busca").value.trim().toUpperCase(); // Converter para maiúsculas
     const tabelaBody = document.querySelector("#freezersTable tbody");
-    tabelaBody.innerHTML = "";
+    const messageElem = document.querySelector(".message-alterar p"); // Elemento para mensagens
+    limparMensagem(messageElem); // Limpar mensagens anteriores
+
+    tabelaBody.innerHTML = ""; // Limpa os resultados anteriores
 
     const ref = firebase.database().ref("freezers");
-    ref.once("value", function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
+    ref.once("value", function (snapshot) {
+        let encontrouFreezer = false;
+
+        snapshot.forEach(function (childSnapshot) {
             const freezer = childSnapshot.val();
-            if ((inputId && freezer.id === inputId) || (inputMarca && freezer.marca === inputMarca)) {
+            const freezerId = freezer.id.toUpperCase();
+            const freezerMarca = freezer.marca.toUpperCase();
+
+            // Verifica se o freezer atende aos critérios de busca
+            if (
+                (inputId && freezerId === inputId) || // Busca por ID
+                (inputMarca && freezerMarca === inputMarca) // Busca por marca
+            ) {
+                encontrouFreezer = true;
+
+                // Adicionar freezer à tabela
                 const row = tabelaBody.insertRow();
                 row.insertCell(0).textContent = freezer.id;
                 row.insertCell(1).textContent = freezer.marca;
@@ -178,11 +248,24 @@ function procurarFreezer() {
                 row.insertCell(3).textContent = freezer.tempMax;
                 row.insertCell(4).textContent = freezer.dataCadastro ? formatarData(freezer.dataCadastro) : "-";
                 row.insertCell(5).textContent = freezer.dataAlteracao ? formatarData(freezer.dataAlteracao) : "-";
+
+                // Preencher o campo de ID ou marca conforme o critério
+                if (!inputId) {
+                    document.getElementById("ID-busca").value = freezer.id; // Preenche o ID se a busca foi por marca
+                }
+                if (!inputMarca) {
+                    document.getElementById("marca-busca").value = freezer.marca; // Preenche a marca se a busca foi por ID
+                }
             }
         });
+
+        if (!encontrouFreezer) {
+            // Exibir mensagem de erro apenas se nenhum freezer foi encontrado
+            exibirErro(messageElem, "Nenhum freezer encontrado com os critérios informados.");
+        }
     });
-    limparCamposProcurar();
 }
+
 
 // Limpar mensagem de erro/sucesso
 function limparMensagem(messageElem) {
@@ -337,22 +420,6 @@ function sincronizarFreezersStatus(newId, fullId, marca, tempMin, tempMax, isUpd
             }
         });
     }
-}
-
-// Inicializar histórico do freezer na criação
-function sincronizarFreezersHistorico(newId) {
-    const historicoRef = firebase.database().ref("freezers_historico");
-    historicoRef.child(newId).once("value", function (snapshot) {
-        if (!snapshot.exists()) {
-            const now = new Date();
-            const dataCriacao = now.toISOString().split("T")[0];
-            const horaCriacao = "23h59";
-
-            historicoRef.child(newId).child("temperatura").child("0").set(0);
-            historicoRef.child(newId).child("data").child("0").set(dataCriacao);
-            historicoRef.child(newId).child("hora").child("0").set(horaCriacao);
-        }
-    });
 }
 
 // Preencher lista de IDs ao focar no campo de ID

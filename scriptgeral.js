@@ -19,15 +19,31 @@ function armazenarUsuarioNoLocalStorage() {
     }
 }
 
-// Exibe o nome do usuário na interface, ou reseta a mensagem se deslogado
 function exibirNomeUsuario() {
-    const nomeUsuario = localStorage.getItem('nomeUsuario');
-    if (nomeUsuario) {
-        document.getElementById('usernameSpan').textContent = `Olá, ${nomeUsuario}`;
-    } else {
+    const userLogadoRef = firebase.database().ref('userlogado'); // Referência à tabela userLogado
+
+    // Busca o nome diretamente de userLogado
+    userLogadoRef.once('value').then((snapshot) => {
+        const usuario = snapshot.val();
+        if (usuario && usuario.nome) {
+            // Atualiza o nome do usuário no span
+            document.getElementById('usernameSpan').textContent = `Olá, ${usuario.nome}`;
+        } else {
+            // Reseta o span se o campo nome estiver vazio ou não existir
+            document.getElementById('usernameSpan').textContent = 'Olá, ';
+        }
+    }).catch((error) => {
+        console.error('Erro ao buscar o nome do usuário logado:', error);
+        // Mensagem padrão em caso de erro
         document.getElementById('usernameSpan').textContent = 'Olá, ';
-    }
+    });
 }
+
+// Chama a função para exibir o nome ao carregar a página
+window.onload = () => {
+    exibirNomeUsuario(); // Busca o nome e atualiza o span
+};
+
 
 // Armazena o nome do usuário no local storage ao logar e remove ao deslogar
 firebase.auth().onAuthStateChanged((user) => {

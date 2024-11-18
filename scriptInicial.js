@@ -80,3 +80,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
+document.querySelectorAll('input[type="date"]').forEach(input => {
+    input.addEventListener('click', () => {
+        input.showPicker(); // Força o calendário a aparecer
+    });
+});

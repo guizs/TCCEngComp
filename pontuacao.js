@@ -112,3 +112,7 @@ atualizarPontuacao();
 
 // Exemplo de chamada da função
 calcularPontuacaoFinal();
+
+setInterval(async () => {
+    await atualizarPontuacao();
+}, 3.1 * 60 * 1000)
