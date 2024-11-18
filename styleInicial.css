@@ -206,6 +206,12 @@ header > div:last-child {
     max-height: 30vh;
 }
 
+.details-section:hover {
+    box-shadow: 0 0.8vh 1.5vh rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada ao passar o mouse */
+    transform: translateY(-0.5vh); /* Eleva levemente a tabela */
+    transition: all 0.3s ease; /* Suaviza a transição */
+}
+
 .table thead th {
     background-color: #1F82B2;
     color: #FFF;
@@ -221,10 +227,8 @@ header > div:last-child {
 }
 
 .table tbody {
-    display: block;
     max-height: 30vh;
     overflow-y: auto;
-    scroll-snap-type: y mandatory;
 }
 
 .table tr {
@@ -238,9 +242,9 @@ header > div:last-child {
     background-color: #f9f9f9;
 }
 
-.table tr:hover {
-    background-color: #f1f1f1;
-    transition: background-color 0.3s ease;
+.table tbody tr:hover {
+    background-color: #f0f8ff; /* Cor de fundo clara ao passar o mouse */
+    transition: background-color 0.3s ease; /* Suaviza a transição */
 }
 
 /* Estilos do modal */
@@ -727,4 +731,21 @@ transition: all 0.3s ease;
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }  /* Sem movimento no início e no final */
+    25% { transform: translateX(-1px); }    /* Leve movimento para a esquerda */
+    50% { transform: translateX(1px); }     /* Leve movimento para a direita */
+    75% { transform: translateX(-1px); }    /* Leve movimento para a esquerda novamente */
+}
+
+.has-notifications #notificationCount {
+    display: inline;
+}
+
+/* Torna a bolinha de notificação visível quando há notificações */
+.has-notifications .notification-badge {
+    display: block; /* Exibe a bolinha quando houver notificações */
+    animation: shake 1s ease-in-out infinite !important; /* Animação de tremor mais suave */
 }

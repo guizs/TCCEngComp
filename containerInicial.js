@@ -108,6 +108,7 @@ function carregarFreezersStatus() {
     });
 }
 
+
 // Função auxiliar para determinar a cor do status
 function determineStatusColor(freezer) {
     if (freezer.temperaturaAtual !== "" && freezer.temperaturaAtual !== undefined && freezer.temperaturaAtual !== null) {
@@ -125,94 +126,82 @@ function determineStatusColor(freezer) {
 function carregarDetalhesFreezer(freezerId) {
     const detailsSection = document.querySelector(".details-section");
 
-    // Verificação da existência de detailsSection
     if (!detailsSection) {
         console.error("Elemento .details-section não encontrado.");
         return;
     }
 
-    // Exibe o ID do freezer selecionado na seção de detalhes
+    // Atualiza o cabeçalho da seção
     detailsSection.querySelector(".details-header").innerText = `${freezerId} - Histórico`;
 
-    // Referência ao freezer no Firebase
-    firebase.database().ref("freezers_status").once("value", function(snapshot) {
-        let freezerData = null;
-        snapshot.forEach(function(childSnapshot) {
-            const data = childSnapshot.val();
-            if (data.id === freezerId) {
-                freezerData = data;
-            }
-        });
+    // Referência ao nó `freezers_status`
+    firebase.database().ref(`freezers_status/${freezerId}`).once("value", function(snapshot) {
+        const freezerData = snapshot.val();
 
         if (freezerData) {
-            const temperaturaAtual = (freezerData.temperaturaAtual !== undefined && freezerData.temperaturaAtual !== null && freezerData.temperaturaAtual !== "") ? parseFloat(freezerData.temperaturaAtual) : "N/A";
-            const tempMin = (freezerData.tempMin !== undefined && freezerData.tempMin !== null && freezerData.tempMin !== "") ? parseFloat(freezerData.tempMin) : "N/A";
-            const tempMax = (freezerData.tempMax !== undefined && freezerData.tempMax !== null && freezerData.tempMax !== "") ? parseFloat(freezerData.tempMax) : "N/A";
+            const temperaturaAtual = parseFloat(freezerData.temperaturaAtual) || "N/A";
+            const tempMin = parseFloat(freezerData.tempMin) || "N/A";
+            const tempMax = parseFloat(freezerData.tempMax) || "N/A";
 
             const tempElement = detailsSection.querySelector(".temperature");
             if (tempElement) {
-                tempElement.innerHTML = `<b> Temperatura atual: ${temperaturaAtual}°C </b>`;
-            }
-
-            let statusMessage = "Verifique os alertas";
-            if (temperaturaAtual !== "N/A" && tempMin !== "N/A" && tempMax !== "N/A") {
-                if (temperaturaAtual < tempMin) {
-                    statusMessage = "Temperatura abaixo do esperado, verifique os alertas";
-                } else if (temperaturaAtual > tempMax) {
-                    statusMessage = "Temperatura acima do esperado, verifique os alertas";
-                } else {
-                    statusMessage = "Tudo sob controle";
-                }
+                tempElement.innerHTML = `<b>Temperatura atual: ${temperaturaAtual}°C</b>`;
             }
 
             const detailsContentP = detailsSection.querySelector(".details-content p");
             if (detailsContentP) {
+                let statusMessage = "Verifique os alertas";
+                if (temperaturaAtual !== "N/A" && tempMin !== "N/A" && tempMax !== "N/A") {
+                    if (temperaturaAtual < tempMin) {
+                        statusMessage = "Temperatura abaixo do esperado, verifique os alertas";
+                    } else if (temperaturaAtual > tempMax) {
+                        statusMessage = "Temperatura acima do esperado, verifique os alertas";
+                    } else {
+                        statusMessage = "Tudo sob controle";
+                    }
+                }
+
                 detailsContentP.innerHTML = `
                     Min ${tempMin}°C - Max ${tempMax}°C - 
                     <b>${statusMessage}</b>
                 `;
             }
 
-            // Referência para o histórico do freezer
+            // Configurar listener no nó `freezers_historico`
             const historicoRef = firebase.database().ref(`freezers_historico/${freezerId}`);
-            historicoRef.once("value", function(snapshot) {
+            historicoRef.on("value", function(snapshot) {
                 const tbody = detailsSection.querySelector("table tbody");
 
-                // Verificação da existência do tbody
                 if (!tbody) {
-                    console.error("Elemento <tbody> não encontrado dentro de .details-section.");
+                    console.error("Elemento <tbody> não encontrado.");
                     return;
                 }
 
                 tbody.innerHTML = ""; // Limpa os registros antigos
                 const historicoEntries = [];
 
-                // Verificação de dados de temperatura, data e hora
-                const temperaturaKeys = Object.keys(snapshot.child("temperatura").val() || {});
-                const dataKeys = Object.keys(snapshot.child("data").val() || {});
-                const horaKeys = Object.keys(snapshot.child("hora").val() || {});
+                // Obter subnós `data`, `hora` e `temp`
+                const data = snapshot.child("data").val() || {};
+                const hora = snapshot.child("hora").val() || {};
+                const temp = snapshot.child("temp").val() || {};
 
-                // Verifica se os arrays têm o mesmo tamanho para evitar inconsistências
-                if (temperaturaKeys.length === dataKeys.length && dataKeys.length === horaKeys.length) {
-                    temperaturaKeys.forEach(function(key) {
-                        const temperatura = snapshot.child(`temperatura/${key}`).val() || "N/A";
-                        const data = snapshot.child(`data/${key}`).val() || "N/A";
-                        const hora = snapshot.child(`hora/${key}`).val() ? snapshot.child(`hora/${key}`).val().replace("h", ":") : "N/A";
+                // Iterar sobre os índices numéricos
+                Object.keys(data).forEach((key) => {
+                    const temperatura = temp[key] || "N/A";
+                    const dataRegistro = data[key] || "N/A";
+                    const horaRegistro = hora[key] || "N/A";
 
-                        historicoEntries.push({ temperatura, data, hora });
-                    });
-                } else {
-                    console.warn(`Dados inconsistentes no histórico do freezer ${freezerId}`);
-                }
+                    historicoEntries.push({ data: dataRegistro, hora: horaRegistro, temperatura });
+                });
 
                 // Ordena do mais recente para o mais antigo
                 historicoEntries.sort((a, b) => {
-                    const dateTimeA = new Date(`${a.data} ${a.hora}`);
-                    const dateTimeB = new Date(`${b.data} ${b.hora}`);
-                    return dateTimeB - dateTimeA;
+                    const dateTimeA = new Date(`${a.data.split('/').reverse().join('-')} ${a.hora}`);
+                    const dateTimeB = new Date(`${b.data.split('/').reverse().join('-')} ${b.hora}`);
+                    return dateTimeB - dateTimeA; // Ordem decrescente
                 });
 
-                // Preenche o histórico no tbody
+                // Preenche a tabela com os registros
                 historicoEntries.forEach((entry) => {
                     const row = document.createElement("tr");
                     row.innerHTML = `
@@ -222,18 +211,19 @@ function carregarDetalhesFreezer(freezerId) {
                         <td>${freezerId}</td>
                     `;
 
-                    // Destaca as temperaturas fora do intervalo
+                    // Destacar temperaturas fora do intervalo
                     if (entry.temperatura !== "N/A" && freezerData) {
                         const tempAtual = parseFloat(entry.temperatura);
-                        const tempMin = parseFloat(freezerData.tempMin);
-                        const tempMax = parseFloat(freezerData.tempMax);
-
-                        if (!isNaN(tempAtual) && (tempAtual < tempMin || tempAtual > tempMax)) {
-                            row.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
+                        if (!isNaN(tempAtual)) {
+                            const tempMin = parseFloat(freezerData.tempMin);
+                            const tempMax = parseFloat(freezerData.tempMax);
+                            if (tempAtual < tempMin || tempAtual > tempMax) {
+                                row.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
+                            }
                         }
                     }
 
-                    tbody.appendChild(row); // Adiciona a linha à tabela
+                    tbody.appendChild(row);
                 });
             });
         } else {
@@ -340,20 +330,22 @@ function updateNotificationPopup() {
     }
 }
 
-// Exibir o contador de notificações e o tremor do ícone
 function showNotifications(count) {
     const notificationIcon = document.getElementById('notificationIcon');
     const notificationCountElement = document.getElementById('notificationCount');
-    
+
     if (count > 0) {
         notificationIcon.classList.add('has-notifications'); // Ativa o tremor
+        console.log("Classe 'has-notifications' adicionada");
         notificationCountElement.textContent = count; // Define o número de notificações
         notificationCountElement.style.display = 'inline'; // Exibe a bolinha
     } else {
         notificationIcon.classList.remove('has-notifications'); // Remove o tremor
+        console.log("Classe 'has-notifications' removida");
         notificationCountElement.style.display = 'none'; // Oculta a bolinha
     }
 }
+
 
 // Adiciona eventos de alteração para filtro e ordenação
 document.getElementById("filterSelect").addEventListener("change", () => {
@@ -403,10 +395,28 @@ function aplicarOrdenacao() {
             freezerCards.sort((a, b) => b.querySelector("span").textContent.localeCompare(a.querySelector("span").textContent));
             break;
         case "most-recent":
-            freezerCards.sort((a, b) => new Date(b.dataset.dataCadastro) - new Date(a.dataset.dataCadastro));
+            freezerCards.sort((a, b) => {
+                // Cria objetos de data e hora
+                const dateA = new Date(a.dataset.dataCadastro);
+                const dateB = new Date(b.dataset.dataCadastro);
+                if (dateA.getTime() === dateB.getTime()) {
+                    // Critério de desempate: ordena por ID
+                    return a.querySelector("span").textContent.localeCompare(b.querySelector("span").textContent);
+                }
+                return dateB - dateA; // Ordem decrescente (mais recente primeiro)
+            });
             break;
         case "oldest":
-            freezerCards.sort((a, b) => new Date(a.dataset.dataCadastro) - new Date(b.dataset.dataCadastro));
+            freezerCards.sort((a, b) => {
+                // Cria objetos de data e hora
+                const dateA = new Date(a.dataset.dataCadastro);
+                const dateB = new Date(b.dataset.dataCadastro);
+                if (dateA.getTime() === dateB.getTime()) {
+                    // Critério de desempate: ordena por ID
+                    return a.querySelector("span").textContent.localeCompare(b.querySelector("span").textContent);
+                }
+                return dateA - dateB; // Ordem crescente (mais antigo primeiro)
+            });
             break;
         case "temperature-asc":
             freezerCards.sort((a, b) => parseFloat(a.querySelector(".temperature").textContent) - parseFloat(b.querySelector(".temperature").textContent));
