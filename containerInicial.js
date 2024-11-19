@@ -230,10 +230,29 @@ setInterval(() => {
         carregarDetalhesFreezer(activeFreezerId);
     }
 
+    // Atualiza as temperaturas nos cards
+    const statusRef = firebase.database().ref("freezers_status");
+    statusRef.once("value", function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            const freezer = childSnapshot.val();
+            const card = document.querySelector(`.freezer-card span:contains("${freezer.id}")`)?.parentElement;
+
+            if (card) {
+                const temperatureDiv = card.querySelector(".temperature");
+                if (temperatureDiv) {
+                    temperatureDiv.textContent = freezer.temperaturaAtual !== undefined && freezer.temperaturaAtual !== null && freezer.temperaturaAtual !== "" 
+                        ? `${freezer.temperaturaAtual}°C` 
+                        : "N/A";
+                }
+            }
+        });
+    });
+
     // Atualiza as notificações
     updateNotificationPopup();
     showNotifications(notificationMessages.length);
 }, 3.1 * 60 * 1000);
+
 
 function iniciarClickAutomatico() {
     // Certifica-se de que existem cards antes de iniciar o clique automático
