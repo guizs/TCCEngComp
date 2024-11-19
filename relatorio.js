@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 freezerSelect.appendChild(option);
             });
         })
-        .catch(error => console.error("Erro ao carregar freezers:", error));
+        .catch(error => console.error("Erro ao carregar IDs dos freezers:", error));
 });
 
 // Função para baixar o relatório em formato CSV
@@ -53,13 +53,25 @@ function downloadReport(format) {
     selectedFreezers.forEach(freezerID => {
         firebase.database().ref(`freezers_historico/${freezerID}`).once('value')
             .then(snapshot => {
-                snapshot.child("data").forEach(dataSnapshot => {
-                    const timestamp = dataSnapshot.key;
-                    const date = dataSnapshot.val();
-                    const hour = snapshot.child("hora").child(timestamp).val();
-                    const temp = snapshot.child("temperatura").child(timestamp).val();
+                const dataNodes = snapshot.child("data").val();
+                const horaNodes = snapshot.child("hora").val();
+                const temperaturaNodes = snapshot.child("temperatura").val();
 
-                    if (date >= startDate && date <= endDate) {
+                if (!dataNodes || !horaNodes || !temperaturaNodes) return;
+
+                // Iterar sobre os índices dos nós
+                Object.keys(dataNodes).forEach(index => {
+                    const date = dataNodes[index];
+                    const hour = horaNodes[index];
+                    const temp = temperaturaNodes[index];
+
+                    // Ignorar índices vazios ou inválidos
+                    if (!date || !hour || temp === undefined) return;
+
+                    // Verificar se a data está dentro do intervalo
+                    const [day, month, year] = date.split("/");
+                    const formattedDate = `${year}-${month}-${day}`;
+                    if (formattedDate >= startDate && formattedDate <= endDate) {
                         freezerData.push({
                             "Freezer ID": freezerID,
                             "Data": date,
@@ -86,7 +98,7 @@ function downloadReport(format) {
                     }
                 }
             })
-            .catch(error => console.error("Erro ao buscar dados:", error));
+            .catch(error => console.error(`Erro ao buscar dados do freezer ${freezerID}:`, error));
     });
 }
 
@@ -116,8 +128,6 @@ function generateExcelReport(data) {
 
 // Função para enviar o relatório por e-mail
 function sendEmailReport(data) {
-    console.log("Enviando relatório para o e-mail:", userEmail); // Log para verificar o e-mail
-
     fetch("https://your-backend-server.com/send-email", {
         method: "POST",
         headers: {
