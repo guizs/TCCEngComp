@@ -365,3 +365,7 @@ document.getElementById('buscar-pesquisa').addEventListener('click', buscarUsuar
 window.onload = () => {
     carregarUsuarios();
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+    carregarUsuarios(); // Chama a função para carregar os dados assim que a página carregar
+});

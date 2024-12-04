@@ -226,6 +226,12 @@ function atualizarHistoricoEStatus() {
 
             // Processar cada freezer
             Object.keys(freezersStatus).forEach(async (freezerID) => {
+
+                if (freezerID === "A_FR29") {
+                    console.log(`Freezer ${freezerID} foi ignorado.`);
+                    return; 
+                }
+
                 const freezer = freezersStatus[freezerID];
                 const { tempMin, tempMax, status } = freezer;
 
@@ -293,9 +299,67 @@ function gerarTemperatura(tempMin, tempMax) {
 }
 
 // Executar a função de atualização periodicamente
-setInterval(atualizarHistoricoEStatus, 3 * 60 * 1000); // A cada 3 minutos
+setInterval(atualizarHistoricoEStatus, 0.1 * 60 * 1000); // A cada 3 minutos
 
 //limparFreezersHistorico();
 //alimentarFreezersHistoricoComDatas();
 //gerarFreezersComHistoricoAjustado();
 
+function monitorarFreezerAFR29() {
+    const db = firebase.database(); // Referência ao Realtime Database
+
+    // Referências às tabelas
+    const historicoRef = db.ref('freezers_historico/A_FR29');
+    const statusRef = db.ref('freezers_status/A_FR29');
+
+    // Monitorar mudanças no histórico do freezer A_FR29
+    historicoRef.on('value', async (snapshot) => {
+        if (!snapshot.exists()) {
+            console.error("Nenhum histórico encontrado para o freezer A_FR29.");
+            return;
+        }
+
+        try {
+            // Obter o histórico atualizado
+            const historico = snapshot.val();
+            const dataKeys = Object.keys(historico.data || {});
+            if (dataKeys.length === 0) {
+                console.log("Histórico está vazio para o freezer A_FR29.");
+                return;
+            }
+
+            // Pegar o último índice
+            const ultimoIndice = Math.max(...dataKeys.map(key => parseInt(key, 10)));
+
+            // Obter a última temperatura
+            const ultimaTemperatura = parseFloat(historico.temperatura[ultimoIndice]);
+
+            // Obter dados atuais do freezer A_FR29
+            const statusSnapshot = await statusRef.once('value');
+            const statusData = statusSnapshot.val();
+
+            if (!statusData) {
+                console.error("Dados de status não encontrados para o freezer A_FR29.");
+                return;
+            }
+
+            const { tempMin, tempMax } = statusData;
+
+            // Verificar se a temperatura está dentro do intervalo
+            const novoStatus = ultimaTemperatura >= tempMin && ultimaTemperatura <= tempMax ? 'green' : 'red';
+
+            // Atualizar os campos na tabela freezers_status
+            const updates = {
+                temperaturaAtual: ultimaTemperatura.toFixed(1), // Atualiza para a última temperatura
+                status: novoStatus
+            };
+
+            await statusRef.update(updates);
+            console.log(`Status do freezer A_FR29 atualizado com sucesso. Nova temperatura: ${ultimaTemperatura}, Status: ${novoStatus}`);
+        } catch (error) {
+            console.error("Erro ao atualizar status do freezer A_FR29:", error);
+        }
+    });
+}
+
+monitorarFreezerAFR29();

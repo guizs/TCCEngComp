@@ -266,7 +266,7 @@ function iniciarClickAutomatico() {
     simularCliqueNoCard();
 
     clickInterval = setInterval(() => {
-        console.log("Executando intervalo de 3 segundos"); // Mantém o intervalo reduzido para testes
+        console.log("Executando intervalo de 3 segundos"); 
         if (!isPaused) {
             simularCliqueNoCard();
         }
