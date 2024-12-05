@@ -251,7 +251,7 @@ setInterval(() => {
     // Atualiza as notificações
     updateNotificationPopup();
     showNotifications(notificationMessages.length);
-}, 3.1 * 60 * 1000);
+}, 1.1 * 60 * 1000);
 
 
 function iniciarClickAutomatico() {

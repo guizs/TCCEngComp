@@ -299,7 +299,7 @@ function gerarTemperatura(tempMin, tempMax) {
 }
 
 // Executar a função de atualização periodicamente
-setInterval(atualizarHistoricoEStatus, 0.1 * 60 * 1000); // A cada 3 minutos
+setInterval(atualizarHistoricoEStatus, 1 * 60 * 1000); // A cada 3 minutos
 
 //limparFreezersHistorico();
 //alimentarFreezersHistoricoComDatas();
@@ -363,3 +363,65 @@ function monitorarFreezerAFR29() {
 }
 
 monitorarFreezerAFR29();
+
+function verificarAtualizacaoFreezerAFR29() {
+    const db = firebase.database(); // Referência ao Realtime Database
+    const historicoRef = db.ref("freezers_historico/A_FR29");
+    const statusRef = db.ref("freezers_status/A_FR29");
+
+    // Função para verificar o histórico e atualizar o status
+    const verificarHistorico = async () => {
+        try {
+            // Obter o histórico do freezer
+            const historicoSnapshot = await historicoRef.once("value");
+            const historico = historicoSnapshot.val();
+
+            if (!historico || !historico.hora || !historico.data) {
+                console.error("Histórico do freezer A_FR29 não encontrado ou incompleto.");
+                return;
+            }
+
+            // Identificar o último índice no histórico
+            const keys = Object.keys(historico.hora);
+            const ultimoIndice = Math.max(...keys.map(key => parseInt(key, 10)));
+
+            const ultimaHora = historico.hora[ultimoIndice];
+            const ultimaData = historico.data[ultimoIndice];
+
+            if (!ultimaHora || !ultimaData) {
+                console.error("Última hora ou data está ausente no histórico do freezer A_FR29.");
+                return;
+            }
+
+            // Combina a última data e hora e converte para timestamp
+            const ultimaAtualizacao = new Date(`${ultimaData.split('/').reverse().join('-')}T${ultimaHora}`);
+            const agora = new Date();
+
+            // Verifica a diferença de tempo em segundos
+            const diferencaSegundos = (agora - ultimaAtualizacao) / 1000;
+
+            if (diferencaSegundos > 18) {
+                console.log("O freezer A_FR29 não foi atualizado nos últimos 18 segundos. Alterando status para 'gray'.");
+
+                // Atualizar o status no banco de dados
+                await statusRef.update({
+                    status: "gray",
+                    temperaturaAtual: "N/A" // Define como 'N/A', ajustável conforme necessidade
+                });
+
+                console.log("Status do freezer A_FR29 atualizado para 'gray'.");
+                carregarFreezersStatus();
+            } else {
+                console.log(`O freezer A_FR29 foi atualizado há ${diferencaSegundos} segundos. Nenhuma alteração necessária.`);
+            }
+        } catch (error) {
+            console.error("Erro ao verificar histórico ou atualizar status do freezer A_FR29:", error);
+        }
+    };
+
+    // Executa a cada 21 segundos
+    setInterval(verificarHistorico, 21000);
+}
+
+// Iniciar o monitoramento
+verificarAtualizacaoFreezerAFR29();
