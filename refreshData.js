@@ -299,8 +299,113 @@ function gerarTemperatura(tempMin, tempMax) {
 }
 
 // Executar a função de atualização periodicamente
-setInterval(atualizarHistoricoEStatus, 0.1 * 60 * 1000); // A cada 3 minutos
+setInterval(atualizarHistoricoEStatus, 3 * 60 * 1000); // A cada 3 minutos
 
 //limparFreezersHistorico();
 //alimentarFreezersHistoricoComDatas();
 //gerarFreezersComHistoricoAjustado();
+
+function monitorarAtualizacaoTemperatura() {
+    const db = firebase.database();
+    const freezerId = "A_FR29"; // ID específico do freezer
+    const historicoRef = db.ref(`freezers_historico/${freezerId}/temperatura`);
+    const statusRef = db.ref(`freezers_status/${freezerId}`);
+
+    let timeoutId = null; // ID para monitorar atraso
+    let ultimaAtualizacao = Date.now(); // Armazena o timestamp da última atualização
+
+    // Listener para monitorar adição de novas temperaturas
+    historicoRef.on("child_added", async (snapshot) => {
+        const novaTemperatura = parseFloat(snapshot.val());
+        ultimaAtualizacao = Date.now(); // Atualiza o timestamp com a hora atual
+
+        console.log(`[Atualização] Nova temperatura detectada: ${novaTemperatura}`);
+
+        try {
+            // Atualizar a temperatura atual no `freezers_status`
+            await statusRef.update({
+                temperaturaAtual: novaTemperatura,
+                status: "green" // Assume que a nova temperatura é válida
+            });
+
+            console.log(`[Sucesso] Temperatura ${novaTemperatura} atualizada no status do freezer ${freezerId}.`);
+
+            // Reiniciar o monitoramento de atraso
+            if (timeoutId) clearTimeout(timeoutId);
+            iniciarMonitoramentoDeAtraso();
+        } catch (error) {
+            console.error(`Erro ao atualizar temperatura para o freezer ${freezerId}:`, error);
+        }
+    });
+
+    // Função para monitorar atraso na atualização
+    function iniciarMonitoramentoDeAtraso() {
+        timeoutId = setTimeout(async () => {
+            const agora = Date.now();
+            console.log(`[Monitoramento] Verificando atraso. Última atualização: ${ultimaAtualizacao}`);
+
+            if (agora - ultimaAtualizacao > 20000) {
+                try {
+                    console.warn(`Nenhuma atualização em 20 segundos para o freezer ${freezerId}. Resetando status...`);
+
+                    // Zerar a temperatura e alterar status para "gray"
+                    await statusRef.update({
+                        status: "gray" // Apenas altera o status, não a temperatura
+                    });
+
+                    console.log(`[Atraso] Status do freezer ${freezerId} alterado para gray.`);
+                } catch (error) {
+                    console.error(`Erro ao resetar status para o freezer ${freezerId}:`, error);
+                }
+            }
+        }, 20000); // Tempo limite de 20 segundos
+    }
+
+    // Inicializa o monitoramento de atraso
+    iniciarMonitoramentoDeAtraso();
+}
+
+// Chama a função para monitorar o freezer A_FR29
+monitorarAtualizacaoTemperatura();
+
+
+function monitorarFreezerAFR29() {
+    const db = firebase.database();
+    const freezerId = "A_FR29"; // ID do freezer específico
+    const statusRef = db.ref(`freezers_status/${freezerId}`);
+
+    // Observa mudanças no nó do freezer
+    statusRef.on("value", function(snapshot) {
+        const freezerData = snapshot.val();
+
+        if (freezerData) {
+            const status = freezerData.status; // Obtém o status atual
+            const card = document.querySelector(`.freezer-card span:contains("${freezerId}")`)?.parentElement;
+
+            if (card) {
+                const statusIndicator = card.querySelector(".status-indicator");
+                
+                if (statusIndicator) {
+                    // Atualiza a cor do indicador de status
+                    statusIndicator.className = "status-indicator"; // Remove classes existentes
+                    if (status === "gray") {
+                        statusIndicator.classList.add("gray");
+                    } else if (status === "red") {
+                        statusIndicator.classList.add("red");
+                    } else if (status === "green") {
+                        statusIndicator.classList.add("green");
+                    }
+                }
+            } else {
+                console.warn(`Freezer card para ${freezerId} não encontrado.`);
+            }
+        } else {
+            console.error(`Dados do freezer ${freezerId} não encontrados.`);
+        }
+    });
+}
+
+// Chama a função ao carregar a página
+window.onload = function() {
+    monitorarFreezerAFR29();
+};
