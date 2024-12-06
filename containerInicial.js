@@ -251,12 +251,7 @@ setInterval(() => {
     // Atualiza as notificações
     updateNotificationPopup();
     showNotifications(notificationMessages.length);
-<<<<<<< HEAD
 }, 3 * 60 * 1000);
-=======
-}, 1.1 * 60 * 1000);
->>>>>>> 1943302500661d66775ffe02abdd8d59519e6565
-
 
 function iniciarClickAutomatico() {
     // Certifica-se de que existem cards antes de iniciar o clique automático

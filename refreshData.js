@@ -298,13 +298,6 @@ function gerarTemperatura(tempMin, tempMax) {
     }
 }
 
-// Executar a função de atualização periodicamente
-<<<<<<< HEAD
-setInterval(atualizarHistoricoEStatus, 3 * 60 * 1000); // A cada 3 minutos
-=======
-setInterval(atualizarHistoricoEStatus, 1 * 60 * 1000); // A cada 3 minutos
->>>>>>> 1943302500661d66775ffe02abdd8d59519e6565
-
 //limparFreezersHistorico();
 //alimentarFreezersHistoricoComDatas();
 //gerarFreezersComHistoricoAjustado();
@@ -409,12 +402,6 @@ function monitorarFreezerAFR29() {
     });
 }
 
-<<<<<<< HEAD
-// Chama a função ao carregar a página
-window.onload = function() {
-    monitorarFreezerAFR29();
-};
-=======
 monitorarFreezerAFR29();
 
 function verificarAtualizacaoFreezerAFR29() {
@@ -478,4 +465,3 @@ function verificarAtualizacaoFreezerAFR29() {
 
 // Iniciar o monitoramento
 verificarAtualizacaoFreezerAFR29();
->>>>>>> 1943302500661d66775ffe02abdd8d59519e6565
